@@ -2,6 +2,7 @@
 #include "CollisionManager.h"
 #include "SphereCollider.h"
 #include <fstream>
+#include <math.h>
 
 void GameScene::Initialize()
 {
@@ -80,6 +81,14 @@ void GameScene::Initialize()
 
 		// 配列に登録
 		meteorObjects.push_back(meteor);
+	}	
+	//enemy
+	for (int i = 0; i < 3; i++) {
+		std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+		newEnemy->EnemyInitialize();
+		newEnemy->SetPosition(Vector3(-8.0f + (i * 8.0f),0.0f,0.0f));
+		newEnemy->SetScale(Vector3(0.5f, 0.5f, 0.5f));
+		enemys_.push_back(std::move(newEnemy));
 	}
 }
 
@@ -105,10 +114,19 @@ void GameScene::Update()
 	//天球
 	sky->Update();
 	viewProjection->UpdateMatrix();
+	Shot();
 
-	for (auto& object : meteorObjects)
-	{
-		object->MeteorUpdate();
+	//for (auto& object : meteorObjects)
+	//{
+	//	object->MeteorUpdate();
+	//}
+	//デスフラグの立った敵を削除
+	enemys_.remove_if([](std::unique_ptr < Enemy>& enemy_) {
+		return enemy_->GetIsDead();
+		});
+	//敵キャラの更新
+	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+		enemy->Update();
 	}
 
 	//パーティクル更新
@@ -127,9 +145,13 @@ void GameScene::Draw()
 
 	sky->Draw(viewProjection);
 
-	for (auto& object : meteorObjects)
+	/*for (auto& object : meteorObjects)
 	{
 		object->Draw(viewProjection);
+	}*/
+	//敵キャラの描画
+	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+		enemy->Draw(viewProjection);
 	}
 
 Object3d::PostDraw();
@@ -151,4 +173,43 @@ dxCommon->PostDraw();
 void GameScene::Reset()
 {
 	viewProjection->Initialize();
+}
+
+void GameScene::Shot()
+{
+	if (input->TriggerMouseLeft()) {
+		Vector3 cur = input->GetMousePos();
+		for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+			Vector3 epos = GetWorldToScreenPos(enemy->GetPosition(), viewProjection);
+			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(100,2)) {
+				enemy->SetIsDead(true);
+			}
+		}
+	}
+}
+
+Vector3 GameScene::GetWorldToScreenPos(Vector3 pos_, ViewProjection* viewProjection_)
+{
+	if (viewProjection_ == nullptr) {
+		return Vector3(0, 0, 0);
+	}
+
+	//ビュー行列//
+	Matrix4 view = viewProjection_->matView;
+	//プロジェクション行列//
+	float fovAngleY = 45.0f * (3.141592f / 180.0f);;
+	float aspectRatio = (float)WinApp::window_width / WinApp::window_height;
+	//プロジェクション行列生成
+	Matrix4 projection = projection.ProjectionMat(fovAngleY, aspectRatio, 0.1f, 200.0f);
+	//ビューポート行列生成
+	Matrix4 viewPort = viewPort.ViewPortMat(WinApp::window_width, WinApp::window_height, Vector2(0.0f, 0.0f));
+
+	Matrix4 matVPV = view * projection * viewPort;
+
+	Matrix4 mat;
+	Vector3 posScreen = pos_;
+	posScreen = mat.transform(posScreen, matVPV);
+	posScreen.z = 0;
+
+	return posScreen;
 }

@@ -28,6 +28,12 @@ public:
 
 	//ワールド座標を取得
 	Vector3 GetPosition();
+	Vector3 GetRotation() { return worldTransform_.rotation_; }
+	bool GetIsDead() { return isDead_; }
+
+	void SetRotation(Vector3 rot) { worldTransform_.rotation_ = rot; }
+	void SetScale(Vector3 scale) { worldTransform_.scale_ = scale; }
+	void SetIsDead(bool isDead) { isDead_ = isDead; }
 
 private:
 	//ゲームシーン

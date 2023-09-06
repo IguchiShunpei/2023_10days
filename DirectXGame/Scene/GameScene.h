@@ -8,6 +8,7 @@
 #include "SkyDome.h"
 #include "LevelLoader.h"
 #include "Meteor.h"
+#include "Enemy.h"
 
 #include<cassert>
 #include<vector>
@@ -38,6 +39,10 @@ public:
 	void Draw() override;
 	//リセット
 	void Reset();
+	//射撃
+	void Shot();
+	//座標変換
+	Vector3 GetWorldToScreenPos(Vector3 pos_, ViewProjection* viewProjection_);
 
 private://メンバ変数
 	//背景
@@ -75,4 +80,6 @@ private://メンバ変数
 	std::map<std::string, Model*> meteorModels;
 	//オブジェクト
 	std::vector<Meteor*> meteorObjects;
+	//enemy
+	std::list<std::unique_ptr<Enemy>> enemys_;
 };
