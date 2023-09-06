@@ -36,7 +36,6 @@ public:
 	void Update() override;
 	//•`‰æ
 	void Draw() override;
-
 	//ƒŠƒZƒbƒg
 	void Reset();
 

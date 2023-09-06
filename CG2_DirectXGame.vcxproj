@@ -175,6 +175,7 @@
     <ClCompile Include="DirectXGame\Collision\CollisionManager.cpp" />
     <ClCompile Include="DirectXGame\Collision\CollisionPrimitive.cpp" />
     <ClCompile Include="DirectXGame\Collision\SphereCollider.cpp" />
+    <ClCompile Include="DirectXGame\GameObject\Enemy.cpp" />
     <ClCompile Include="DirectXGame\GameObject\Meteor.cpp" />
     <ClCompile Include="DirectXGame\GameObject\SkyDome.cpp" />
     <ClCompile Include="DirectXGame\Input\Input.cpp" />
@@ -291,6 +292,7 @@
     <ClInclude Include="DirectXGame\Collision\CollisionTypes.h" />
     <ClInclude Include="DirectXGame\Collision\RaycastHit.h" />
     <ClInclude Include="DirectXGame\Collision\SphereCollider.h" />
+    <ClInclude Include="DirectXGame\GameObject\Enemy.h" />
     <ClInclude Include="DirectXGame\GameObject\Meteor.h" />
     <ClInclude Include="DirectXGame\GameObject\SkyDome.h" />
     <ClInclude Include="DirectXGame\Input\Input.h" />
