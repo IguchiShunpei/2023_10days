@@ -12,6 +12,7 @@
 #include "SkyDome.h"
 #include "LevelLoader.h"
 #include "Meteor.h"
+#include "Enemy.h"
 
 #include<cassert>
 #include<vector>
@@ -101,4 +102,6 @@ private:
 	std::map<std::string, Model*> meteorModels;
 	//オブジェクト
 	std::vector<Meteor*> meteorObjects;
+	//enemy
+	std::list<std::unique_ptr<Enemy>> enemys_;
 };

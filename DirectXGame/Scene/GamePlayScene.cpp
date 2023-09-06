@@ -3,6 +3,7 @@
 #include "CollisionManager.h"
 #include "SphereCollider.h"
 #include <fstream>
+#include <math.h>
 
 using namespace DirectX;
 using namespace std;
@@ -91,6 +92,14 @@ void GamePlayScene::Initialize()
 
 		// 配列に登録
 		meteorObjects.push_back(meteor);
+	}	
+	//enemy
+	for (int i = 0; i < 3; i++) {
+		std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+		newEnemy->EnemyInitialize();
+		newEnemy->SetPosition(Vector3(-8.0f + (i * 8.0f),0.0f,0.0f));
+		newEnemy->SetScale(Vector3(0.5f, 0.5f, 0.5f));
+		enemys_.push_back(std::move(newEnemy));
 	}
 }
 
@@ -104,10 +113,19 @@ void GamePlayScene::Update()
 	//天球
 	sky->Update();
 	viewProjection->UpdateMatrix();
+	Shot();
 
-	for (auto& object : meteorObjects)
-	{
-		object->MeteorUpdate();
+	//for (auto& object : meteorObjects)
+	//{
+	//	object->MeteorUpdate();
+	//}
+	//デスフラグの立った敵を削除
+	enemys_.remove_if([](std::unique_ptr < Enemy>& enemy_) {
+		return enemy_->GetIsDead();
+		});
+	//敵キャラの更新
+	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+		enemy->Update();
 	}
 
 	//パーティクル更新
@@ -123,9 +141,13 @@ void GamePlayScene::Draw()
 
 	sky->Draw(viewProjection);
 
-	for (auto& object : meteorObjects)
+	/*for (auto& object : meteorObjects)
 	{
 		object->Draw(viewProjection);
+	}*/
+	//敵キャラの描画
+	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+		enemy->Draw(viewProjection);
 	}
 
 	Object3d::PostDraw();

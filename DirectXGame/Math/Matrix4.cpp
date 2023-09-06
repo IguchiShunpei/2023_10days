@@ -280,6 +280,24 @@ Matrix4 Matrix4::ViewMat(Vector3 eye, Vector3 target, Vector3 up)
 
 	return *this;
 }
+Matrix4 Matrix4::ViewPortMat(float width, float height, Vector2 offset)
+{
+	float w = width / 2;
+	float h = height / 2;
+	float a = width / 2 + offset.x;
+	float b = height / 2 + offset.y;
+
+	Matrix4 projectiveTlansformationLH = {
+		w,		 0,		 0,		 0,
+		0,		 -h,		 0,		 0,
+		0,		 0,		 1,		 0,
+		a,		 b,		 0,		 1
+	};
+
+	*this = projectiveTlansformationLH;
+
+	return *this;
+}
 
 // éÀâeçsóÒÇÃçÏê¨
 Matrix4 Matrix4::ProjectionMat(float fovAngleY, float aspectRatio, float nearZ, float farZ)
