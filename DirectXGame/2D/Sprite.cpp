@@ -21,6 +21,9 @@ std::string Sprite::kDefaultTextureDirectoryPath = "Resources/";
 XMMATRIX Sprite::matView{};
 XMMATRIX Sprite::matProjection{};
 
+Sprite::Sprite(UINT texNumber, XMFLOAT3 pos, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
+{
+}
 
 void Sprite::Initialize(DirectXCommon* dxCommon_, int window_width, int window_height)
 {

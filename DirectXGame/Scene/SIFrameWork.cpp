@@ -13,6 +13,8 @@ void SIFrameWork::Initialize()
 	//入力の初期化
 	input = Input::GetInstance();
 	input->Initialize(winApp);
+	// シーンマネージャの生成
+	sceneManager_ = GameSceneManager::GetInstance();
 	// 3Dオブジェクト静的初期化
 	Object3d::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height);
 	//FBX
@@ -25,6 +27,10 @@ void SIFrameWork::Initialize()
 
 void SIFrameWork::Finalize()
 {
+	sceneManager_->Destroy();
+	//シーンファクトリの解放
+	delete sceneFactory_;
+
 	// WindowsAPIの終了処理
 	winApp->Finalize();
 
@@ -42,6 +48,9 @@ void SIFrameWork::Update()
 
 	// 入力の更新
 	input->Update();
+
+	// シーンマネージャの更新
+	sceneManager_->Update();
 }
 
 void SIFrameWork::Run()
