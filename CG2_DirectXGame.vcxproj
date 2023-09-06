@@ -124,8 +124,7 @@
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(ProjectDir)DirectXGame\Level\;$(ProjectDir)DirectXGame\Scene\;$(ProjectDir)DirectXGame\Math\;$(ProjectDir)DirectXGame\Input\;$(ProjectDir)DirectXGame\GameObject\;$(ProjectDir)DirectXGame\Collision\;$(ProjectDir)DirectXGame\Camera\;$(ProjectDir)DirectXGame\Base\;$(ProjectDir)DirectXGame\3D\;$(ProjectDir)DirectXGame\2D\;$(ProjectDir)DirectXGame\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>
-      </DisableSpecificWarnings>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,8 +148,7 @@
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(ProjectDir)DirectXGame\Level\;$(ProjectDir)DirectXGame\Scene\;$(ProjectDir)DirectXGame\Math\;$(ProjectDir)DirectXGame\Input\;$(ProjectDir)DirectXGame\GameObject\;$(ProjectDir)DirectXGame\Collision\;$(ProjectDir)DirectXGame\Camera\;$(ProjectDir)DirectXGame\Base\;$(ProjectDir)DirectXGame\3D\;$(ProjectDir)DirectXGame\2D\;$(ProjectDir)DirectXGame\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>
-      </DisableSpecificWarnings>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -179,7 +177,6 @@
     <ClCompile Include="DirectXGame\Collision\CollisionManager.cpp" />
     <ClCompile Include="DirectXGame\Collision\CollisionPrimitive.cpp" />
     <ClCompile Include="DirectXGame\Collision\SphereCollider.cpp" />
-    <ClCompile Include="DirectXGame\GameObject\Enemy.cpp" />
     <ClCompile Include="DirectXGame\GameObject\Meteor.cpp" />
     <ClCompile Include="DirectXGame\GameObject\SkyDome.cpp" />
     <ClCompile Include="DirectXGame\Input\Input.cpp" />
@@ -190,7 +187,13 @@
     <ClCompile Include="DirectXGame\Math\Vector2.cpp" />
     <ClCompile Include="DirectXGame\Math\Vector3.cpp" />
     <ClCompile Include="DirectXGame\Math\Vector4.cpp" />
-    <ClCompile Include="DirectXGame\Scene\GameScene.cpp" />
+    <ClCompile Include="DirectXGame\Scene\GameBaseScene.cpp" />
+    <ClCompile Include="DirectXGame\Scene\GameClearScene.cpp" />
+    <ClCompile Include="DirectXGame\Scene\GamePlayScene.cpp" />
+    <ClCompile Include="DirectXGame\Scene\GameSceneManager.cpp" />
+    <ClCompile Include="DirectXGame\Scene\GameTitleScene.cpp" />
+    <ClCompile Include="DirectXGame\Scene\Game.cpp" />
+    <ClCompile Include="DirectXGame\Scene\SceneFactory.cpp" />
     <ClCompile Include="DirectXGame\Scene\SIFrameWork.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -296,7 +299,6 @@
     <ClInclude Include="DirectXGame\Collision\CollisionTypes.h" />
     <ClInclude Include="DirectXGame\Collision\RaycastHit.h" />
     <ClInclude Include="DirectXGame\Collision\SphereCollider.h" />
-    <ClInclude Include="DirectXGame\GameObject\Enemy.h" />
     <ClInclude Include="DirectXGame\GameObject\Meteor.h" />
     <ClInclude Include="DirectXGame\GameObject\SkyDome.h" />
     <ClInclude Include="DirectXGame\Input\Input.h" />
@@ -306,7 +308,14 @@
     <ClInclude Include="DirectXGame\Math\Vector2.h" />
     <ClInclude Include="DirectXGame\Math\Vector3.h" />
     <ClInclude Include="DirectXGame\Math\Vector4.h" />
-    <ClInclude Include="DirectXGame\Scene\GameScene.h" />
+    <ClInclude Include="DirectXGame\Scene\AbstractSceneFactory.h" />
+    <ClInclude Include="DirectXGame\Scene\GameBaseScene.h" />
+    <ClInclude Include="DirectXGame\Scene\GameClearScene.h" />
+    <ClInclude Include="DirectXGame\Scene\GamePlayScene.h" />
+    <ClInclude Include="DirectXGame\Scene\GameSceneManager.h" />
+    <ClInclude Include="DirectXGame\Scene\GameTitleScene.h" />
+    <ClInclude Include="DirectXGame\Scene\Game.h" />
+    <ClInclude Include="DirectXGame\Scene\SceneFactory.h" />
     <ClInclude Include="DirectXGame\Scene\SIFrameWork.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

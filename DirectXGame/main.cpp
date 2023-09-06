@@ -1,10 +1,9 @@
 #define DIRECTINPUT_VERSION    0x0800 //DirectInputのバージョン指定
-#include "GameScene.h"
-#include "SIFrameWork.h"
+#include "Game.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-	SIFrameWork* game = new GameScene();
+	SIFrameWork* game = new Game();
 	
 	game->Run();
 

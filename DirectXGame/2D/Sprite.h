@@ -68,7 +68,14 @@ public:
 	int SetTextureIndex(int textureIndex) { textureIndex_ = textureIndex; }
 	//テクスチャ番号getter
 	int GetTextureIndex() const { return textureIndex_; }
+
+public:
+	Sprite() = default;
+	Sprite(UINT texNumber, XMFLOAT3 pos, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
+	~Sprite() = default;;
+
 private:
+	DirectXCommon* dxCommon = nullptr;
 	// ビュー行列
 	static XMMATRIX matView;
 	// 射影行列
