@@ -8,6 +8,7 @@
 #include "SkyDome.h"
 #include "LevelLoader.h"
 #include "Meteor.h"
+#include "Enemy.h"
 
 #include<cassert>
 #include<vector>
@@ -38,6 +39,12 @@ public:
 	void Draw() override;
 	//リセット
 	void Reset();
+	//敵リスト
+	const std::list<std::unique_ptr<Enemy>>& GetEnemys() { return enemys_; }
+
+	//敵データ読み込み
+	void LoadEnemyPop();
+	void UpdateEnemyPop();
 
 private://メンバ変数
 	//背景
@@ -53,6 +60,10 @@ private://メンバ変数
 	
 	//敵発生コマンド
 	std::stringstream enemyPopCommands;
+	//敵
+	Enemy* enemy;
+	//敵
+	std::list<std::unique_ptr<Enemy>> enemys_;
 
 	//座標
 	WorldTransform* worldTransform = nullptr;
@@ -63,11 +74,9 @@ private://メンバ変数
 	Particle* p_dmg = nullptr;
 	ParticleManager* pm_dmg = nullptr;
 
+	//背景オブジェクト
 	Meteor* objMeteor = nullptr;
-
 	Model* modelMeteor = nullptr;
-
-	Meteor* meteor;
 
 	//レベルデータ
 	LevelData* levelData = nullptr;
@@ -75,4 +84,12 @@ private://メンバ変数
 	std::map<std::string, Model*> meteorModels;
 	//オブジェクト
 	std::vector<Meteor*> meteorObjects;
+
+	//フラグ
+	//敵を発生させるときの待機フラグ
+	bool isWait_;
+
+	//タイマー
+	//敵を発生させるときの待機時間
+	int waitTimer_;
 };

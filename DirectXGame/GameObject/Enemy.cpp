@@ -19,11 +19,22 @@ void Enemy::EnemyInitialize()
 	Create();
 	// オブジェクトにモデルをひも付ける
 	SetModel(enemyModel);
+	
+	//フラグ
 	isDead_ = false;
+	isDelete_ = false;
+
+	//タイマー
+	deleteTimer_ = 90;
 }
 
 void Enemy::Update()
 {
+	deleteTimer_--;
+	if (deleteTimer_ <= 0)
+	{
+		isDelete_ = true;
+	}
 	// ワールドトランスフォームの行列更新と転送
 	worldTransform_.UpdateMatrix();
 }

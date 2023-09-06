@@ -28,6 +28,9 @@ public:
 
 	//ワールド座標を取得
 	Vector3 GetPosition();
+	//死亡フラグ
+	bool GetIsDead() { return isDead_; }
+	bool GetIsDelete() { return isDelete_; }
 
 private:
 	//ゲームシーン
@@ -41,4 +44,7 @@ private:
 
 	// モデル
 	Model* enemyModel = nullptr;
+
+	//タイマー
+	int deleteTimer_;
 };
