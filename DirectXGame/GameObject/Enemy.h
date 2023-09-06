@@ -3,6 +3,8 @@
 #include "WinApp.h"
 #include "Vector3.h"
 #include "Model.h"
+#include "MathFunc.h"
+
 #include <memory>
 #include <list>
 
@@ -45,10 +47,15 @@ private:
 	bool isDead_ = false;
 	//デスポーンしたか
 	bool isDelete_ = false;
+	//退場演出用フラグ
+	bool isBack_ = false;
 
 	// モデル
 	Model* enemyModel = nullptr;
 
 	//タイマー
+	//デスポーン
 	int deleteTimer_;
+	//登退場の回転タイマー
+	float turnTimer_;
 };
