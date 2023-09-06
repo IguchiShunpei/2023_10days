@@ -1,18 +1,18 @@
 wait 30
 enemy -6 6 100
-wait 30
+wait 15
 enemy 0 6 100
-wait 30
+wait 15
 enemy 6 6 100
-wait 30
+wait 15
 enemy 6 0 100
-wait 30
+wait 15
 enemy 6 -6 100
-wait 30
+wait 15
 enemy 0 -6 100
-wait 30
+wait 15
 enemy -6 -6 100
-wait 30
+wait 15
 enemy -6 0 100
-wait 30
+wait 15
 enemy 0 0 100

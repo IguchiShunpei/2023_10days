@@ -19,22 +19,55 @@ void Enemy::EnemyInitialize()
 	Create();
 	// オブジェクトにモデルをひも付ける
 	SetModel(enemyModel);
-	
+
 	//フラグ
 	isDead_ = false;
 	isDelete_ = false;
 
 	//タイマー
-	deleteTimer_ = 90;
+	turnTimer_ = 0;
+	deleteTimer_ = 0;
 }
 
 void Enemy::Update()
 {
-	deleteTimer_--;
-	if (deleteTimer_ <= 0)
+	if (isBack_ == false)
 	{
-		isDelete_ = true;
+		//デスポーンタイマーが200以上なら
+		if (deleteTimer_ >= 200)
+		{
+			isBack_ = true;
+			worldTransform_.rotation_.y = 0.0f;
+			turnTimer_ = 0.0f;
+		}
+		else
+		{
+			//イージングを使った回転
+			worldTransform_.rotation_.y = 360.0f * -MathFunc::easeOutSine(turnTimer_ / 20.0f);
+			//デスポーンタイマーの処理
+			deleteTimer_++;
+			if (turnTimer_ <= 19.0f)
+			{
+				turnTimer_++;
+			}
+		}
 	}
+	//退場演出フラグがtrueになったら
+	else
+	{
+		//イージングを使った回転(登場とは逆)
+		worldTransform_.rotation_.y = 360.0f * MathFunc::easeOutSine(turnTimer_ / 20.0f);
+		worldTransform_.scale_ -= Vector3({ 0.04f,0.04f,0.04f });
+		if (turnTimer_ <= 19.0f)
+		{
+			turnTimer_++;
+		}
+		else
+		{
+			isDelete_ = true;
+		}
+	}
+
 	// ワールドトランスフォームの行列更新と転送
 	worldTransform_.UpdateMatrix();
 }
@@ -56,7 +89,7 @@ void Enemy::OnCollision(const CollisionInfo& info)
 	//相手がplayerBullet
 	if (strcmp(toCollisionName, str1) == 0)
 	{
-			isDead_ = true;
+		isDead_ = true;
 	}
 }
 
