@@ -181,3 +181,42 @@ void GamePlayScene::GameReset()
 {
 	viewProjection->Initialize();
 }
+
+void GamePlayScene::Shot()
+{
+	if (input->TriggerMouseLeft()) {
+		Vector3 cur = input->GetMousePos();
+		for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+			Vector3 epos = GetWorldToScreenPos(enemy->GetPosition(), viewProjection);
+			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(100, 2)) {
+				enemy->SetIsDead(true);
+			}
+		}
+	}
+}
+
+Vector3 GamePlayScene::GetWorldToScreenPos(Vector3 pos_, ViewProjection* viewProjection_)
+{
+	if (viewProjection_ == nullptr) {
+		return Vector3(0, 0, 0);
+	}
+
+	//ビュー行列//
+	Matrix4 view = viewProjection_->matView;
+	//プロジェクション行列//
+	float fovAngleY = 45.0f * (3.141592f / 180.0f);;
+	float aspectRatio = (float)WinApp::window_width / WinApp::window_height;
+	//プロジェクション行列生成
+	Matrix4 projection = projection.ProjectionMat(fovAngleY, aspectRatio, 0.1f, 200.0f);
+	//ビューポート行列生成
+	Matrix4 viewPort = viewPort.ViewPortMat(WinApp::window_width, WinApp::window_height, Vector2(0.0f, 0.0f));
+
+	Matrix4 matVPV = view * projection * viewPort;
+
+	Matrix4 mat;
+	Vector3 posScreen = pos_;
+	posScreen = mat.transform(posScreen, matVPV);
+	posScreen.z = 0;
+
+	return posScreen;
+}

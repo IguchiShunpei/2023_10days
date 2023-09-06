@@ -66,6 +66,16 @@ public:
 	/// </summary>
 	void GameReset();
 
+/// <summary>
+///   ËŒ‚
+/// </summary>
+	void Shot();
+
+/// <summary>
+/// À•W•ÏŠ·
+/// </summary>
+	Vector3 GetWorldToScreenPos(Vector3 pos_, ViewProjection* viewProjection_);
+
 private:
 	//”wŒi
 	SkyDome* sky;
