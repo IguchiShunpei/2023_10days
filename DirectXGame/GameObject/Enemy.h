@@ -30,6 +30,7 @@ public:
 	Vector3 GetPosition();
 	Vector3 GetRotation() { return worldTransform_.rotation_; }
 	bool GetIsDead() { return isDead_; }
+	bool GetIsDelete() { return isDelete_; }
 
 	void SetRotation(Vector3 rot) { worldTransform_.rotation_ = rot; }
 	void SetScale(Vector3 scale) { worldTransform_.scale_ = scale; }
