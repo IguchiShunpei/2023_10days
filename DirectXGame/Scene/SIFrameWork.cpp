@@ -59,6 +59,10 @@ void SIFrameWork::Run()
 			// ゲームループを抜ける
 			break;
 		}
+		//escでループを抜ける
+		if (input->TriggerKey(DIK_ESCAPE) == true) {
+			break;
+		}
 
 		// 描画
 		Draw();
