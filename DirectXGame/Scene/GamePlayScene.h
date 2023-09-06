@@ -75,8 +75,16 @@ public:
 /// 座標変換
 /// </summary>
 	Vector3 GetWorldToScreenPos(Vector3 pos_, ViewProjection* viewProjection_);
+	//リセット
+	void Reset();
+	//敵リスト
+	const std::list<std::unique_ptr<Enemy>>& GetEnemys() { return enemys_; }
 
-private:
+	//敵データ読み込み
+	void LoadEnemyPop();
+	void UpdateEnemyPop();
+
+private://メンバ変数
 	//背景
 	SkyDome* sky;
 	//入力
@@ -90,6 +98,10 @@ private:
 
 	//敵発生コマンド
 	std::stringstream enemyPopCommands;
+	//敵
+	Enemy* enemy;
+	//敵
+	std::list<std::unique_ptr<Enemy>> enemys_;
 
 	//座標
 	WorldTransform* worldTransform = nullptr;
@@ -100,11 +112,9 @@ private:
 	Particle* p_dmg = nullptr;
 	ParticleManager* pm_dmg = nullptr;
 
+	//背景オブジェクト
 	Meteor* objMeteor = nullptr;
-
 	Model* modelMeteor = nullptr;
-
-	Meteor* meteor;
 
 	//レベルデータ
 	LevelData* levelData = nullptr;
@@ -112,6 +122,12 @@ private:
 	std::map<std::string, Model*> meteorModels;
 	//オブジェクト
 	std::vector<Meteor*> meteorObjects;
-	//enemy
-	std::list<std::unique_ptr<Enemy>> enemys_;
+
+	//フラグ
+	//敵を発生させるときの待機フラグ
+	bool isWait_;
+
+	//タイマー
+	//敵を発生させるときの待機時間
+	int waitTimer_;
 };

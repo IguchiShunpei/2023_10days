@@ -47,4 +47,7 @@ private:
 
 	// モデル
 	Model* enemyModel = nullptr;
+
+	//タイマー
+	int deleteTimer_;
 };
