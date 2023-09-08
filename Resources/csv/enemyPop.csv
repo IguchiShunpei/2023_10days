@@ -1,18 +1,51 @@
 wait 30
-enemy -6 6 100
+enemy -16 16 10
 wait 15
-enemy 0 6 100
+enemy -8 16 10
 wait 15
-enemy 6 6 100
+enemy 0 16 10
 wait 15
-enemy 6 0 100
+enemy 8 16 10
 wait 15
-enemy 6 -6 100
+enemy 16 16 10
 wait 15
-enemy 0 -6 100
+enemy 16 8 10
 wait 15
-enemy -6 -6 100
+enemy 8 8 10
 wait 15
-enemy -6 0 100
+enemy 0 8 10
 wait 15
-enemy 0 0 100
+enemy -8 8 10
+wait 15
+enemy -16 8 10
+wait 15
+enemy -16 0 10
+wait 15
+enemy -8 0 10
+wait 15
+enemy 0 0 10
+wait 15
+enemy 8 0 10
+wait 15
+enemy 16 0 10
+wait 15
+enemy 16 -8 10
+wait 15
+enemy 8 -8 10
+wait 15
+enemy 0 -8 10
+wait 15
+enemy -8 -8 10
+wait 15
+enemy -16 -8 10
+wait 15
+enemy -16 -16 10
+wait 15
+enemy -8 -16 10
+wait 15
+enemy 0 -16 10
+wait 15
+enemy 8 -16 10
+wait 15
+enemy 16 -16 10
+wait 15

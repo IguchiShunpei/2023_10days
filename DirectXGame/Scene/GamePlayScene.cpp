@@ -197,7 +197,7 @@ void GamePlayScene::Shot()
 		Vector3 cur = input->GetMousePos();
 		for (const std::unique_ptr<Enemy>& enemy : enemys_) {
 			Vector3 epos = GetWorldToScreenPos(enemy->GetPosition(), viewProjection);
-			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(30, 2)) {
+			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy->SetIsDead(true);
 			}
 		}
