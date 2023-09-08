@@ -10,6 +10,7 @@
 #include "FbxLoader.h"
 #include "AbstractSceneFactory.h"
 #include "GameSceneManager.h"
+#include "PostEffect.h"
 
 class SIFrameWork
 {
@@ -43,6 +44,9 @@ protected:
 	GameSceneManager* sceneManager_ = nullptr;
 	// シーンファクトリー
 	AbstractSceneFactory* sceneFactory_ = nullptr;
+	// ポストエフェクト
+	PostEffect* postEffect = nullptr;
+	PostEffect* postEffect1 = nullptr;
 private:
 	bool endRequest = false;
 };
