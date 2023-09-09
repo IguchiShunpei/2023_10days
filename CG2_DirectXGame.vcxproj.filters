@@ -189,6 +189,9 @@
     <ClCompile Include="DirectXGame\Scene\GamePlayScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXGame\2D\PostEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -206,6 +209,7 @@
     <None Include="Resources\shaders\FBX.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
+    <None Include="Resources\shaders\PostEffect.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPS.hlsl">
@@ -241,6 +245,9 @@
     <FxCompile Include="Resources\shaders\FBXVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffectBlurPS.hlsl" />
+    <FxCompile Include="Resources\shaders\PostEffectColorConPS.hlsl" />
+    <FxCompile Include="Resources\shaders\PostEffectVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXGame\2D\Sprite.h">
@@ -365,6 +372,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\Scene\GamePlayScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXGame\2D\PostEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
