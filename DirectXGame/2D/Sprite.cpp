@@ -7,13 +7,6 @@
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
-struct Vertex
-{
-	XMFLOAT3 pos; //xyz座標
-
-	XMFLOAT2 uv;  //uv座標
-};
-
 //デフォルトテクスチャ格納ディレクトリ
 std::string Sprite::kDefaultTextureDirectoryPath = "Resources/";
 
