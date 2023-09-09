@@ -33,14 +33,19 @@ public:
 	Vector3 GetRotation() { return worldTransform_.rotation_; }
 	bool GetIsDead() { return isDead_; }
 	bool GetIsDelete() { return isDelete_; }
+	int GetEnemyNum() { return enemyNum_; }
 
 	void SetRotation(Vector3 rot) { worldTransform_.rotation_ = rot; }
 	void SetScale(Vector3 scale) { worldTransform_.scale_ = scale; }
 	void SetIsDead(bool isDead) { isDead_ = isDead; }
+	void SetEnemyNum(int enemyNum) { enemyNum_ = enemyNum; }
 
 private:
 	//ゲームシーン
 	GamePlayScene* gameScene_ = nullptr;
+
+	//敵番号
+	int enemyNum_;
 
 	//デスフラグ
 	//倒されたか
