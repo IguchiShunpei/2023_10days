@@ -78,7 +78,7 @@ public:
 	//リセット
 	void Reset();
 	//敵リスト
-	const std::list<std::unique_ptr<Enemy>>& GetEnemys() { return enemys_; }
+	const std::list<std::unique_ptr<Enemy>>& GetEnemys() { return enemys_01; }
 
 	//敵データ読み込み
 	void LoadEnemyPop();
@@ -99,9 +99,11 @@ private://メンバ変数
 	//敵発生コマンド
 	std::stringstream enemyPopCommands;
 	//敵
-	Enemy* enemy;
+	Enemy* enemy_01;
+	Enemy* enemy_02;
 	//敵
-	std::list<std::unique_ptr<Enemy>> enemys_;
+	std::list<std::unique_ptr<Enemy>> enemys_01;
+	std::list<std::unique_ptr<Enemy>> enemys_02;
 
 	//座標
 	WorldTransform* worldTransform = nullptr;
