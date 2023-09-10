@@ -122,6 +122,14 @@ void GamePlayScene::Update()
 		{
 			return enemy02->GetIsDelete();
 		});
+	enemys_03.remove_if([](std::unique_ptr <Enemy>& enemy03)
+		{
+			return enemy03->GetIsDead();
+		});
+	enemys_03.remove_if([](std::unique_ptr <Enemy>& enemy03)
+		{
+			return enemy03->GetIsDelete();
+		});
 
 	//ìVãÖ
 	sky->Update();
@@ -143,6 +151,11 @@ void GamePlayScene::Update()
 	{
 		enemys02->Update();
 		enemys02->ColliderUpdate();
+	}
+	for (std::unique_ptr<Enemy>& enemys03 : enemys_03)
+	{
+		enemys03->Update();
+		enemys03->ColliderUpdate();
 	}
 
 	//for (auto& object : meteorObjects)
@@ -173,6 +186,9 @@ void GamePlayScene::Draw()
 	}
 	for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
 		enemy02->Draw(viewProjection);
+	}
+	for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
+		enemy03->Draw(viewProjection);
 	}
 
 	Object3d::PostDraw();
@@ -211,10 +227,22 @@ void GamePlayScene::Shot()
 {
 	if (input->TriggerMouseLeft()) {
 		Vector3 cur = input->GetMousePos();
-		for (const std::unique_ptr<Enemy>& enemy : enemys_01) {
-			Vector3 epos = GetWorldToScreenPos(enemy->GetPosition(), viewProjection);
+		for (const std::unique_ptr<Enemy>& enemy01 : enemys_01) {
+			Vector3 epos = GetWorldToScreenPos(enemy01->GetPosition(), viewProjection);
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
-				enemy->SetIsDead(true);
+				enemy01->SetIsDead(true);
+			}
+		}
+		for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
+			Vector3 epos = GetWorldToScreenPos(enemy02->GetPosition(), viewProjection);
+			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
+				enemy02->SetIsDead(true);
+			}
+		}
+		for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
+			Vector3 epos = GetWorldToScreenPos(enemy03->GetPosition(), viewProjection);
+			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
+				enemy03->SetIsDead(true);
 			}
 		}
 	}
@@ -330,6 +358,27 @@ void GamePlayScene::UpdateEnemyPop()
 			newEnemy02->worldTransform_.UpdateMatrix();
 			//ìoò^
 			enemys_02.push_back(std::move(newEnemy02));
+		}
+		//enemy03
+		else if (key == "enemy03") {
+			//ìGÇÃê∂ê¨
+			std::unique_ptr<Enemy> newEnemy03 = std::make_unique<Enemy>();
+			//ìGÇÃèâä˙âª
+			newEnemy03->SetEnemyNum(3);
+			newEnemy03->EnemyInitialize();
+			//ÉRÉâÉCÉ_Å[ÇÃí«â¡
+			newEnemy03->SetCollider(new SphereCollider(Vector3(0, 0, 0), 1.5f));
+			// X,Y,Zç¿ïWì«Ç›çûÇ›
+			Vector3 position{};
+			line_stream >> position.x;
+			line_stream >> position.y;
+			line_stream >> position.z;
+			// ç¿ïWÉfÅ[É^Ç…í«â¡
+			newEnemy03->SetPosition(position);
+			newEnemy03->SetScale(Vector3(0.8f, 0.8f, 0.8f));
+			newEnemy03->worldTransform_.UpdateMatrix();
+			//ìoò^
+			enemys_03.push_back(std::move(newEnemy03));
 		}
 		//ë“ã@éûä‘Çì«Ç›éÊÇÈ
 		else if (key == "wait")

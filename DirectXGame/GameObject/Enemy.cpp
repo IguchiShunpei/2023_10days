@@ -17,11 +17,14 @@ void Enemy::EnemyInitialize()
 	switch (enemyNum_)
 	{
 	case 1:
-	enemyModel = Model::LoadFromOBJ("enemy01");
-	break;
+		enemyModel = Model::LoadFromOBJ("enemy01");
+		break;
 	case 2:
-	enemyModel = Model::LoadFromOBJ("enemy02");
-	break;
+		enemyModel = Model::LoadFromOBJ("enemy02");
+		break;
+	case 3:
+		enemyModel = Model::LoadFromOBJ("enemy03");
+		break;
 	}
 	// 3Dオブジェクト生成
 	Create();
@@ -42,7 +45,7 @@ void Enemy::Update()
 	if (isBack_ == false)
 	{
 		//デスポーンタイマーが200以上なら
-		if (deleteTimer_ >= 400)
+		if (deleteTimer_ >= 200)
 		{
 			isBack_ = true;
 			worldTransform_.rotation_.y = 0.0f;
