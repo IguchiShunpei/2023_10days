@@ -34,6 +34,7 @@ public:
 	bool GetIsDead() { return isDead_; }
 	bool GetIsDelete() { return isDelete_; }
 	int GetEnemyNum() { return enemyNum_; }
+	bool GetIsBack() { return isBack_; }
 
 	void SetRotation(Vector3 rot) { worldTransform_.rotation_ = rot; }
 	void SetScale(Vector3 scale) { worldTransform_.scale_ = scale; }

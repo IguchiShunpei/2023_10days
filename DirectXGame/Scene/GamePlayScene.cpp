@@ -56,7 +56,7 @@ void GamePlayScene::Initialize()
 	const wchar_t* extantion = L".png";
 	wchar_t filename[16] = L"";
 
-	for (int i = 0; i < 10;i++) {
+	for (int i = 0; i < 10; i++) {
 		//1
 		onesPlace[i] = new Sprite;
 		onesPlace[i]->Initialize(dxCommon);
@@ -68,7 +68,7 @@ void GamePlayScene::Initialize()
 		wcscat_s(path, extantion);
 
 		onesPlace[i]->LoadTexture(i + 1, path, dxCommon);
-		onesPlace[i]->SetPosition({1200,620,0});
+		onesPlace[i]->SetPosition({ 1200,620,0 });
 		onesPlace[i]->SetScale({ 0.5f,1.0f });
 		//10
 		tensPlace[i] = new Sprite;
@@ -153,7 +153,7 @@ void GamePlayScene::Initialize()
 
 		// 配列に登録
 		meteorObjects.push_back(objMeteor);
-	}	
+	}
 
 	score_ = 0;
 	for (int i = 0; i < 6; i++) {
@@ -170,7 +170,7 @@ void GamePlayScene::Update()
 		GameSceneManager::GetInstance()->ChangeScene("CLEAR");
 	}
 	Vector3 cur = input->GetMousePos();
-	cross->SetPosition({cur.x - 24,cur.y - 24,0});
+	cross->SetPosition({ cur.x - 24,cur.y - 24,0 });
 	cross->Update();
 
 	//デスフラグの立った敵を削除
@@ -210,7 +210,7 @@ void GamePlayScene::Update()
 	//天球
 	sky->Update();
 	viewProjection->UpdateMatrix();
-	
+
 	//敵データ
 	UpdateEnemyPop();
 
@@ -337,23 +337,32 @@ void GamePlayScene::Shot()
 		Vector3 cur = input->GetMousePos();
 		for (const std::unique_ptr<Enemy>& enemy01 : enemys_01) {
 			Vector3 epos = GetWorldToScreenPos(enemy01->GetPosition(), viewProjection);
-			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
-				enemy01->SetIsDead(true);
-				score_+=10;
+			if (enemy01->GetIsBack() == false)
+			{
+				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
+					enemy01->SetIsDead(true);
+					score_ += 10;
+				}
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
 			Vector3 epos = GetWorldToScreenPos(enemy02->GetPosition(), viewProjection);
-			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
-				enemy02->SetIsDead(true);
-				score_+=50;
+			if (enemy02->GetIsBack() == false)
+			{
+				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
+					enemy02->SetIsDead(true);
+					score_ += 50;
+				}
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
 			Vector3 epos = GetWorldToScreenPos(enemy03->GetPosition(), viewProjection);
-			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
-				enemy03->SetIsDead(true);
-				score_ -= 30;
+			if (enemy03->GetIsBack() == false)
+			{
+				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
+					enemy03->SetIsDead(true);
+					score_ -= 30;
+				}
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy04 : enemys_04) {
@@ -561,13 +570,13 @@ void GamePlayScene::ScoreCalc() {
 		scores[5] = score / 100000;
 		score -= scores[5] * 100000;
 		scores[4] = score / 10000;
-		score -= scores[4]* 10000;
+		score -= scores[4] * 10000;
 		scores[3] = score / 1000;
-		score -= scores[3]* 1000;
+		score -= scores[3] * 1000;
 		scores[2] = score / 100;
-		score -= scores[2]* 100;
+		score -= scores[2] * 100;
 		scores[1] = score / 10;
-		score -= scores[1]* 10;
+		score -= scores[1] * 10;
 		scores[0] = score;
 	}
 	else if (score_ >= 10000) {
