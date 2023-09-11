@@ -18,7 +18,7 @@ private:
 	struct ConstBufferData {
 		DirectX::XMFLOAT4 color; // 色 (RGBA)
 		DirectX::XMMATRIX mat; // 座標
-		bool isBlur; // ブラーフラグ
+		bool isPostE; // ブラーフラグ
 		float alpha; // アルファ値
 	};
 
@@ -31,7 +31,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(const wchar_t* filename);
 
 	/// <summary>
 	/// 描画コマンド
@@ -54,11 +54,11 @@ public:
 	/// <summary>
 	/// パイプライン生成
 	/// </summary>
-	void CreateGraphicsPipelineState();
+	void CreateGraphicsPipelineState(const wchar_t* filename);
 
 public:
 	void SetColor(const DirectX::XMFLOAT4& color);
-	void SetBlur(const bool& blur);
+	void SetIsPostE(const bool& isPostE);
 	void SetAlpha(const float& alpha);
 
 	DirectX::XMFLOAT4 GetColor() const { return color_; }
@@ -90,7 +90,7 @@ protected:
 	// 色
 	DirectX::XMFLOAT4 color_ = { 1,1,1,1 };
 	// ブラーフラグ
-	bool isBlur_ = false;
+	bool isPostE_ = false;
 	// アルファ値
 	float alpha_ = 1.0f;
 };

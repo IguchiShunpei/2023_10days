@@ -9,7 +9,7 @@ void Game::Initialize()
 
 	// ポストエフェクトの初期化
 	postEffect = new PostEffect();
-	postEffect->Initialize();
+	postEffect->Initialize(L"Resources/shaders/PostEffectBlurPS.hlsl");
 
 	// シーンファクトリを生成し、マネージャにセット
 	sceneFactory_ = new SceneFactory();

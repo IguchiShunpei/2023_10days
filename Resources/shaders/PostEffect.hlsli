@@ -2,7 +2,7 @@ cbuffer cbuff0 : register(b0)
 {
 	float4 color;
 	matrix mat;
-	bool isBlur;
+	bool isPostE;
 	float alpha;
 };
 

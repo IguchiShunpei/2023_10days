@@ -23,7 +23,7 @@ PostEffect::PostEffect()
 {
 }
 
-void PostEffect::Initialize()
+void PostEffect::Initialize(const wchar_t* filename)
 {
 	dxCommon = DirectXCommon::GetInstance();
 
@@ -32,7 +32,7 @@ void PostEffect::Initialize()
 	this->device = dxCommon->GetDevice();
 
 	// パイプライン生成
-	CreateGraphicsPipelineState();
+	CreateGraphicsPipelineState(filename);
 
 	// テクスチャリソース設定
 	CD3DX12_RESOURCE_DESC texresDesc =
@@ -218,7 +218,7 @@ void PostEffect::Initialize()
 	// 定数バッファにデータ転送
 	result = constBuffTransform_->Map(0, nullptr, (void**)&constMap); // マッピング
 	constMap->color = color_;
-	constMap->isBlur = isBlur_;
+	constMap->isPostE = isPostE_;
 	constMap->alpha = alpha_;
 	constMap->mat = XMMatrixIdentity();
 	assert(SUCCEEDED(result));
@@ -304,7 +304,7 @@ void PostEffect::PostDraw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->ResourceBarrier(1, &resourceBarriers);
 }
 
-void PostEffect::CreateGraphicsPipelineState()
+void PostEffect::CreateGraphicsPipelineState(const wchar_t* filename)
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -337,7 +337,7 @@ void PostEffect::CreateGraphicsPipelineState()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/shaders/PostEffectBlurPS.hlsl", // シェーダファイル名
+		filename, // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -457,13 +457,13 @@ void PostEffect::SetColor(const DirectX::XMFLOAT4& color)
 	assert(SUCCEEDED(result));
 }
 
-void PostEffect::SetBlur(const bool& isBlur)
+void PostEffect::SetIsPostE(const bool& isPostE)
 {
 	HRESULT result;
 
 	// 定数バッファにデータ転送
 	result = constBuffTransform_->Map(0, nullptr, (void**)&constMap); // マッピング
-	constMap->isBlur = isBlur;
+	constMap->isPostE = isPostE;
 	assert(SUCCEEDED(result));
 }
 
