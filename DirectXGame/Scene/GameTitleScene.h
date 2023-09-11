@@ -6,6 +6,8 @@
 #include "GameBaseScene.h"
 #include "GameSceneManager.h"
 #include "GamePlayScene.h"
+#include "SkyDome.h"
+#include "viewProjection.h"
 
 #include <DirectXMath.h>
 
@@ -45,4 +47,13 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
 	
+	//背景
+	SkyDome* sky;
+
+	//カメラ
+	ViewProjection* viewProjection = nullptr;
+
+	//カーソル
+	Sprite* cross = nullptr;
+
 };

@@ -12,21 +12,52 @@ GameTitleScene::~GameTitleScene()
 
 void GameTitleScene::Initialize()
 {
+	input_ = Input::GetInstance();
+	dxCommon_ = DirectXCommon::GetInstance();
+
+	//カメラ初期化
+	viewProjection = new ViewProjection();
+	viewProjection->Initialize();
+
+	//天球
+	sky = new SkyDome;
+	sky->SkyDomeInitialize();
+
+	//sprite
+	cross = new Sprite;
+	cross->Initialize(dxCommon_);
+	cross->LoadTexture(0, L"Resources/cross.png", dxCommon_);
+	cross->SetScale({ 0.5,0.5 });
 }
 
 void GameTitleScene::Update()
 {
 	// シーンの切り替え
-	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+	if (input_->TriggerMouseLeft() == true) {
 		// ゲームプレイシーン（次シーン）を生成
 		GameSceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 	}
+
+	//天球
+	sky->Update();
+	viewProjection->UpdateMatrix();
+
+	Vector3 cur = input_->GetMousePos();
+	cross->SetPosition({ cur.x - 24,cur.y - 24,0 });
+	cross->Update();
 
 }
 
 void GameTitleScene::Draw()
 {
-	
+	Object3d::PreDraw(dxCommon_->GetCommandList());
+
+	sky->Draw(viewProjection);
+
+	Object3d::PostDraw();
+
+	cross->SetTextureCommands(0, dxCommon_);
+	cross->Draw(dxCommon_);
 }
 
 void GameTitleScene::Finalize()
