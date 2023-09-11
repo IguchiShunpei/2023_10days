@@ -105,7 +105,7 @@ void GamePlayScene::Initialize()
 	getGold = new Sprite;
 	getGold->Initialize(dxCommon);
 	getGold->LoadTexture(0, L"Resources/p1000.png", dxCommon);
-	getGold->SetScale({ 1.28f * 1.2f,0.48f * 1.2f });
+	getGold->SetScale({ 1.28f * 1.5f,0.48f * 1.5f });
 	//10
 	for (int i = 0; i < 10; i++) {
 		getNormal[i] = new Sprite;
@@ -118,12 +118,12 @@ void GamePlayScene::Initialize()
 		getRed[i] = new Sprite;
 		getRed[i]->Initialize(dxCommon);
 		getRed[i]->LoadTexture(0, L"Resources/p50.png", dxCommon);
-		getRed[i]->SetScale({ 0.72f * 1.2f,0.48f * 1.2f});
+		getRed[i]->SetScale({ 0.72f * 1.3f,0.48f * 1.3f});
 		//blue
 		getBlue[i] = new Sprite;
 		getBlue[i]->Initialize(dxCommon);
 		getBlue[i]->LoadTexture(0, L"Resources/m30.png", dxCommon);
-		getBlue[i]->SetScale({ 0.72f *1.2f,0.48f * 1.2f});
+		getBlue[i]->SetScale({ 0.72f *1.3f,0.48f * 1.3f});
 	}
 
 	// レベルデータの読み込み
@@ -487,7 +487,7 @@ void GamePlayScene::Shot()
 					for (int i = 0; i < 10; i++) {
 						if (isGetNormal[i] == false) {
 							isGetNormal[i] = true;
-							getNormal[i]->SetPosition({ epos.x,epos.y,0 });
+							getNormal[i]->SetPosition({ epos.x - 36,epos.y - 24,0 });
 							break;
 						}
 					}
@@ -505,7 +505,7 @@ void GamePlayScene::Shot()
 					for (int i = 0; i < 5; i++) {
 						if (isGetRed[i] == false) {
 							isGetRed[i] = true;
-							getRed[i]->SetPosition({ epos.x,epos.y,0 });
+							getRed[i]->SetPosition({ epos.x - 36,epos.y - 24,0 });
 							break;
 						}
 					}
@@ -523,7 +523,7 @@ void GamePlayScene::Shot()
 					for (int i = 0; i < 5; i++) {
 						if (isGetBlue[i] == false) {
 							isGetBlue[i] = true;
-							getBlue[i]->SetPosition({ epos.x,epos.y,0 });
+							getBlue[i]->SetPosition({ epos.x - 36,epos.y -24,0 });
 							break;
 						}
 					}
@@ -538,7 +538,7 @@ void GamePlayScene::Shot()
 				score_ += 1000;
 				if (isGetGold == false) {
 					isGetGold = true;
-					getGold->SetPosition({ epos.x,epos.y,0 });
+					getGold->SetPosition({ epos.x - 64,epos.y - 24,0 });
 				}
 				isHit = true;
 			}
