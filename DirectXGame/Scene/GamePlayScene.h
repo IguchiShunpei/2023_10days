@@ -141,6 +141,7 @@ private://メンバ変数
 	//スコア
 	int score_;
 	int scores[6];
+	int oldScores[6];
 
 	//フラグ
 	//敵を発生させるときの待機フラグ

@@ -158,6 +158,7 @@ void GamePlayScene::Initialize()
 	score_ = 0;
 	for (int i = 0; i < 6; i++) {
 		scores[i] = 0;
+		oldScores[i] = 0;
 	}
 	isWait_ = false;
 	waitTimer_ = 0;
@@ -217,6 +218,7 @@ void GamePlayScene::Update()
 	//射撃
 	Shot();
 
+
 	//敵
 	for (std::unique_ptr<Enemy>& enemys01 : enemys_01)
 	{
@@ -248,13 +250,45 @@ void GamePlayScene::Update()
 	pm_dmg->Update();
 
 	//スコア更新
-	ScoreCalc();
+	XMFLOAT3 one = onesPlace[scores[0]]->GetPosition();
+	if (one.y < 620) {
+		one.y += 2;
+		onesPlace[scores[0]]->SetPosition(one);
+	}
 	onesPlace[scores[0]]->Update();
+	XMFLOAT3 ten = tensPlace[scores[1]]->GetPosition();
+	if (ten.y < 620) {
+		ten.y += 2;
+		tensPlace[scores[1]]->SetPosition(ten);
+	}
 	tensPlace[scores[1]]->Update();
+	XMFLOAT3 hund = hundredPlace[scores[2]]->GetPosition();
+	if (hund.y < 620) {
+		hund.y += 2;
+		hundredPlace[scores[2]]->SetPosition(hund);
+	}
 	hundredPlace[scores[2]]->Update();
+	XMFLOAT3 thou = thousandPlace[scores[3]]->GetPosition();
+	if (thou.y < 620) {
+		thou.y += 2;
+		thousandPlace[scores[3]]->SetPosition(thou);
+	}
 	thousandPlace[scores[3]]->Update();
+	XMFLOAT3 tThou = tenthousandPlace[scores[4]]->GetPosition();
+	if (tThou.y < 620) {
+		tThou.y += 2;
+		tenthousandPlace[scores[4]]->SetPosition(tThou);
+	}
 	tenthousandPlace[scores[4]]->Update();
+	XMFLOAT3 hThou = hundredthousandPlace[scores[5]]->GetPosition();
+	if (hThou.y < 620) {
+		hThou.y += 2;
+		hundredthousandPlace[scores[5]]->SetPosition(hThou);
+	}
 	hundredthousandPlace[scores[5]]->Update();
+	for (int i = 0; i < 6; i++) {
+		oldScores[i] = scores[i];
+	}
 }
 
 void GamePlayScene::Draw()
@@ -333,6 +367,7 @@ void GamePlayScene::GameReset()
 
 void GamePlayScene::Shot()
 {
+	bool isHit = false;
 	if (input->TriggerMouseLeft()) {
 		Vector3 cur = input->GetMousePos();
 		for (const std::unique_ptr<Enemy>& enemy01 : enemys_01) {
@@ -340,6 +375,7 @@ void GamePlayScene::Shot()
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy01->SetIsDead(true);
 				score_++;
+				isHit = true;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
@@ -347,6 +383,7 @@ void GamePlayScene::Shot()
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy02->SetIsDead(true);
 				score_+=5;
+				isHit = true;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
@@ -354,6 +391,7 @@ void GamePlayScene::Shot()
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy03->SetIsDead(true);
 				score_ -= 3;
+				isHit = true;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy04 : enemys_04) {
@@ -361,6 +399,33 @@ void GamePlayScene::Shot()
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy04->SetIsDead(true);
 				score_ += 10;
+				isHit = true;
+			}
+		}
+	}
+	ScoreCalc();
+	if (isHit == true) {
+		for (int i = 0; i < 6; i++) {
+			if ((oldScores[i] - scores[i]) != 0) {
+				if (i == 0) {
+					onesPlace[scores[0]]->SetPosition({ 1200,596,0 });
+				}
+				else if (i == 1) {
+					tensPlace[scores[1]]->SetPosition({ 1148,596,0 });
+				}
+				else if (i == 2) {
+					hundredPlace[scores[2]]->SetPosition({ 1096,596,0 });
+				}
+				else if (i == 3) {
+					thousandPlace[scores[3]]->SetPosition({ 1044,596,0 });
+				}
+				else if (i == 4) {
+					tenthousandPlace[scores[4]]->SetPosition({ 992,596,0 });
+				}
+				else if (i == 5) {
+					hundredthousandPlace[scores[5]]->SetPosition({ 940,596,0 });
+				}
+				else{}
 			}
 		}
 	}
