@@ -86,5 +86,6 @@ wait 15
 enemy02 -8 -8 30
 wait 15
 enemy02 -16 -8 30
-wait 15
+wait 300
 
+FINISH

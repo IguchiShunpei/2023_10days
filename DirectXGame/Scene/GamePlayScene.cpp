@@ -155,18 +155,21 @@ void GamePlayScene::Initialize()
 		meteorObjects.push_back(objMeteor);
 	}
 
+	//各変数の初期化
 	score_ = 0;
 	for (int i = 0; i < 6; i++) {
 		scores[i] = 0;
 		oldScores[i] = 0;
 	}
 	isWait_ = false;
+	isFinish_ = false;
 	waitTimer_ = 0;
 }
 
 void GamePlayScene::Update()
 {
-	if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+	if (isFinish_ == true) 
+	{
 		// ゲームプレイシーン（次シーン）を生成
 		GameSceneManager::GetInstance()->ChangeScene("CLEAR");
 	}
@@ -625,6 +628,11 @@ void GamePlayScene::UpdateEnemyPop()
 
 			//コマンドループを抜ける
 			break;
+		}
+
+		else if (key == "FINISH")
+		{
+		isFinish_ = true;
 		}
 	}
 }
