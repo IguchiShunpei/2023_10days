@@ -374,29 +374,26 @@ void GamePlayScene::Shot()
 			Vector3 epos = GetWorldToScreenPos(enemy01->GetPosition(), viewProjection);
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy01->SetIsDead(true);
-				score_++;
-				isHit = true;
+				score_+=10;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
 			Vector3 epos = GetWorldToScreenPos(enemy02->GetPosition(), viewProjection);
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy02->SetIsDead(true);
-				score_+=5;
-				isHit = true;
+				score_+=50;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
 			Vector3 epos = GetWorldToScreenPos(enemy03->GetPosition(), viewProjection);
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy03->SetIsDead(true);
-				score_ -= 3;
-				isHit = true;
+				score_ -= 30;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy04 : enemys_04) {
 			Vector3 epos = GetWorldToScreenPos(enemy04->GetPosition(), viewProjection);
-			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
+			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(70, 2)) {
 				enemy04->SetIsDead(true);
 				score_ += 10;
 				isHit = true;
