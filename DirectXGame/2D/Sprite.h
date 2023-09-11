@@ -22,7 +22,7 @@ public: // サブクラス
 	};
 
 public:
-	void Initialize(DirectXCommon*dxCommon_, int window_width, int window_height);
+	void Initialize(DirectXCommon*dxCommon_, XMFLOAT2 anchorpoint);
 
 	void Update();
 
@@ -68,6 +68,11 @@ public:
 	int SetTextureIndex(int textureIndex) { textureIndex_ = textureIndex; }
 	//テクスチャ番号getter
 	int GetTextureIndex() const { return textureIndex_; }
+	//scaleGetter
+	XMFLOAT3 GetScale() { return scale_; }
+	//scaleSetter
+	void SetScale(XMFLOAT2 scale) { scale_ = XMFLOAT3(scale.x, scale.y, 1); }
+
 
 public:
 	Sprite() = default;

@@ -21,18 +21,19 @@ std::string Sprite::kDefaultTextureDirectoryPath = "Resources/";
 XMMATRIX Sprite::matView{};
 XMMATRIX Sprite::matProjection{};
 
+
 Sprite::Sprite(UINT texNumber, XMFLOAT3 pos, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY)
 {
 }
 
-void Sprite::Initialize(DirectXCommon* dxCommon_, int window_width, int window_height)
+void Sprite::Initialize(DirectXCommon* dxCommon_, XMFLOAT2 anchorpoint)
 {
 	//頂点データ
 	Vertex vertices[] = {
-		{{  0.0f,100.0f,0.0f},{0.0f,1.0f,}},//左下  インデックス0
-		{{  0.0f,  0.0f,0.0f},{0.0f,0.0f,}},//左上  インデックス1
-		{{100.0f,100.0f,0.0f},{1.0f,1.0f,}},//右下  インデックス2
-		{{100.0f,  0.0f,0.0f},{1.0f,0.0f,}},//右上  インデックス3
+		{{  0.0f,100.0f,0.0f},{0.0f - anchorpoint.x,1.0f - anchorpoint.y,}},//左下  インデックス0
+		{{  0.0f,  0.0f,0.0f},{0.0f - anchorpoint.x,0.0f - anchorpoint.y,}},//左上  インデックス1
+		{{100.0f,100.0f,0.0f},{1.0f - anchorpoint.x,1.0f - anchorpoint.y,}},//右下  インデックス2
+		{{100.0f,  0.0f,0.0f},{1.0f - anchorpoint.x,0.0f - anchorpoint.y,}},//右上  インデックス3
 	};
 
 
@@ -197,11 +198,11 @@ void Sprite::Initialize(DirectXCommon* dxCommon_, int window_width, int window_h
 		//定数バッファのマッピング
 		result = constBuffTransform_->Map(0, nullptr, (void**)&constMapTransform);  //マッピング
 		assert(SUCCEEDED(result));
-
+		 
 		//単位行列を代入
 		matProjection = XMMatrixOrthographicOffCenterLH(
-			0.0f, (float)window_width,
-			(float)window_height, 0.0f
+			0.0f, (float)WinApp::window_width,
+			(float)WinApp::window_height, 0.0f
 			, 0.0f, 1.0f);
 	}
 
@@ -424,6 +425,7 @@ void Sprite::LoadTexture(uint32_t index, const wchar_t* fileName, DirectXCommon*
 		WIC_FLAGS_NONE,
 		&metadata, scratchImg
 	);
+	assert(SUCCEEDED(result));
 
 	ScratchImage mipChain{};
 
