@@ -57,8 +57,9 @@ void GamePlayScene::Initialize()
 	wchar_t filename[16] = L"";
 
 	for (int i = 0; i < 10;i++) {
-		numbers[i] = new Sprite;
-		numbers[i]->Initialize(dxCommon);
+		//1
+		onesPlace[i] = new Sprite;
+		onesPlace[i]->Initialize(dxCommon);
 		int num = i;
 		_itow_s(num, filename, 10);
 		wchar_t path[128] = L"";
@@ -66,9 +67,39 @@ void GamePlayScene::Initialize()
 		wcscat_s(path, filename);
 		wcscat_s(path, extantion);
 
-		numbers[i]->LoadTexture(i + 1, path, dxCommon);
-		numbers[i]->SetPosition({ 20.0f + (i * 48.0f),20.0f ,0.0f});
-		numbers[i]->SetScale({ 0.5f,1.0f });
+		onesPlace[i]->LoadTexture(i + 1, path, dxCommon);
+		onesPlace[i]->SetPosition({1200,620,0});
+		onesPlace[i]->SetScale({ 0.5f,1.0f });
+		//10
+		tensPlace[i] = new Sprite;
+		tensPlace[i]->Initialize(dxCommon);
+		tensPlace[i]->LoadTexture(i + 1, path, dxCommon);
+		tensPlace[i]->SetPosition({ 1148,620,0 });
+		tensPlace[i]->SetScale({ 0.5f,1.0f });
+		//100
+		hundredPlace[i] = new Sprite;
+		hundredPlace[i]->Initialize(dxCommon);
+		hundredPlace[i]->LoadTexture(i + 1, path, dxCommon);
+		hundredPlace[i]->SetPosition({ 1096,620,0 });
+		hundredPlace[i]->SetScale({ 0.5f,1.0f });
+		//1000
+		thousandPlace[i] = new Sprite;
+		thousandPlace[i]->Initialize(dxCommon);
+		thousandPlace[i]->LoadTexture(i + 1, path, dxCommon);
+		thousandPlace[i]->SetPosition({ 1044,620,0 });
+		thousandPlace[i]->SetScale({ 0.5f,1.0f });
+		//10000
+		tenthousandPlace[i] = new Sprite;
+		tenthousandPlace[i]->Initialize(dxCommon);
+		tenthousandPlace[i]->LoadTexture(i + 1, path, dxCommon);
+		tenthousandPlace[i]->SetPosition({ 992,620,0 });
+		tenthousandPlace[i]->SetScale({ 0.5f,1.0f });
+		//100000
+		hundredthousandPlace[i] = new Sprite;
+		hundredthousandPlace[i]->Initialize(dxCommon);
+		hundredthousandPlace[i]->LoadTexture(i + 1, path, dxCommon);
+		hundredthousandPlace[i]->SetPosition({ 940,620,0 });
+		hundredthousandPlace[i]->SetScale({ 0.5f,1.0f });
 	}
 
 	// レベルデータの読み込み
@@ -125,6 +156,9 @@ void GamePlayScene::Initialize()
 	}	
 
 	score_ = 0;
+	for (int i = 0; i < 6; i++) {
+		scores[i] = 0;
+	}
 	isWait_ = false;
 	waitTimer_ = 0;
 }
@@ -212,9 +246,15 @@ void GamePlayScene::Update()
 
 	//パーティクル更新
 	pm_dmg->Update();
-	for (int i = 0; i < 10; i++) {
-		numbers[i]->Update();
-	}
+
+	//スコア更新
+	ScoreCalc();
+	onesPlace[scores[0]]->Update();
+	tensPlace[scores[1]]->Update();
+	hundredPlace[scores[2]]->Update();
+	thousandPlace[scores[3]]->Update();
+	tenthousandPlace[scores[4]]->Update();
+	hundredthousandPlace[scores[5]]->Update();
 }
 
 void GamePlayScene::Draw()
@@ -255,10 +295,19 @@ void GamePlayScene::Draw()
 	ParticleManager::PostDraw();
 	cross->SetTextureCommands(0, dxCommon);
 	cross->Draw(dxCommon);
-	for (int i = 0; i < 10; i++) {
-		numbers[i]->SetTextureCommands(0, dxCommon);
-		numbers[i]->Draw(dxCommon);
-	}
+	//スコア
+	onesPlace[scores[0]]->SetTextureCommands(0, dxCommon);
+	onesPlace[scores[0]]->Draw(dxCommon);
+	tensPlace[scores[1]]->SetTextureCommands(0, dxCommon);
+	tensPlace[scores[1]]->Draw(dxCommon);
+	hundredPlace[scores[2]]->SetTextureCommands(0, dxCommon);
+	hundredPlace[scores[2]]->Draw(dxCommon);
+	thousandPlace[scores[3]]->SetTextureCommands(0, dxCommon);
+	thousandPlace[scores[3]]->Draw(dxCommon);
+	tenthousandPlace[scores[4]]->SetTextureCommands(0, dxCommon);
+	tenthousandPlace[scores[4]]->Draw(dxCommon);
+	hundredthousandPlace[scores[5]]->SetTextureCommands(0, dxCommon);
+	hundredthousandPlace[scores[5]]->Draw(dxCommon);
 
 #pragma endregion 最初のシーンの描画
 
@@ -503,5 +552,75 @@ void GamePlayScene::UpdateEnemyPop()
 			//コマンドループを抜ける
 			break;
 		}
+	}
+}
+
+void GamePlayScene::ScoreCalc() {
+	int score = score_;
+	if (score_ >= 100000) {
+		scores[5] = score / 100000;
+		score -= scores[5] * 100000;
+		scores[4] = score / 10000;
+		score -= scores[4]* 10000;
+		scores[3] = score / 1000;
+		score -= scores[3]* 1000;
+		scores[2] = score / 100;
+		score -= scores[2]* 100;
+		scores[1] = score / 10;
+		score -= scores[1]* 10;
+		scores[0] = score;
+	}
+	else if (score_ >= 10000) {
+		scores[5] = 0;
+		scores[4] = score / 10000;
+		score -= scores[4] * 10000;
+		scores[3] = score / 1000;
+		score -= scores[3] * 1000;
+		scores[2] = score / 100;
+		score -= scores[2] * 100;
+		scores[1] = score / 10;
+		score -= scores[1] * 10;
+		scores[0] = score;
+	}
+	else if (score_ >= 1000) {
+		scores[5] = 0;
+		scores[4] = 0;
+		scores[3] = score / 1000;
+		score -= scores[3] * 1000;
+		scores[2] = score / 100;
+		score -= scores[2] * 100;
+		scores[1] = score / 10;
+		score -= scores[1] * 10;
+		scores[0] = score;
+	}
+	else if (score_ >= 100) {
+		scores[5] = 0;
+		scores[4] = 0;
+		scores[3] = 0;
+		scores[2] = score / 100;
+		score -= scores[2] * 100;
+		scores[1] = score / 10;
+		score -= scores[1] * 10;
+		scores[0] = score;
+	}
+	else if (score_ >= 10) {
+		if (score_ == 11) {
+			int a = 0;
+		}
+		scores[1] = score / 10;
+		score -= scores[1] * 10;
+		scores[0] = score;
+		scores[2] = 0;
+		scores[3] = 0;
+		scores[4] = 0;
+		scores[5] = 0;
+	}
+	else {
+		scores[5] = 0;
+		scores[4] = 0;
+		scores[3] = 0;
+		scores[2] = 0;
+		scores[1] = 0;
+		scores[0] = score_;
 	}
 }

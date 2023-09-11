@@ -70,6 +70,8 @@ public:
 ///   射撃
 /// </summary>
 	void Shot();
+	
+	void ScoreCalc();
 
 /// <summary>
 /// 座標変換
@@ -118,7 +120,12 @@ private://メンバ変数
 	Particle* p_dmg = nullptr;
 	ParticleManager* pm_dmg = nullptr;
 	Sprite* cross = nullptr;
-	Sprite* numbers[10];
+	Sprite* onesPlace[10];
+	Sprite* tensPlace[10];
+	Sprite* hundredPlace[10];
+	Sprite* thousandPlace[10];
+	Sprite* tenthousandPlace[10];
+	Sprite* hundredthousandPlace[10];
 
 	//背景オブジェクト
 	Meteor* objMeteor = nullptr;
@@ -133,6 +140,7 @@ private://メンバ変数
 
 	//スコア
 	int score_;
+	int scores[6];
 
 	//フラグ
 	//敵を発生させるときの待機フラグ
