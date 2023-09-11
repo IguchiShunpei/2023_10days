@@ -13,6 +13,11 @@ float Gaussian(float2 drawUV, float2 pickUV, float sigma)
 float4 main(VSOutput input) : SV_TARGET
 {
     float4 col = tex.Sample(smp, input.uv) * color;
+    float3 c;
 
-    return float4(1 - col.rgb, 1);
+    if(isPostE == true){
+        c = 1 - col.rgb;
+    }
+
+    return float4(c, 1);
 }

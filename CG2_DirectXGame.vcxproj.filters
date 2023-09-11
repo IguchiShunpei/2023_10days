@@ -190,7 +190,7 @@
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="DirectXGame\2D\PostEffect.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -382,7 +382,7 @@
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="DirectXGame\2D\PostEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

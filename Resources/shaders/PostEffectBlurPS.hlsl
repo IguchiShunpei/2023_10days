@@ -19,7 +19,7 @@ float4 main(VSOutput input) : SV_TARGET
 
     float4 col = tex.Sample(smp, input.uv) * color;
 
-    if (isBlur == true)
+    if (isPostE == true)
     {
         for (float py = -_Sigma * 2; py <= _Sigma * 2; py += _StepWidth)
         {
