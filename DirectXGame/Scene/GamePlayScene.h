@@ -115,6 +115,8 @@ private://メンバ変数
 	//パーティクル
 	Particle* p_dmg = nullptr;
 	ParticleManager* pm_dmg = nullptr;
+	Sprite* cross = nullptr;
+	Sprite* numbers[10];
 
 	//背景オブジェクト
 	Meteor* objMeteor = nullptr;

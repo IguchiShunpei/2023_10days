@@ -3,6 +3,7 @@
 #include "CollisionManager.h"
 #include "SphereCollider.h"
 #include <fstream>
+#include <string.h>
 #include <math.h>
 
 using namespace DirectX;
@@ -43,6 +44,32 @@ void GamePlayScene::Initialize()
 	pm_dmg = ParticleManager::Create();
 	pm_dmg->SetParticleModel(p_dmg);
 	pm_dmg->SetXMViewProjection(xmViewProjection);
+
+	//sprite
+	cross = new Sprite;
+	cross->Initialize(dxCommon);
+	cross->LoadTexture(0, L"Resources/cross.png", dxCommon);
+	cross->SetScale({ 0.5,0.5 });
+
+	//number
+	const wchar_t* pathname = L"Resources/numbers/";
+	const wchar_t* extantion = L".png";
+	wchar_t filename[16] = L"";
+
+	for (int i = 0; i < 10;i++) {
+		numbers[i] = new Sprite;
+		numbers[i]->Initialize(dxCommon);
+		int num = i;
+		_itow_s(num, filename, 10);
+		wchar_t path[128] = L"";
+		wcscat_s(path, pathname);
+		wcscat_s(path, filename);
+		wcscat_s(path, extantion);
+
+		numbers[i]->LoadTexture(i + 1, path, dxCommon);
+		numbers[i]->SetPosition({ 20.0f + (i * 48.0f),20.0f ,0.0f});
+		numbers[i]->SetScale({ 0.5f,1.0f });
+	}
 
 	// レベルデータの読み込み
 	levelData = LevelLoader::LoadFile("backGround");
@@ -104,6 +131,9 @@ void GamePlayScene::Update()
 		// ゲームプレイシーン（次シーン）を生成
 		GameSceneManager::GetInstance()->ChangeScene("CLEAR");
 	}
+	Vector3 cur = input->GetMousePos();
+	cross->SetPosition({cur.x - 24,cur.y - 24,0});
+	cross->Update();
 
 	//デスフラグの立った敵を削除
 	enemys_01.remove_if([](std::unique_ptr <Enemy>& enemy01)
@@ -165,6 +195,9 @@ void GamePlayScene::Update()
 
 	//パーティクル更新
 	pm_dmg->Update();
+	for (int i = 0; i < 10; i++) {
+		numbers[i]->Update();
+	}
 }
 
 void GamePlayScene::Draw()
@@ -200,6 +233,12 @@ void GamePlayScene::Draw()
 
 	//エフェクト描画後処理
 	ParticleManager::PostDraw();
+	cross->SetTextureCommands(0, dxCommon);
+	cross->Draw(dxCommon);
+	for (int i = 0; i < 10; i++) {
+		numbers[i]->SetTextureCommands(0, dxCommon);
+		numbers[i]->Draw(dxCommon);
+	}
 
 #pragma endregion 最初のシーンの描画
 

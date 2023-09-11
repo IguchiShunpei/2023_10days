@@ -19,14 +19,14 @@ Sprite::Sprite(UINT texNumber, XMFLOAT3 pos, XMFLOAT2 size, XMFLOAT4 color, XMFL
 {
 }
 
-void Sprite::Initialize(DirectXCommon* dxCommon_, XMFLOAT2 anchorpoint)
+void Sprite::Initialize(DirectXCommon* dxCommon_)
 {
 	//頂点データ
 	Vertex vertices[] = {
-		{{  0.0f,100.0f,0.0f},{0.0f - anchorpoint.x,1.0f - anchorpoint.y,}},//左下  インデックス0
-		{{  0.0f,  0.0f,0.0f},{0.0f - anchorpoint.x,0.0f - anchorpoint.y,}},//左上  インデックス1
-		{{100.0f,100.0f,0.0f},{1.0f - anchorpoint.x,1.0f - anchorpoint.y,}},//右下  インデックス2
-		{{100.0f,  0.0f,0.0f},{1.0f - anchorpoint.x,0.0f - anchorpoint.y,}},//右上  インデックス3
+		{{  0.0f,100.0f,0.0f},{0.0f,1.0f,}},//左下  インデックス0
+		{{  0.0f,  0.0f,0.0f},{0.0f,0.0f,}},//左上  インデックス1
+		{{100.0f,100.0f,0.0f},{1.0f,1.0f,}},//右下  インデックス2
+		{{100.0f,  0.0f,0.0f},{1.0f,0.0f,}},//右上  インデックス3
 	};
 
 

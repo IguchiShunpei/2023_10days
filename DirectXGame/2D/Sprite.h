@@ -29,7 +29,7 @@ public: // サブクラス
 	};
 
 public:
-	void Initialize(DirectXCommon*dxCommon_, XMFLOAT2 anchorpoint);
+	void Initialize(DirectXCommon*dxCommon_);
 
 	void Update();
 
