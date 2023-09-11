@@ -101,6 +101,30 @@ void GamePlayScene::Initialize()
 		hundredthousandPlace[i]->SetPosition({ 940,620,0 });
 		hundredthousandPlace[i]->SetScale({ 0.5f,1.0f });
 	}
+	//得点用画像
+	getGold = new Sprite;
+	getGold->Initialize(dxCommon);
+	getGold->LoadTexture(0, L"Resources/p1000.png", dxCommon);
+	getGold->SetScale({ 1.28f * 1.2f,0.48f * 1.2f });
+	//10
+	for (int i = 0; i < 10; i++) {
+		getNormal[i] = new Sprite;
+		getNormal[i]->Initialize(dxCommon);
+		getNormal[i]->LoadTexture(0, L"Resources/p10.png", dxCommon);
+		getNormal[i]->SetScale({ 0.72f * 1.2f,0.48f * 1.2f });
+	}
+	for (int i = 0; i < 5; i++) {
+		//red
+		getRed[i] = new Sprite;
+		getRed[i]->Initialize(dxCommon);
+		getRed[i]->LoadTexture(0, L"Resources/p50.png", dxCommon);
+		getRed[i]->SetScale({ 0.72f * 1.2f,0.48f * 1.2f});
+		//blue
+		getBlue[i] = new Sprite;
+		getBlue[i]->Initialize(dxCommon);
+		getBlue[i]->LoadTexture(0, L"Resources/m30.png", dxCommon);
+		getBlue[i]->SetScale({ 0.72f *1.2f,0.48f * 1.2f});
+	}
 
 	// レベルデータの読み込み
 	levelData = LevelLoader::LoadFile("backGround");
@@ -162,6 +186,18 @@ void GamePlayScene::Initialize()
 	}
 	isWait_ = false;
 	waitTimer_ = 0;
+	isGetGold = false;
+	goldTime = 0;
+	for (int i = 0; i < 10; i++) {
+		isGetNormal[i] = false;
+		normalTime[i] = 0;
+	}
+	for (int i = 0; i < 5; i++) {
+		isGetRed[i] = false;
+		redTime[i] = 0;
+		isGetBlue[i] = false;
+		blueTime[i] = 0;
+	}
 }
 
 void GamePlayScene::Update()
@@ -248,6 +284,54 @@ void GamePlayScene::Update()
 
 	//パーティクル更新
 	pm_dmg->Update();
+	if (isGetGold == true) {
+		XMFLOAT3 g = getGold->GetPosition();
+		g.y -= 0.5f;
+		getGold->SetPosition(g);
+		getGold->Update();
+		goldTime++;
+		if (goldTime == 50) {
+			isGetGold = false;
+			goldTime = 0;
+		}
+	}
+	for (int i = 0; i < 10; i++) {
+		if (isGetNormal[i] == true) {
+			XMFLOAT3 n = getNormal[i]->GetPosition();
+			n.y -= 0.5f;
+			getNormal[i]->SetPosition(n);
+			getNormal[i]->Update();
+			normalTime[i]++;
+			if (normalTime[i] == 50) {
+				isGetNormal[i] = false;
+				normalTime[i] = 0;
+			}
+		}
+	}
+	for (int i = 0; i < 5; i++) {
+		if (isGetRed[i] == true) {
+			XMFLOAT3 r = getRed[i]->GetPosition();
+			r.y -= 0.5f;
+			getRed[i]->SetPosition(r);
+			getRed[i]->Update();
+			redTime[i]++;
+			if (redTime[i] == 50) {
+				isGetRed[i] = false;
+				redTime[i] = 0;
+			}
+		}
+		if (isGetBlue[i] == true) {
+			XMFLOAT3 b = getBlue[i]->GetPosition();
+			b.y -= 0.5f;
+			getBlue[i]->SetPosition(b);
+			getBlue[i]->Update();
+			blueTime[i]++;
+			if (blueTime[i] == 50) {
+				isGetBlue[i] = false;
+				blueTime[i] = 0;
+			}
+		}
+	}
 
 	//スコア更新
 	XMFLOAT3 one = onesPlace[scores[0]]->GetPosition();
@@ -329,6 +413,26 @@ void GamePlayScene::Draw()
 	ParticleManager::PostDraw();
 	cross->SetTextureCommands(0, dxCommon);
 	cross->Draw(dxCommon);
+	getGold->SetTextureCommands(0, dxCommon);
+	if (isGetGold == true) {
+		getGold->Draw(dxCommon);
+	}
+	for (int i = 0; i < 10; i++) {
+		getNormal[i]->SetTextureCommands(i, dxCommon);
+		if (isGetNormal[i] == true) {
+			getNormal[i]->Draw(dxCommon);
+		}
+	}
+	for (int i = 0; i < 5; i++) {
+		getRed[i]->SetTextureCommands(i, dxCommon);
+		getBlue[i]->SetTextureCommands(i, dxCommon);
+		if (isGetRed[i] == true) {
+			getRed[i]->Draw(dxCommon);
+		}
+		if (isGetBlue[i] == true) {
+			getBlue[i]->Draw(dxCommon);
+		}
+	}
 	//スコア
 	onesPlace[scores[0]]->SetTextureCommands(0, dxCommon);
 	onesPlace[scores[0]]->Draw(dxCommon);
@@ -377,6 +481,13 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy01->SetIsDead(true);
 					score_ += 10;
+					for (int i = 0; i < 10; i++) {
+						if (isGetNormal[i] == false) {
+							isGetNormal[i] = true;
+							getNormal[i]->SetPosition({ epos.x,epos.y,0 });
+							break;
+						}
+					}
 					isHit = true;
 				}
 			}
@@ -388,6 +499,13 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy02->SetIsDead(true);
 					score_ += 50;
+					for (int i = 0; i < 5; i++) {
+						if (isGetRed[i] == false) {
+							isGetRed[i] = true;
+							getRed[i]->SetPosition({ epos.x,epos.y,0 });
+							break;
+						}
+					}
 					isHit = true;
 				}
 			}
@@ -399,6 +517,13 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy03->SetIsDead(true);
 					score_ -= 30;
+					for (int i = 0; i < 5; i++) {
+						if (isGetBlue[i] == false) {
+							isGetBlue[i] = true;
+							getBlue[i]->SetPosition({ epos.x,epos.y,0 });
+							break;
+						}
+					}
 					isHit = true;
 				}
 			}
@@ -408,6 +533,10 @@ void GamePlayScene::Shot()
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(70, 2)) {
 				enemy04->SetIsDead(true);
 				score_ += 1000;
+				if (isGetGold == false) {
+					isGetGold = true;
+					getGold->SetPosition({ epos.x,epos.y,0 });
+				}
 				isHit = true;
 			}
 		}
