@@ -375,6 +375,7 @@ void GamePlayScene::Shot()
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy01->SetIsDead(true);
 				score_+=10;
+				isHit = true;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
@@ -382,6 +383,7 @@ void GamePlayScene::Shot()
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy02->SetIsDead(true);
 				score_+=50;
+				isHit = true;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
@@ -389,6 +391,7 @@ void GamePlayScene::Shot()
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy03->SetIsDead(true);
 				score_ -= 30;
+				isHit = true;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy04 : enemys_04) {
