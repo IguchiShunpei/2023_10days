@@ -75,8 +75,7 @@ public:
 /// 座標変換
 /// </summary>
 	Vector3 GetWorldToScreenPos(Vector3 pos_, ViewProjection* viewProjection_);
-	//リセット
-	void Reset();
+
 	//敵リスト
 	const std::list<std::unique_ptr<Enemy>>& GetEnemys() { return enemys_01; }
 
@@ -102,10 +101,13 @@ private://メンバ変数
 	Enemy* enemy_01;
 	Enemy* enemy_02;
 	Enemy* enemy_03;
+	Enemy* enemy_04;
+
 	//敵
 	std::list<std::unique_ptr<Enemy>> enemys_01;
 	std::list<std::unique_ptr<Enemy>> enemys_02;
 	std::list<std::unique_ptr<Enemy>> enemys_03;
+	std::list<std::unique_ptr<Enemy>> enemys_04;
 
 	//座標
 	WorldTransform* worldTransform = nullptr;
@@ -128,6 +130,9 @@ private://メンバ変数
 	std::map<std::string, Model*> meteorModels;
 	//オブジェクト
 	std::vector<Meteor*> meteorObjects;
+
+	//スコア
+	int score_;
 
 	//フラグ
 	//敵を発生させるときの待機フラグ

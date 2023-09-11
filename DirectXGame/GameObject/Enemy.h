@@ -39,6 +39,7 @@ public:
 	void SetScale(Vector3 scale) { worldTransform_.scale_ = scale; }
 	void SetIsDead(bool isDead) { isDead_ = isDead; }
 	void SetEnemyNum(int enemyNum) { enemyNum_ = enemyNum; }
+	void SetDirectionNum(int directionNum) { directionNum_ = directionNum; }
 
 private:
 	//ゲームシーン
@@ -46,6 +47,8 @@ private:
 
 	//敵番号
 	int enemyNum_;
+	//流れ星が移動する向き
+	int directionNum_;
 
 	//デスフラグ
 	//倒されたか
