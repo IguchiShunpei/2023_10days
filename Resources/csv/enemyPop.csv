@@ -1,18 +1,98 @@
 wait 30
-enemy -6 6 100
-wait 30
-enemy 0 6 100
-wait 30
-enemy 6 6 100
-wait 30
-enemy 6 0 100
-wait 30
-enemy 6 -6 100
-wait 30
-enemy 0 -6 100
-wait 30
-enemy -6 -6 100
-wait 30
-enemy -6 0 100
-wait 30
-enemy 0 0 100
+
+STAGE01
+enemy01 -8 0 30
+wait 15
+enemy01 0 0 30
+wait 15
+enemy01 8 0 30
+wait 300
+
+STAGE02
+enemy01 -8 0 30
+wait 15
+enemy02 0 0 30
+wait 15
+enemy03 8 0 30
+wait 300
+
+STAGE03
+enemy01 -24 0 30
+enemy01 -16 -8 30
+enemy02 -8 -8 30
+enemy01 24 0 30
+wait 220
+enemy01 -16 0 30
+enemy01 -8 16 30
+enemy03 0 16 30
+enemy01 24 -16 30
+enemy01 16 -16 30
+wait 220
+enemy01 -16 16 30
+wait 15
+enemy01 -8 8 30
+wait 15
+enemy01 0 0 30
+wait 15
+enemy01 8 -8 30
+wait 15
+enemy02 16 -16 30
+wait 15
+enemy01 16 -8 30
+wait 15
+enemy01 16 0 30
+wait 15
+enemy01 16 8 30
+wait 300
+
+STAGE04
+enemy01 -16 16 30
+wait 15
+enemy01 -8 16 30
+wait 15
+enemy01 0 16 30
+wait 15
+enemy01 8 16 30
+wait 15
+enemy02 16 16 30
+wait 15
+enemy01 16 8 30
+wait 15
+enemy01 8 8 30
+wait 15
+enemy03 0 8 30
+wait 15
+enemy03 -8 8 30
+wait 15
+enemy01 -16 8 30
+wait 15
+enemy01 -16 0 30
+wait 15
+enemy01 -8 0 30
+wait 15
+enemy02 0 0 30
+wait 15
+enemy01 8 0 30
+wait 15
+enemy01 16 0 30
+wait 15
+enemy01 16 -8 30
+wait 15
+enemy01 8 -8 30
+wait 15
+enemy01 0 -8 30
+wait 15
+enemy02 -8 -8 30
+wait 15
+enemy01 -16 -8 30
+wait 15
+enemy01 -16 -16 30
+wait 15
+enemy03 -8 -16 30
+wait 15
+enemy01 0 -16 30
+wait 15
+enemy01 8 -16 30
+wait 15
+enemy02 16 -16 30
+wait 15

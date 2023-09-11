@@ -106,13 +106,29 @@ void GamePlayScene::Update()
 	}
 
 	//デスフラグの立った敵を削除
-	enemys_.remove_if([](std::unique_ptr <Enemy>& enemy)
+	enemys_01.remove_if([](std::unique_ptr <Enemy>& enemy01)
 		{
-			return enemy->GetIsDead();
+			return enemy01->GetIsDead();
 		});
-	enemys_.remove_if([](std::unique_ptr <Enemy>& enemy)
+	enemys_01.remove_if([](std::unique_ptr <Enemy>& enemy01)
 		{
-			return enemy->GetIsDelete();
+			return enemy01->GetIsDelete();
+		});
+	enemys_02.remove_if([](std::unique_ptr <Enemy>& enemy02)
+		{
+			return enemy02->GetIsDead();
+		});
+	enemys_02.remove_if([](std::unique_ptr <Enemy>& enemy02)
+		{
+			return enemy02->GetIsDelete();
+		});
+	enemys_03.remove_if([](std::unique_ptr <Enemy>& enemy03)
+		{
+			return enemy03->GetIsDead();
+		});
+	enemys_03.remove_if([](std::unique_ptr <Enemy>& enemy03)
+		{
+			return enemy03->GetIsDelete();
 		});
 
 	//天球
@@ -126,10 +142,20 @@ void GamePlayScene::Update()
 	Shot();
 
 	//敵
-	for (std::unique_ptr<Enemy>& enemys : enemys_)
+	for (std::unique_ptr<Enemy>& enemys01 : enemys_01)
 	{
-		enemys->Update();
-		enemys->ColliderUpdate();
+		enemys01->Update();
+		enemys01->ColliderUpdate();
+	}
+	for (std::unique_ptr<Enemy>& enemys02 : enemys_02)
+	{
+		enemys02->Update();
+		enemys02->ColliderUpdate();
+	}
+	for (std::unique_ptr<Enemy>& enemys03 : enemys_03)
+	{
+		enemys03->Update();
+		enemys03->ColliderUpdate();
 	}
 
 	//for (auto& object : meteorObjects)
@@ -155,8 +181,14 @@ void GamePlayScene::Draw()
 		object->Draw(viewProjection);
 	}*/
 	//敵キャラの描画
-	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
-		enemy->Draw(viewProjection);
+	for (const std::unique_ptr<Enemy>& enemy01 : enemys_01) {
+		enemy01->Draw(viewProjection);
+	}
+	for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
+		enemy02->Draw(viewProjection);
+	}
+	for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
+		enemy03->Draw(viewProjection);
 	}
 
 	Object3d::PostDraw();
@@ -195,10 +227,22 @@ void GamePlayScene::Shot()
 {
 	if (input->TriggerMouseLeft()) {
 		Vector3 cur = input->GetMousePos();
-		for (const std::unique_ptr<Enemy>& enemy : enemys_) {
-			Vector3 epos = GetWorldToScreenPos(enemy->GetPosition(), viewProjection);
-			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(30, 2)) {
-				enemy->SetIsDead(true);
+		for (const std::unique_ptr<Enemy>& enemy01 : enemys_01) {
+			Vector3 epos = GetWorldToScreenPos(enemy01->GetPosition(), viewProjection);
+			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
+				enemy01->SetIsDead(true);
+			}
+		}
+		for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
+			Vector3 epos = GetWorldToScreenPos(enemy02->GetPosition(), viewProjection);
+			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
+				enemy02->SetIsDead(true);
+			}
+		}
+		for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
+			Vector3 epos = GetWorldToScreenPos(enemy03->GetPosition(), viewProjection);
+			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
+				enemy03->SetIsDead(true);
 			}
 		}
 	}
@@ -232,7 +276,8 @@ Vector3 GamePlayScene::GetWorldToScreenPos(Vector3 pos_, ViewProjection* viewPro
 
 void GamePlayScene::LoadEnemyPop()
 {
-	enemys_.clear();
+	enemys_01.clear();
+	enemys_02.clear();
 	//ファイルを開く
 	std::ifstream file;
 	file.open("Resources/csv/enemyPop.csv");
@@ -272,25 +317,68 @@ void GamePlayScene::UpdateEnemyPop()
 		std::string key;
 		getline(line_stream, key, ' ');
 
-		// enemyを読み取って座標をセットする
-		if (key == "enemy") {
+		// enemy01を読み取って座標をセットする
+		if (key == "enemy01") {
 			//敵の生成
-			std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+			std::unique_ptr<Enemy> newEnemy01 = std::make_unique<Enemy>();
 			//敵の初期化
-			newEnemy->EnemyInitialize();
+			newEnemy01->SetEnemyNum(1);
+			newEnemy01->EnemyInitialize();
 			//コライダーの追加
-			newEnemy->SetCollider(new SphereCollider(Vector3(0, 0, 0), 1.5f));
+			newEnemy01->SetCollider(new SphereCollider(Vector3(0, 0, 0), 1.5f));
 			// X,Y,Z座標読み込み
 			Vector3 position{};
 			line_stream >> position.x;
 			line_stream >> position.y;
 			line_stream >> position.z;
 			// 座標データに追加
-			newEnemy->SetPosition(position);
-			newEnemy->SetScale(Vector3(0.8f, 0.8f, 0.8f));
-			newEnemy->worldTransform_.UpdateMatrix();
+			newEnemy01->SetPosition(position);
+			newEnemy01->SetScale(Vector3(0.8f, 0.8f, 0.8f));
+			newEnemy01->worldTransform_.UpdateMatrix();
 			//登録
-			enemys_.push_back(std::move(newEnemy));
+			enemys_01.push_back(std::move(newEnemy01));
+		}
+		//enemy02
+		else if (key == "enemy02") {
+			//敵の生成
+			std::unique_ptr<Enemy> newEnemy02 = std::make_unique<Enemy>();
+			//敵の初期化
+			newEnemy02->SetEnemyNum(2);
+			newEnemy02->EnemyInitialize();
+			//コライダーの追加
+			newEnemy02->SetCollider(new SphereCollider(Vector3(0, 0, 0), 1.5f));
+			// X,Y,Z座標読み込み
+			Vector3 position{};
+			line_stream >> position.x;
+			line_stream >> position.y;
+			line_stream >> position.z;
+			// 座標データに追加
+			newEnemy02->SetPosition(position);
+			newEnemy02->SetScale(Vector3(0.8f, 0.8f, 0.8f));
+			newEnemy02->worldTransform_.UpdateMatrix();
+			//登録
+			enemys_02.push_back(std::move(newEnemy02));
+		}
+		//enemy03
+		else if (key == "enemy03") {
+			//敵の生成
+			std::unique_ptr<Enemy> newEnemy03 = std::make_unique<Enemy>();
+			//敵の初期化
+			newEnemy03->SetEnemyNum(3);
+			newEnemy03->EnemyInitialize();
+			//コライダーの追加
+			newEnemy03->SetCollider(new SphereCollider(Vector3(0, 0, 0), 1.5f));
+			// X,Y,Z座標読み込み
+			Vector3 position{};
+			line_stream >> position.x;
+			line_stream >> position.y;
+			line_stream >> position.z;
+			// 座標データに追加
+			newEnemy03->SetPosition(position);
+			newEnemy03->SetScale(Vector3(0.8f, 0.8f, 0.8f));
+			newEnemy03->worldTransform_.UpdateMatrix();
+			//登録
+			enemys_03.push_back(std::move(newEnemy03));
 		}
 		//待機時間を読み取る
 		else if (key == "wait")

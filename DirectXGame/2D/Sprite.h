@@ -4,6 +4,13 @@
 #include<DirectXMath.h>
 #include<array>
 
+struct Vertex
+{
+	DirectX::XMFLOAT3 pos; //xyz座標
+
+	DirectX::XMFLOAT2 uv;  //uv座標
+};
+
 class Sprite
 {
 private:
@@ -79,7 +86,7 @@ public:
 	Sprite(UINT texNumber, XMFLOAT3 pos, XMFLOAT2 size, XMFLOAT4 color, XMFLOAT2 anchorpoint, bool isFlipX, bool isFlipY);
 	~Sprite() = default;;
 
-private:
+protected:
 	DirectXCommon* dxCommon = nullptr;
 	// ビュー行列
 	static XMMATRIX matView;
