@@ -101,10 +101,13 @@ private://ƒƒ“ƒo•Ï”
 	Enemy* enemy_01;
 	Enemy* enemy_02;
 	Enemy* enemy_03;
+	Enemy* enemy_04;
+
 	//“G
 	std::list<std::unique_ptr<Enemy>> enemys_01;
 	std::list<std::unique_ptr<Enemy>> enemys_02;
 	std::list<std::unique_ptr<Enemy>> enemys_03;
+	std::list<std::unique_ptr<Enemy>> enemys_04;
 
 	//À•W
 	WorldTransform* worldTransform = nullptr;
