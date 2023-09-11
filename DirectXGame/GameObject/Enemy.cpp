@@ -25,6 +25,9 @@ void Enemy::EnemyInitialize()
 	case 3:
 		enemyModel = Model::LoadFromOBJ("enemy03");
 		break;
+	case 4:
+		enemyModel = Model::LoadFromOBJ("enemy04");
+		break;
 	}
 	// 3Dオブジェクト生成
 	Create();
@@ -42,43 +45,77 @@ void Enemy::EnemyInitialize()
 
 void Enemy::Update()
 {
-	if (isBack_ == false)
+	//1,2,3の挙動
+	if (enemyNum_ == 1 || enemyNum_ == 2 || enemyNum_ == 3)
 	{
-		//デスポーンタイマーが200以上なら
-		if (deleteTimer_ >= 200)
+		if (isBack_ == false)
 		{
-			isBack_ = true;
-			worldTransform_.rotation_.y = 0.0f;
-			turnTimer_ = 0.0f;
+			//デスポーンタイマーが200以上なら
+			if (deleteTimer_ >= 200)
+			{
+				isBack_ = true;
+				worldTransform_.rotation_.y = 0.0f;
+				turnTimer_ = 0.0f;
+			}
+			else
+			{
+				//イージングを使った回転
+				worldTransform_.rotation_.y = 360.0f * -MathFunc::easeOutSine(turnTimer_ / 20.0f);
+				//デスポーンタイマーの処理
+				deleteTimer_++;
+				if (turnTimer_ <= 19.0f)
+				{
+					turnTimer_++;
+				}
+			}
 		}
+		//退場演出フラグがtrueになったら
 		else
 		{
-			//イージングを使った回転
-			worldTransform_.rotation_.y = 360.0f * -MathFunc::easeOutSine(turnTimer_ / 20.0f);
-			//デスポーンタイマーの処理
-			deleteTimer_++;
+			//イージングを使った回転(登場とは逆)
+			worldTransform_.rotation_.y = 360.0f * MathFunc::easeOutSine(turnTimer_ / 20.0f);
+			worldTransform_.scale_ -= Vector3({ 0.04f,0.04f,0.04f });
 			if (turnTimer_ <= 19.0f)
 			{
 				turnTimer_++;
 			}
+			else
+			{
+				isDelete_ = true;
+			}
 		}
 	}
-	//退場演出フラグがtrueになったら
-	else
+	//4の挙動(流れ星)
+	else if (enemyNum_ == 4)
 	{
-		//イージングを使った回転(登場とは逆)
-		worldTransform_.rotation_.y = 360.0f * MathFunc::easeOutSine(turnTimer_ / 20.0f);
-		worldTransform_.scale_ -= Vector3({ 0.04f,0.04f,0.04f });
-		if (turnTimer_ <= 19.0f)
+		//向き
+		switch (directionNum_)
 		{
-			turnTimer_++;
-		}
-		else
-		{
-			isDelete_ = true;
+		case 1:
+			worldTransform_.position_.y--;
+			if (worldTransform_.position_.y <= -16.0f)
+			{
+				isDelete_ = true;
+			}
+			break;
+		case 2:
+			worldTransform_.position_.x -= 1.5f;
+			worldTransform_.position_.y -= 0.3f;
+			if (worldTransform_.position_.x <= -48.0f)
+			{
+				isDelete_ = true;
+			}
+			break;
+		case 3:
+			worldTransform_.position_.x += 1.5f;
+			worldTransform_.position_.y -= 0.3f;
+			if (worldTransform_.position_.x >= 48.0f)
+			{
+				isDelete_ = true;
+			}
+			break;
 		}
 	}
-
 	// ワールドトランスフォームの行列更新と転送
 	worldTransform_.UpdateMatrix();
 }

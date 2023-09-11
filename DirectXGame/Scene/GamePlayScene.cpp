@@ -134,6 +134,14 @@ void GamePlayScene::Update()
 		{
 			return enemy03->GetIsDelete();
 		});
+	enemys_04.remove_if([](std::unique_ptr <Enemy>& enemy04)
+		{
+			return enemy04->GetIsDead();
+		});
+	enemys_04.remove_if([](std::unique_ptr <Enemy>& enemy04)
+		{
+			return enemy04->GetIsDelete();
+		});
 
 	//天球
 	sky->Update();
@@ -160,6 +168,11 @@ void GamePlayScene::Update()
 	{
 		enemys03->Update();
 		enemys03->ColliderUpdate();
+	}
+	for (std::unique_ptr<Enemy>& enemys04 : enemys_04)
+	{
+		enemys04->Update();
+		enemys04->ColliderUpdate();
 	}
 
 	//for (auto& object : meteorObjects)
@@ -193,6 +206,9 @@ void GamePlayScene::Draw()
 	}
 	for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
 		enemy03->Draw(viewProjection);
+	}
+	for (const std::unique_ptr<Enemy>& enemy04 : enemys_04) {
+		enemy04->Draw(viewProjection);
 	}
 
 	Object3d::PostDraw();
@@ -252,6 +268,13 @@ void GamePlayScene::Shot()
 				score_ -= 3;
 			}
 		}
+		for (const std::unique_ptr<Enemy>& enemy04 : enemys_04) {
+			Vector3 epos = GetWorldToScreenPos(enemy04->GetPosition(), viewProjection);
+			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
+				enemy04->SetIsDead(true);
+				score_ += 10;
+			}
+		}
 	}
 }
 
@@ -286,6 +309,7 @@ void GamePlayScene::LoadEnemyPop()
 	enemys_01.clear();
 	enemys_02.clear();
 	enemys_03.clear();
+	enemys_04.clear();
 	//ファイルを開く
 	std::ifstream file;
 	file.open("Resources/csv/enemyPop.csv");
@@ -387,6 +411,42 @@ void GamePlayScene::UpdateEnemyPop()
 			newEnemy03->worldTransform_.UpdateMatrix();
 			//登録
 			enemys_03.push_back(std::move(newEnemy03));
+		}
+		//enemy04
+		else if (key == "enemy04") {
+			std::string word;
+			getline(line_stream, word, ' ');
+			//敵の生成
+			std::unique_ptr<Enemy> newEnemy04 = std::make_unique<Enemy>();
+			//敵の初期化
+			newEnemy04->SetEnemyNum(4);
+			newEnemy04->EnemyInitialize();
+			//コライダーの追加
+			newEnemy04->SetCollider(new SphereCollider(Vector3(0, 0, 0), 1.5f));
+			//移動向きを読み取ってセットする
+			if (word.find("DOWN") == 0)
+			{
+				newEnemy04->SetDirectionNum(1);
+			}
+			else if (word.find("LEFT") == 0)
+			{
+				newEnemy04->SetDirectionNum(2);
+			}
+			else if (word.find("RIGHT") == 0)
+			{
+				newEnemy04->SetDirectionNum(3);
+			}
+			// X,Y,Z座標読み込み
+			Vector3 position{};
+			line_stream >> position.x;
+			line_stream >> position.y;
+			line_stream >> position.z;
+			// 座標データに追加
+			newEnemy04->SetPosition(position);
+			newEnemy04->SetScale(Vector3(0.8f, 0.8f, 0.8f));
+			newEnemy04->worldTransform_.UpdateMatrix();
+			//登録
+			enemys_04.push_back(std::move(newEnemy04));
 		}
 		//待機時間を読み取る
 		else if (key == "wait")
