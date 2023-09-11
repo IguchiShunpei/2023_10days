@@ -96,6 +96,10 @@ void GamePlayScene::Initialize()
 		// 配列に登録
 		meteorObjects.push_back(objMeteor);
 	}	
+
+	score_ = 0;
+	isWait_ = false;
+	waitTimer_ = 0;
 }
 
 void GamePlayScene::Update()
@@ -231,18 +235,21 @@ void GamePlayScene::Shot()
 			Vector3 epos = GetWorldToScreenPos(enemy01->GetPosition(), viewProjection);
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy01->SetIsDead(true);
+				score_++;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
 			Vector3 epos = GetWorldToScreenPos(enemy02->GetPosition(), viewProjection);
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy02->SetIsDead(true);
+				score_+=5;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
 			Vector3 epos = GetWorldToScreenPos(enemy03->GetPosition(), viewProjection);
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 				enemy03->SetIsDead(true);
+				score_ -= 3;
 			}
 		}
 	}
@@ -278,6 +285,7 @@ void GamePlayScene::LoadEnemyPop()
 {
 	enemys_01.clear();
 	enemys_02.clear();
+	enemys_03.clear();
 	//ファイルを開く
 	std::ifstream file;
 	file.open("Resources/csv/enemyPop.csv");
