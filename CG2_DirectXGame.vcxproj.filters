@@ -76,6 +76,12 @@
     <Filter Include="ヘッダー ファイル\Level">
       <UniqueIdentifier>{b64fa00d-0316-4fe1-b88d-2599b87730de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Sound">
+      <UniqueIdentifier>{9e1a94f3-e167-40be-a098-c79feef56588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Sound">
+      <UniqueIdentifier>{fedbafe0-eab4-4205-9321-c0cb7ecf3c60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectXGame\2D\Sprite.cpp">
@@ -191,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="DirectXGame\2D\PostEffect.cpp">
       <Filter>ソース ファイル\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -383,6 +392,9 @@
     </ClInclude>
     <ClInclude Include="DirectXGame\2D\PostEffect.h">
       <Filter>ヘッダー ファイル\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>ヘッダー ファイル\Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
