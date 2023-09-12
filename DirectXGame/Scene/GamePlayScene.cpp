@@ -40,7 +40,7 @@ void GamePlayScene::Initialize()
 	sky->SkyDomeInitialize();
 
 	//パーティクル
-	p_dmg = Particle::LoadParticleTexture("effect.png");
+	p_dmg = Particle::LoadParticleTexture("effectstar.png");
 	pm_dmg = ParticleManager::Create();
 	pm_dmg->SetParticleModel(p_dmg);
 	pm_dmg->SetXMViewProjection(xmViewProjection);
@@ -248,6 +248,29 @@ void GamePlayScene::Update()
 
 	//パーティクル更新
 	pm_dmg->Update();
+	
+	// パーティクルの発動
+	for (std::unique_ptr<Enemy>& enemys01 : enemys_01)
+	{
+		if (enemys01->GetIsDead() == true) {
+			pm_dmg->Fire(p_dmg, 20, { 0,0,0 }, 70.0f, 70.0f, 50.0f, 50.0f, 0, 0, 1, 1, 1.0f, 1.0f, 1, 0, 0, 30, {0.0f, 7.0f});
+		}
+	}
+	for (std::unique_ptr<Enemy>& enemys02 : enemys_02) {
+		if (enemys02->GetIsDead() == true) {
+			pm_dmg->Fire(p_dmg, 20, { 0,0,0 }, 70.0f, 70.0f, 50.0f, 50.0f, 0, 0, 1, 1, 1.0f, 1.0f, 1, 0, 0, 30, { 0.0f, 7.0f });
+		}
+	}
+	for (std::unique_ptr<Enemy>& enemys03 : enemys_03) {
+		if (enemys03->GetIsDead() == true) {
+			pm_dmg->Fire(p_dmg, 20, { 0,0,0 }, 70.0f, 70.0f, 50.0f, 50.0f, 0, 0, 1, 1, 1.0f, 1.0f, 1, 0, 0, 30, { 0.0f, 7.0f });
+		}
+	}
+	for (std::unique_ptr<Enemy>& enemys04 : enemys_04) {
+		if (enemys04->GetIsDead() == true) {
+			pm_dmg->Fire(p_dmg, 20, { 0,0,0 }, 70.0f, 70.0f, 50.0f, 50.0f, 0, 0, 1, 1, 1.0f, 1.0f, 1, 0, 0, 30, { 0.0f, 7.0f });
+		}
+	}
 
 	//スコア更新
 	XMFLOAT3 one = onesPlace[scores[0]]->GetPosition();
