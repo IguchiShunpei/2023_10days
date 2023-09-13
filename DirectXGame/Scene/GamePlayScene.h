@@ -179,17 +179,7 @@ private://メンバ変数
 	bool effectSwitch;
 	bool isPlayable;
 
-
-	//背景オブジェクト
-	Meteor* objMeteor = nullptr;
-	Model* modelMeteor = nullptr;
-
-	//レベルデータ
-	LevelData* levelData = nullptr;
-	//モデル
-	std::map<std::string, Model*> meteorModels;
-	//オブジェクト
-	std::vector<Meteor*> meteorObjects;
+	float logoY;
 
 	//スコア
 	static int score_;
@@ -206,6 +196,7 @@ private://メンバ変数
 	//敵を発生させるときの待機時間
 	int waitTimer_;
 	int finishTimer_;
+	float logoTime_;
 
 	// エフェクト
 	bool isBlur = false;

@@ -73,7 +73,7 @@ private: // メンバ変数
 	bool isNext;
 	bool curHit;
 	bool isUp;
-	float rogoTime;
+	float logoTime;
 	float logoY;
 
 	//Sound
