@@ -191,7 +191,7 @@ enemy01 16 0 30
 wait 15
 enemy03 16 -8 30
 wait 15
-enemy01 8 -8 30
+enemy03 8 -8 30
 wait 15
 enemy03 0 -8 30
 wait 15
