@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "DirectXCommon.h"
 #include "Input.h"

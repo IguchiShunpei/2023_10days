@@ -1,4 +1,4 @@
-#include "GameTitleScene.h"
+﻿#include "GameTitleScene.h"
 
 using namespace DirectX;
 
@@ -114,8 +114,7 @@ void GameTitleScene::Update()
 		{
 			if (cur.y >= click->GetPosition().y && cur.y <= click->GetPosition().y + 100)
 			{
-				// ゲームプレイシーン（次シーン）を生成
-				GameSceneManager::GetInstance()->ChangeScene("GAMEPLAY");
+				isNext = true;
 				startSE->SoundPlayWave(false, 1.0f);
 				titleBGM->StopWave();
 			}
@@ -127,7 +126,8 @@ void GameTitleScene::Update()
 		else
 		{
 			shotSE->SoundPlayWave(false, 1.0f);
-
+		}
+	}
 
 	if (isNext == true) {
 		for (int i = 0; i < 10; i++) {
@@ -163,7 +163,6 @@ void GameTitleScene::Draw()
 	sky->Draw(viewProjection);
 
 	Object3d::PostDraw();
-
 	titleLogo->SetTextureCommands(0, dxCommon_);
 	titleLogo->Draw(dxCommon_);
 	click->SetTextureCommands(0, dxCommon_);
