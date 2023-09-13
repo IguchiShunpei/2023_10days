@@ -14,6 +14,7 @@
 #include "Meteor.h"
 #include "Enemy.h"
 #include "Sound.h"
+#include "PostEffect.h"
 
 #include<cassert>
 #include<vector>
@@ -149,6 +150,9 @@ private://メンバ変数
 	Sound* superHighGetSE = nullptr;
 	Sound* missSE = nullptr;
 
+	// ポストエフェクト
+	PostEffect* postEffect = nullptr;
+
 	//得点演出管理
 	bool isGetGold;
 	bool isGetNormal[10];
@@ -185,4 +189,8 @@ private://メンバ変数
 	//敵を発生させるときの待機時間
 	int waitTimer_;
 	int finishTimer_;
+
+	// エフェクト
+	bool isBlur = false;
+	int blurTimer = 0;
 };

@@ -12,7 +12,7 @@ GameClearScene::~GameClearScene()
 
 void GameClearScene::Initialize()
 {
-	
+	dxCommon = DirectXCommon::GetInstance();
 }
 
 void GameClearScene::Update()
@@ -26,7 +26,11 @@ void GameClearScene::Update()
 
 void GameClearScene::Draw()
 {
+	// •`‰æ‘Oˆ—
+	dxCommon->PreDraw();
 	
+	// •`‰æŒãˆ—
+	dxCommon->PostDraw();
 }
 
 void GameClearScene::Finalize()

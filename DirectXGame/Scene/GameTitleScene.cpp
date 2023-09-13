@@ -61,6 +61,9 @@ void GameTitleScene::Update()
 
 void GameTitleScene::Draw()
 {
+	// •`‰æ‘Oˆ—
+	dxCommon_->PreDraw();
+
 	Object3d::PreDraw(dxCommon_->GetCommandList());
 
 	sky->Draw(viewProjection);
@@ -69,6 +72,9 @@ void GameTitleScene::Draw()
 
 	cross->SetTextureCommands(0, dxCommon_);
 	cross->Draw(dxCommon_);
+
+	// •`‰æŒãˆ—
+	dxCommon_->PostDraw();
 }
 
 void GameTitleScene::Finalize()
