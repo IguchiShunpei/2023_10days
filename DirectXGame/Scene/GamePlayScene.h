@@ -86,6 +86,9 @@ public:
 	//敵データ読み込み
 	void LoadEnemyPop();
 	void UpdateEnemyPop();
+	//score
+	static int GetScore() { return score_; }
+	static void SetScore(int score) { score_ = score; }
 
 private://メンバ変数
 	//背景
@@ -187,6 +190,7 @@ private://メンバ変数
 	std::vector<Meteor*> meteorObjects;
 
 	//スコア
+	static int score_;
 	int scores[6];
 	int oldScores[6];
 

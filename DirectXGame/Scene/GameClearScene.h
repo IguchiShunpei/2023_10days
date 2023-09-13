@@ -41,4 +41,13 @@ public: // ƒƒ“ƒoŠÖ”
 
 private: // ƒƒ“ƒo•Ï”
 	DirectXCommon* dxCommon = nullptr;
+	Sprite* cross = nullptr;
+	//score
+	Sprite* onesPlace[10];
+	Sprite* tensPlace[10];
+	Sprite* hundredPlace[10];
+	Sprite* thousandPlace[10];
+	Sprite* tenthousandPlace[10];
+	Sprite* hundredthousandPlace[10];
+	int scores[6];
 };
