@@ -202,7 +202,7 @@ void GamePlayScene::Initialize()
 	// ƒTƒEƒ“ƒh‚Ì‰Šú‰»
 	gameBGM = new Sound;
 	gameBGM->SoundLoadWave("Resources/Sound/gameBGM.wav");
-	gameBGM->SoundPlayWave(true, 1.0f);
+	gameBGM->SoundPlayWave(true, 0.5f);
 	shotSE = new Sound;
 	shotSE->SoundLoadWave("Resources/Sound/shot.wav");
 	finishSE = new Sound;
@@ -647,7 +647,7 @@ void GamePlayScene::Shot()
 {
 	bool isHit = false;
 	if (input->TriggerMouseLeft()) {
-		shotSE->SoundPlayWave(false, 1.0f);
+		shotSE->SoundPlayWave(false, 0.5f);
 		Vector3 cur = input->GetMousePos();
 		for (const std::unique_ptr<Enemy>& enemy01 : enemys_01) {
 			Vector3 epos = GetWorldToScreenPos(enemy01->GetPosition(), viewProjection);
@@ -679,7 +679,7 @@ void GamePlayScene::Shot()
 			{
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy02->SetIsDead(true);
-					highGetSE->SoundPlayWave(false, 1.0f);
+					highGetSE->SoundPlayWave(false, 0.5f);
 					SetScore(GetScore() + 50);
 					for (int i = 0; i < 5; i++) {
 						if (isGetRed[i] == false) {
@@ -703,7 +703,7 @@ void GamePlayScene::Shot()
 			{
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy03->SetIsDead(true);
-					missSE->SoundPlayWave(false, 1.0f);
+					missSE->SoundPlayWave(false, 0.5f);
 					SetScore(GetScore() - 30);
 					for (int i = 0; i < 5; i++) {
 						if (isGetBlue[i] == false) {
@@ -726,7 +726,7 @@ void GamePlayScene::Shot()
 			Vector3 epos = GetWorldToScreenPos(enemy04->GetPosition(), viewProjection);
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(70, 2)) {
 				enemy04->SetIsDead(true);
-				superHighGetSE->SoundPlayWave(false, 1.0f);
+				superHighGetSE->SoundPlayWave(false, 0.5f);
 				SetScore(GetScore() + 1000);
 				for (int i = 0; i < 3; i++) {
 					if (isGetGold[i] == false) {
@@ -973,7 +973,7 @@ void GamePlayScene::UpdateEnemyPop()
 
 		else if (key == "FINISH")
 		{
-			finishSE->SoundPlayWave(false, 1.0f);
+			finishSE->SoundPlayWave(false, 0.5f);
 			isFinish_ = true;
 		}
 	}

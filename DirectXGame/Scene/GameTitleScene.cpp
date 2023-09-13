@@ -52,7 +52,7 @@ void GameTitleScene::Initialize()
 	// サウンドの初期化
 	titleBGM = new Sound;
 	titleBGM->SoundLoadWave("Resources/Sound/titleBGM.wav");
-	titleBGM->SoundPlayWave(true, 1.0f);
+	titleBGM->SoundPlayWave(true, 0.5f);
 
 	startSE = new Sound;
 	startSE->SoundLoadWave("Resources/Sound/start.wav");
@@ -150,7 +150,7 @@ void GameTitleScene::Update()
 			if (input_->TriggerMouseLeft() == true) 
 			{
 			isNext = true;
-			startSE->SoundPlayWave(false, 1.0f);
+			startSE->SoundPlayWave(false, 0.5f);
 			titleBGM->StopWave();
 			}
 		}
@@ -166,7 +166,7 @@ void GameTitleScene::Update()
 
 	if (input_->TriggerMouseLeft() == true) 
 	{
-		shotSE->SoundPlayWave(false, 1.0f);
+		shotSE->SoundPlayWave(false, 0.5f);
 	}
 
 	if (isNext == true) {

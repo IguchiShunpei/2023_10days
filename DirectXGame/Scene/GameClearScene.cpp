@@ -187,7 +187,7 @@ void GameClearScene::Update()
 	showTime++;
 	if (showTime == 10) {
 		scoreGraph->Update();
-		shotSE->SoundPlayWave(false, 1.0f);
+		shotSE->SoundPlayWave(false, 0.5f);
 	}
 	else if (showTime == 60) {
 		onesPlace[scores[0]]->Update();
@@ -196,10 +196,10 @@ void GameClearScene::Update()
 		thousandPlace[scores[3]]->Update();
 		tenthousandPlace[scores[4]]->Update();
 		hundredthousandPlace[scores[5]]->Update();
-		shotSE->SoundPlayWave(false, 1.0f);
+		shotSE->SoundPlayWave(false, 0.5f);
 	}
 	else if (showTime == 120) {
-		shotSE->SoundPlayWave(false, 1.0f);
+		shotSE->SoundPlayWave(false, 0.5f);
 	}
 	else if (showTime > 120) {
 		click01->SetPosition({ 450,520,0 });
@@ -217,7 +217,7 @@ void GameClearScene::Update()
 				{
 					// ゲームプレイシーン（次シーン）を生成
 					GameSceneManager::GetInstance()->ChangeScene("TITLE");
-					startSE->SoundPlayWave(false, 1.0f);
+					startSE->SoundPlayWave(false, 0.5f);
 				}
 			}
 			else
