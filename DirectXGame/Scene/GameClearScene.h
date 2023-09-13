@@ -42,6 +42,7 @@ public: // ƒƒ“ƒoŠÖ”
 	void Finalize() override;
 
 private: // ƒƒ“ƒo•Ï”
+	Input* input_ = nullptr;
 	DirectXCommon* dxCommon = nullptr;
 	Sprite* cross = nullptr;
 	SkyDome* sky;
@@ -58,11 +59,15 @@ private: // ƒƒ“ƒo•Ï”
 	int scores[6];
 	float numPosX;
 	int showTime;
-	//click
-	Sprite* click01 = nullptr;
-	Sprite* click02 = nullptr;
+	//title
+	Sprite* title01 = nullptr;
+	Sprite* title02 = nullptr;
+	//retry
+	Sprite* retry01 = nullptr;
+	Sprite* retry02 = nullptr;
 	bool isNext;
-	bool curHit;
+	bool curHit01;
+	bool curHit02;
 	//SE
 	Sound* startSE = nullptr;
 	Sound* shotSE = nullptr;

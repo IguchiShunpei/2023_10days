@@ -12,6 +12,7 @@ GameClearScene::~GameClearScene()
 
 void GameClearScene::Initialize()
 {
+	input_ = Input::GetInstance();
 	dxCommon = DirectXCommon::GetInstance();
 
 	//天球
@@ -35,14 +36,23 @@ void GameClearScene::Initialize()
 	scoreGraph->SetPosition({ 400.0f,50.0f ,0.0f});
 
 	//click
-	click01 = new Sprite;
-	click01->Initialize(dxCommon);
-	click01->LoadTexture(0, L"Resources/CLICKHERE_01.png", dxCommon);
-	click01->SetScale({ 4,1 });
-	click02 = new Sprite;
-	click02->Initialize(dxCommon);
-	click02->LoadTexture(0, L"Resources/CLICKHERE_02.png", dxCommon);
-	click02->SetScale({ 4,1 });
+	title01 = new Sprite;
+	title01->Initialize(dxCommon);
+	title01->LoadTexture(0, L"Resources/ToTITLE_01.png", dxCommon);
+	title01->SetScale({ 4,1 });
+	title02 = new Sprite;
+	title02->Initialize(dxCommon);
+	title02->LoadTexture(0, L"Resources/ToTITLE_02.png", dxCommon);
+	title02->SetScale({ 4,1 });
+
+	retry01 = new Sprite;
+	retry01->Initialize(dxCommon);
+	retry01->LoadTexture(0, L"Resources/RETRY_01.png", dxCommon);
+	retry01->SetScale({ 4,1 });
+	retry02 = new Sprite;
+	retry02->Initialize(dxCommon);
+	retry02->LoadTexture(0, L"Resources/RETRY_02.png", dxCommon);
+	retry02->SetScale({ 4,1 });
 
 	//SE
 	startSE = new Sound;
@@ -171,7 +181,8 @@ void GameClearScene::Initialize()
 	}
 	showTime = 0;
 	isNext = false;
-	curHit = false;
+	curHit01 = false;
+	curHit02 = false;
 }
 
 void GameClearScene::Update()
@@ -202,17 +213,22 @@ void GameClearScene::Update()
 		shotSE->SoundPlayWave(false, 0.5f);
 	}
 	else if (showTime > 120) {
-		click01->SetPosition({ 450,520,0 });
-		click01->Update();
-		click02->SetPosition({ 450,520,0 });
-		click02->Update();
+		title01->SetPosition({ 700,520,0 });
+		title01->Update();
+		title02->SetPosition({ 700,520,0 });
+		title02->Update();
+
+		retry01->SetPosition({ 200,520,0 });
+		retry01->Update();
+		retry02->SetPosition({ 200,520,0 });
+		retry02->Update();
 
 		// シーンの切り替え
-		if (cur.x >= click01->GetPosition().x && cur.x <= click01->GetPosition().x + 400)
+		if (cur.x >= title01->GetPosition().x && cur.x <= title01->GetPosition().x + 400)
 		{
-			if (cur.y >= click01->GetPosition().y && cur.y <= click01->GetPosition().y + 100)
+			if (cur.y >= title01->GetPosition().y && cur.y <= title01->GetPosition().y + 100)
 			{
-				curHit = true;
+				curHit01 = true;
 				if (Input::GetInstance()->TriggerMouseLeft() == true)
 				{
 					// ゲームプレイシーン（次シーン）を生成
@@ -222,12 +238,38 @@ void GameClearScene::Update()
 			}
 			else
 			{
-				curHit = false;
+				curHit01 = false;
 			}
 		}
 		else
 		{
-			curHit = false;
+			curHit01 = false;
+		}
+		// シーンの切り替え
+		if (cur.x >= retry01->GetPosition().x && cur.x <= retry01->GetPosition().x + 400)
+		{
+			if (cur.y >= retry01->GetPosition().y && cur.y <= retry01->GetPosition().y + 100)
+			{
+				curHit02 = true;
+				if (Input::GetInstance()->TriggerMouseLeft() == true)
+				{
+					// ゲームプレイシーン（次シーン）を生成
+					GameSceneManager::GetInstance()->ChangeScene("GAMEPLAY");
+					startSE->SoundPlayWave(false, 0.5f);
+				}
+			}
+			else
+			{
+				curHit02 = false;
+			}
+		}
+		else
+		{
+			curHit02 = false;
+		}
+		if (input_->TriggerMouseLeft() == true)
+		{
+			shotSE->SoundPlayWave(false, 0.5f);
 		}
 	}
 }
@@ -259,15 +301,25 @@ void GameClearScene::Draw()
 	hundredthousandPlace[scores[5]]->SetTextureCommands(0, dxCommon);
 	hundredthousandPlace[scores[5]]->Draw(dxCommon);
 
-	if (curHit == true)
+	if (curHit01 == true)
 	{
-		click02->SetTextureCommands(0, dxCommon);
-		click02->Draw(dxCommon);
+		title02->SetTextureCommands(0, dxCommon);
+		title02->Draw(dxCommon);
 	}
 	else
 	{
-		click01->SetTextureCommands(0, dxCommon);
-		click01->Draw(dxCommon);
+		title01->SetTextureCommands(0, dxCommon);
+		title01->Draw(dxCommon);
+	}
+	if (curHit02 == true)
+	{
+		retry02->SetTextureCommands(0, dxCommon);
+		retry02->Draw(dxCommon);
+	}
+	else
+	{
+		retry01->SetTextureCommands(0, dxCommon);
+		retry01->Draw(dxCommon);
 	}
 
 	cross->SetTextureCommands(0, dxCommon);
