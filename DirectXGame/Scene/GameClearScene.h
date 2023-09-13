@@ -6,6 +6,8 @@
 #include "Sprite.h"
 #include "GameSceneManager.h"
 #include "GameTitleScene.h"
+#include "SkyDome.h"
+#include "Sound.h"
 
 #include <DirectXMath.h>
 
@@ -42,7 +44,11 @@ public: // メンバ関数
 private: // メンバ変数
 	DirectXCommon* dxCommon = nullptr;
 	Sprite* cross = nullptr;
+	SkyDome* sky;
+	//カメラ
+	ViewProjection* viewProjection = nullptr;
 	//score
+	Sprite* scoreGraph = nullptr;
 	Sprite* onesPlace[10];
 	Sprite* tensPlace[10];
 	Sprite* hundredPlace[10];
@@ -50,4 +56,14 @@ private: // メンバ変数
 	Sprite* tenthousandPlace[10];
 	Sprite* hundredthousandPlace[10];
 	int scores[6];
+	float numPosX;
+	int showTime;
+	//click
+	Sprite* click01 = nullptr;
+	Sprite* click02 = nullptr;
+	bool isNext;
+	bool curHit;
+	//SE
+	Sound* startSE = nullptr;
+	Sound* shotSE = nullptr;
 };
