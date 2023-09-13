@@ -11,6 +11,7 @@ using namespace std;
 
 GamePlayScene::GamePlayScene()
 {
+
 }
 
 GamePlayScene::~GamePlayScene()
@@ -44,6 +45,22 @@ void GamePlayScene::Initialize()
 	pm_dmg = ParticleManager::Create();
 	pm_dmg->SetParticleModel(p_dmg);
 	pm_dmg->SetXMViewProjection(xmViewProjection);
+	pEffect01 = Particle::LoadParticleTexture("effect10.png");
+	pEffect02 = Particle::LoadParticleTexture("effect50.png");
+	pEffect03 = Particle::LoadParticleTexture("effect30.png");
+	pEffect04 = Particle::LoadParticleTexture("effect1000.png");
+	pmEffect01 = ParticleManager::Create();
+	pmEffect01->SetParticleModel(pEffect01);
+	pmEffect01->SetXMViewProjection(xmViewProjection);
+	pmEffect02 = ParticleManager::Create();
+	pmEffect02->SetParticleModel(pEffect02);
+	pmEffect02->SetXMViewProjection(xmViewProjection);
+	pmEffect03 = ParticleManager::Create();
+	pmEffect03->SetParticleModel(pEffect03);
+	pmEffect03->SetXMViewProjection(xmViewProjection);
+	pmEffect04 = ParticleManager::Create();
+	pmEffect04->SetParticleModel(pEffect04);
+	pmEffect04->SetXMViewProjection(xmViewProjection);
 
 	//sprite
 	cross = new Sprite;
@@ -118,12 +135,12 @@ void GamePlayScene::Initialize()
 		getRed[i] = new Sprite;
 		getRed[i]->Initialize(dxCommon);
 		getRed[i]->LoadTexture(0, L"Resources/p50.png", dxCommon);
-		getRed[i]->SetScale({ 0.72f * 1.3f,0.48f * 1.3f});
+		getRed[i]->SetScale({ 0.72f * 1.3f,0.48f * 1.3f });
 		//blue
 		getBlue[i] = new Sprite;
 		getBlue[i]->Initialize(dxCommon);
 		getBlue[i]->LoadTexture(0, L"Resources/m30.png", dxCommon);
-		getBlue[i]->SetScale({ 0.72f *1.3f,0.48f * 1.3f});
+		getBlue[i]->SetScale({ 0.72f * 1.3f,0.48f * 1.3f });
 	}
 
 	// レベルデータの読み込み
@@ -179,6 +196,23 @@ void GamePlayScene::Initialize()
 		meteorObjects.push_back(objMeteor);
 	}
 
+	// サウンドの初期化
+	gameBGM = new Sound;
+	gameBGM->SoundLoadWave("Resources/Sound/gameBGM.wav");
+	gameBGM->SoundPlayWave(true, 1.0f);
+	shotSE = new Sound;
+	shotSE->SoundLoadWave("Resources/Sound/shot.wav");
+	finishSE = new Sound;
+	finishSE->SoundLoadWave("Resources/Sound/finish.wav");
+	getSE = new Sound;
+	getSE->SoundLoadWave("Resources/Sound/get.wav");
+	highGetSE = new Sound;
+	highGetSE->SoundLoadWave("Resources/Sound/highGet.wav");
+	superHighGetSE = new Sound;
+	superHighGetSE->SoundLoadWave("Resources/Sound/superHighGet.wav");
+	missSE = new Sound;
+	missSE->SoundLoadWave("Resources/Sound/miss.wav");
+
 	//各変数の初期化
 	score_ = 0;
 	for (int i = 0; i < 6; i++) {
@@ -188,6 +222,7 @@ void GamePlayScene::Initialize()
 	isWait_ = false;
 	isFinish_ = false;
 	waitTimer_ = 0;
+	finishTimer_ = 0;
 	isGetGold = false;
 	goldTime = 0;
 	for (int i = 0; i < 10; i++) {
@@ -204,10 +239,16 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
-	if (isFinish_ == true) 
+	if (isFinish_ == true)
 	{
-		// ゲームプレイシーン（次シーン）を生成
-		GameSceneManager::GetInstance()->ChangeScene("CLEAR");
+		finishTimer_++;
+		if (finishTimer_ >= 180)
+		{
+			// ゲームプレイシーン（次シーン）を生成
+			GameSceneManager::GetInstance()->ChangeScene("CLEAR");
+			gameBGM->StopWave();
+			finishTimer_ = 0;
+		}
 	}
 	Vector3 cur = input->GetMousePos();
 	cross->SetPosition({ cur.x - 24,cur.y - 24,0 });
@@ -287,6 +328,11 @@ void GamePlayScene::Update()
 
 	//パーティクル更新
 	pm_dmg->Update();
+	pmEffect01->Update();
+	pmEffect02->Update();
+	pmEffect03->Update();
+	pmEffect04->Update();
+
 	if (isGetGold == true) {
 		XMFLOAT3 g = getGold->GetPosition();
 		g.y -= 0.5f;
@@ -411,6 +457,10 @@ void GamePlayScene::Draw()
 	ParticleManager::PreDraw(dxCommon->GetCommandList());
 
 	pm_dmg->Draw();
+	pmEffect01->Draw();
+	pmEffect02->Draw();
+	pmEffect03->Draw();
+	pmEffect04->Draw();
 
 	//エフェクト描画後処理
 	ParticleManager::PostDraw();
@@ -476,6 +526,7 @@ void GamePlayScene::Shot()
 {
 	bool isHit = false;
 	if (input->TriggerMouseLeft()) {
+		shotSE->SoundPlayWave(false, 1.0f);
 		Vector3 cur = input->GetMousePos();
 		for (const std::unique_ptr<Enemy>& enemy01 : enemys_01) {
 			Vector3 epos = GetWorldToScreenPos(enemy01->GetPosition(), viewProjection);
@@ -483,6 +534,7 @@ void GamePlayScene::Shot()
 			{
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy01->SetIsDead(true);
+					getSE->SoundPlayWave(false, 1.0f);
 					score_ += 10;
 					for (int i = 0; i < 10; i++) {
 						if (isGetNormal[i] == false) {
@@ -494,6 +546,11 @@ void GamePlayScene::Shot()
 					isHit = true;
 				}
 			}
+			// 敵撃破時のエフェクト
+			if (enemy01->GetIsDead() == true) {
+				XMFLOAT3 ePos01 = { enemy01->GetPosition().x * 2.5f, enemy01->GetPosition().y * 2.5f,enemy01->GetPosition().z };
+				pmEffect01->Fire(pEffect01, 20, ePos01, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
 			Vector3 epos = GetWorldToScreenPos(enemy02->GetPosition(), viewProjection);
@@ -501,6 +558,7 @@ void GamePlayScene::Shot()
 			{
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy02->SetIsDead(true);
+					highGetSE->SoundPlayWave(false, 1.0f);
 					score_ += 50;
 					for (int i = 0; i < 5; i++) {
 						if (isGetRed[i] == false) {
@@ -512,6 +570,11 @@ void GamePlayScene::Shot()
 					isHit = true;
 				}
 			}
+			// 敵撃破時のエフェクト
+			if (enemy02->GetIsDead() == true) {
+				XMFLOAT3 ePos02 = { enemy02->GetPosition().x * 2.5f, enemy02->GetPosition().y * 2.5f, enemy02->GetPosition().z };
+				pmEffect02->Fire(pEffect02, 20, ePos02, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
 			Vector3 epos = GetWorldToScreenPos(enemy03->GetPosition(), viewProjection);
@@ -519,28 +582,40 @@ void GamePlayScene::Shot()
 			{
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy03->SetIsDead(true);
+					missSE->SoundPlayWave(false, 1.0f);
 					score_ -= 30;
 					for (int i = 0; i < 5; i++) {
 						if (isGetBlue[i] == false) {
 							isGetBlue[i] = true;
-							getBlue[i]->SetPosition({ epos.x - 36,epos.y -24,0 });
+							getBlue[i]->SetPosition({ epos.x - 36,epos.y - 24,0 });
 							break;
 						}
 					}
 					isHit = true;
 				}
 			}
+			// 敵撃破時のエフェクト
+			if (enemy03->GetIsDead() == true) {
+				XMFLOAT3 ePos03 = { enemy03->GetPosition().x * 2.5f, enemy03->GetPosition().y * 2.5f,enemy03->GetPosition().z };
+				pmEffect03->Fire(pEffect03, 20, ePos03, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy04 : enemys_04) {
 			Vector3 epos = GetWorldToScreenPos(enemy04->GetPosition(), viewProjection);
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(70, 2)) {
 				enemy04->SetIsDead(true);
+				superHighGetSE->SoundPlayWave(false, 1.0f);
 				score_ += 1000;
 				if (isGetGold == false) {
 					isGetGold = true;
 					getGold->SetPosition({ epos.x - 64,epos.y - 24,0 });
 				}
 				isHit = true;
+			}
+			// 敵撃破時のエフェクト
+			if (enemy04->GetIsDead() == true) {
+				XMFLOAT3 ePos04 = { enemy04->GetPosition().x * 2.5f, enemy04->GetPosition().y * 2.5f, enemy04->GetPosition().z };
+				pmEffect04->Fire(pEffect04, 20, ePos04, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
 			}
 		}
 	}
@@ -761,7 +836,8 @@ void GamePlayScene::UpdateEnemyPop()
 
 		else if (key == "FINISH")
 		{
-		isFinish_ = true;
+			finishSE->SoundPlayWave(false, 1.0f);
+			isFinish_ = true;
 		}
 	}
 }

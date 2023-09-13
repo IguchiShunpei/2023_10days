@@ -4,6 +4,8 @@ using namespace DirectX;
 
 GameTitleScene::GameTitleScene()
 {
+	// サウンドの静的初期化
+	Sound::StaticInitialize();
 }
 
 GameTitleScene::~GameTitleScene()
@@ -31,7 +33,7 @@ void GameTitleScene::Initialize()
 
 	// サウンドの初期化
 	titleBGM = new Sound;
-	titleBGM->SoundLoadWave("Resources/Sound/TitleBGM.wav");
+	titleBGM->SoundLoadWave("Resources/Sound/titleBGM.wav");
 	titleBGM->SoundPlayWave(true, 1.0f);
 
 	for (int i = 0; i < 120; i++) {
@@ -74,7 +76,10 @@ void GameTitleScene::Update()
 {
 	// シーンの切り替え
 	if (input_->TriggerMouseLeft() == true) {
-		isNext = true;
+		// ゲームプレイシーン（次シーン）を生成
+		GameSceneManager::GetInstance()->ChangeScene("GAMEPLAY");
+		startSE->SoundPlayWave(false, 1.0f);
+		titleBGM->StopWave();
 	}
 
 	//天球
@@ -144,6 +149,5 @@ void GameTitleScene::Draw()
 
 void GameTitleScene::Finalize()
 {
-	// サウンドの解放
-	delete titleBGM;
+	
 }

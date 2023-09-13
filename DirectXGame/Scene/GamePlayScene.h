@@ -13,6 +13,7 @@
 #include "LevelLoader.h"
 #include "Meteor.h"
 #include "Enemy.h"
+#include "Sound.h"
 
 #include<cassert>
 #include<vector>
@@ -119,6 +120,14 @@ private://メンバ変数
 	//パーティクル
 	Particle* p_dmg = nullptr;
 	ParticleManager* pm_dmg = nullptr;
+	Particle* pEffect01 = nullptr;
+	Particle* pEffect02 = nullptr;
+	Particle* pEffect03 = nullptr;
+	Particle* pEffect04 = nullptr;
+	ParticleManager* pmEffect01 = nullptr;
+	ParticleManager* pmEffect02 = nullptr;
+	ParticleManager* pmEffect03 = nullptr;
+	ParticleManager* pmEffect04 = nullptr;
 	Sprite* cross = nullptr;
 	Sprite* onesPlace[10];
 	Sprite* tensPlace[10];
@@ -130,6 +139,16 @@ private://メンバ変数
 	Sprite* getNormal[10];
 	Sprite* getRed[5];
 	Sprite* getBlue[5];
+
+	//Sound
+	Sound* gameBGM = nullptr;
+	Sound* finishSE = nullptr;
+	Sound* shotSE = nullptr;
+	Sound* getSE = nullptr;
+	Sound* highGetSE = nullptr;
+	Sound* superHighGetSE = nullptr;
+	Sound* missSE = nullptr;
+
 	//得点演出管理
 	bool isGetGold;
 	bool isGetNormal[10];
@@ -165,4 +184,5 @@ private://メンバ変数
 	//タイマー
 	//敵を発生させるときの待機時間
 	int waitTimer_;
+	int finishTimer_;
 };
