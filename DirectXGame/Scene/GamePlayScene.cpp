@@ -325,11 +325,6 @@ void GamePlayScene::Update()
 		enemys04->ColliderUpdate();
 	}
 
-	//for (auto& object : meteorObjects)
-	//{
-	//	object->MeteorUpdate();
-	//}
-
 	//パーティクル更新
 	pm_dmg->Update();
 	pmEffect01->Update();
@@ -439,10 +434,6 @@ void GamePlayScene::Draw()
 
 	sky->Draw(viewProjection);
 
-	/*for (auto& object : meteorObjects)
-	{
-		object->Draw(viewProjection);
-	}*/
 	//敵キャラの描画
 	for (const std::unique_ptr<Enemy>& enemy01 : enemys_01) {
 		enemy01->Draw(viewProjection);
