@@ -59,4 +59,6 @@ private: // ƒƒ“ƒo•Ï”
 
 	//Sound
 	Sound* titleBGM = nullptr;
+	Sound* startSE = nullptr;
+	Sound* shotSE = nullptr;
 };

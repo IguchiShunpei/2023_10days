@@ -11,6 +11,7 @@ using namespace std;
 
 GamePlayScene::GamePlayScene()
 {
+
 }
 
 GamePlayScene::~GamePlayScene()
@@ -118,12 +119,12 @@ void GamePlayScene::Initialize()
 		getRed[i] = new Sprite;
 		getRed[i]->Initialize(dxCommon);
 		getRed[i]->LoadTexture(0, L"Resources/p50.png", dxCommon);
-		getRed[i]->SetScale({ 0.72f * 1.3f,0.48f * 1.3f});
+		getRed[i]->SetScale({ 0.72f * 1.3f,0.48f * 1.3f });
 		//blue
 		getBlue[i] = new Sprite;
 		getBlue[i]->Initialize(dxCommon);
 		getBlue[i]->LoadTexture(0, L"Resources/m30.png", dxCommon);
-		getBlue[i]->SetScale({ 0.72f *1.3f,0.48f * 1.3f});
+		getBlue[i]->SetScale({ 0.72f * 1.3f,0.48f * 1.3f });
 	}
 
 	// レベルデータの読み込み
@@ -179,6 +180,23 @@ void GamePlayScene::Initialize()
 		meteorObjects.push_back(objMeteor);
 	}
 
+	// サウンドの初期化
+	gameBGM = new Sound;
+	gameBGM->SoundLoadWave("Resources/Sound/gameBGM.wav");
+	gameBGM->SoundPlayWave(true, 1.0f);
+	shotSE = new Sound;
+	shotSE->SoundLoadWave("Resources/Sound/shot.wav");
+	finishSE = new Sound;
+	finishSE->SoundLoadWave("Resources/Sound/finish.wav");
+	getSE = new Sound;
+	getSE->SoundLoadWave("Resources/Sound/get.wav");
+	highGetSE = new Sound;
+	highGetSE->SoundLoadWave("Resources/Sound/highGet.wav");
+	superHighGetSE = new Sound;
+	superHighGetSE->SoundLoadWave("Resources/Sound/superHighGet.wav");
+	missSE = new Sound;
+	missSE->SoundLoadWave("Resources/Sound/miss.wav");
+
 	//各変数の初期化
 	score_ = 0;
 	for (int i = 0; i < 6; i++) {
@@ -188,6 +206,7 @@ void GamePlayScene::Initialize()
 	isWait_ = false;
 	isFinish_ = false;
 	waitTimer_ = 0;
+	finishTimer_ = 0;
 	isGetGold = false;
 	goldTime = 0;
 	for (int i = 0; i < 10; i++) {
@@ -204,10 +223,16 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
-	if (isFinish_ == true) 
+	if (isFinish_ == true)
 	{
-		// ゲームプレイシーン（次シーン）を生成
-		GameSceneManager::GetInstance()->ChangeScene("CLEAR");
+		finishTimer_++;
+		if (finishTimer_ >= 180)
+		{
+			// ゲームプレイシーン（次シーン）を生成
+			GameSceneManager::GetInstance()->ChangeScene("CLEAR");
+			gameBGM->StopWave();
+			finishTimer_ = 0;
+		}
 	}
 	Vector3 cur = input->GetMousePos();
 	cross->SetPosition({ cur.x - 24,cur.y - 24,0 });
@@ -476,6 +501,7 @@ void GamePlayScene::Shot()
 {
 	bool isHit = false;
 	if (input->TriggerMouseLeft()) {
+		shotSE->SoundPlayWave(false, 1.0f);
 		Vector3 cur = input->GetMousePos();
 		for (const std::unique_ptr<Enemy>& enemy01 : enemys_01) {
 			Vector3 epos = GetWorldToScreenPos(enemy01->GetPosition(), viewProjection);
@@ -483,6 +509,7 @@ void GamePlayScene::Shot()
 			{
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy01->SetIsDead(true);
+					getSE->SoundPlayWave(false, 1.0f);
 					score_ += 10;
 					for (int i = 0; i < 10; i++) {
 						if (isGetNormal[i] == false) {
@@ -501,6 +528,7 @@ void GamePlayScene::Shot()
 			{
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy02->SetIsDead(true);
+					highGetSE->SoundPlayWave(false, 1.0f);
 					score_ += 50;
 					for (int i = 0; i < 5; i++) {
 						if (isGetRed[i] == false) {
@@ -519,11 +547,12 @@ void GamePlayScene::Shot()
 			{
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy03->SetIsDead(true);
+					missSE->SoundPlayWave(false, 1.0f);
 					score_ -= 30;
 					for (int i = 0; i < 5; i++) {
 						if (isGetBlue[i] == false) {
 							isGetBlue[i] = true;
-							getBlue[i]->SetPosition({ epos.x - 36,epos.y -24,0 });
+							getBlue[i]->SetPosition({ epos.x - 36,epos.y - 24,0 });
 							break;
 						}
 					}
@@ -535,6 +564,7 @@ void GamePlayScene::Shot()
 			Vector3 epos = GetWorldToScreenPos(enemy04->GetPosition(), viewProjection);
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(70, 2)) {
 				enemy04->SetIsDead(true);
+				superHighGetSE->SoundPlayWave(false, 1.0f);
 				score_ += 1000;
 				if (isGetGold == false) {
 					isGetGold = true;
@@ -761,7 +791,8 @@ void GamePlayScene::UpdateEnemyPop()
 
 		else if (key == "FINISH")
 		{
-		isFinish_ = true;
+			finishSE->SoundPlayWave(false, 1.0f);
+			isFinish_ = true;
 		}
 	}
 }
