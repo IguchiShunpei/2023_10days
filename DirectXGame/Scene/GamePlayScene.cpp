@@ -78,7 +78,13 @@ void GamePlayScene::Initialize()
 	finish->Initialize(dxCommon);
 	finish->LoadTexture(0, L"Resources/finish.png", dxCommon);
 	finish->SetScale({ 6,1.5f });
-	finish->SetPosition({ 350,0,0});
+	finish->SetPosition({ 500,0,0 });
+
+	click = new Sprite;
+	click->Initialize(dxCommon);
+	click->LoadTexture(0, L"Resources/click.png", dxCommon);
+	click->SetScale({ 3,1 });
+	click->SetPosition({ 350,700,0 });
 
 	//number
 	const wchar_t* pathname = L"Resources/numbers/";
@@ -221,6 +227,8 @@ void GamePlayScene::Initialize()
 	goldTime = 0;
 	logoY = 0;
 	logoTime_ = 0.0f;
+	isStart_ = false;
+	isUp = false;
 	for (int i = 0; i < 10; i++) {
 		isGetNormal[i] = false;
 		normalTime[i] = 0;
@@ -240,6 +248,7 @@ void GamePlayScene::Update()
 	cross->Update();
 
 	finish->Update();
+	click->Update();
 
 	if (isPlayable == false) {
 		for (int i = 0; i < 10; i++) {
@@ -258,6 +267,8 @@ void GamePlayScene::Update()
 						isShow2[i * 12 + j] = false;
 						if (i == 9 && j == 11) {
 							isPlayable = true;
+							isStart_ = true;
+							isUp = true;
 						}
 						break;
 					}
@@ -266,7 +277,41 @@ void GamePlayScene::Update()
 		}
 
 	}
-	else {
+	else
+	{
+		if (isStart_ == true)
+		{
+			clickTime_++;
+			if (isUp == true)
+			{
+				logoY = -200.0f * MathFunc::easeOutSine(logoTime_ / 30.0f);
+				logoTime_++;
+				if (logoTime_ >= 30)
+				{
+					logoY = -200.0f;
+				}
+				click->SetPosition({ 500,700 + logoY,0 });
+			}
+			else
+			{
+				logoY = 200.0f * MathFunc::easeOutSine(logoTime_ / 30.0f);
+				logoTime_++;
+				if (logoTime_ >= 30)
+				{
+					logoY = 700.0f;
+					logoTime_ = 0;
+					isStart_ = false;
+				}
+				click->SetPosition({ 500,500 + logoY,0 });
+			}
+			if (clickTime_ >= 600)
+			{
+				isUp = false;
+				logoTime_ = 0;
+				clickTime_ = 0;
+			}
+		}
+
 		if (isFinish_ == true)
 		{
 			finishTimer_++;
@@ -284,7 +329,6 @@ void GamePlayScene::Update()
 				finishTimer_ = 0;
 			}
 		}
-
 		finish->SetPosition({ 350,logoY,0 });
 
 		//デスフラグの立った敵を削除
@@ -497,6 +541,12 @@ void GamePlayScene::Draw()
 	ParticleManager::PostDraw();
 	cross->SetTextureCommands(0, dxCommon);
 	cross->Draw(dxCommon);
+	if (isStart_ == true)
+	{
+		click->SetTextureCommands(0, dxCommon);
+		click->Draw(dxCommon);
+	}
+
 	if (isFinish_ == true)
 	{
 		finish->SetTextureCommands(0, dxCommon);
