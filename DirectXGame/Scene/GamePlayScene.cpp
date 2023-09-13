@@ -597,6 +597,14 @@ void GamePlayScene::Finalize()
 	}
 	delete p_dmg;
 	delete pm_dmg;
+	delete pEffect01;
+	delete pEffect02;
+	delete pEffect03;
+	delete pEffect04;
+	delete pmEffect01;
+	delete pmEffect02;
+	delete pmEffect03;
+	delete pmEffect04;
 
 	//ƒJƒƒ‰‰ğ•ú
 	delete viewProjection;
