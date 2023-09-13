@@ -137,7 +137,7 @@ void GamePlayScene::Initialize()
 		hundredthousandPlace[i]->SetScale({ 0.5f,1.0f });
 	}
 	//“¾“_—p‰æ‘œ
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 5; i++) {
 		getGold[i] = new Sprite;
 		getGold[i]->Initialize(dxCommon);
 		getGold[i]->LoadTexture(0, L"Resources/p1000.png", dxCommon);
@@ -184,14 +184,14 @@ void GamePlayScene::Initialize()
 		getNormal[i] = new Sprite;
 		getNormal[i]->Initialize(dxCommon);
 		getNormal[i]->LoadTexture(0, L"Resources/p10.png", dxCommon);
-		getNormal[i]->SetScale({ 0.72f * 1.2f,0.48f * 1.2f });
+		getNormal[i]->SetScale({ 1.04f * 1.2f,0.48f * 1.2f });
 	}
 	for (int i = 0; i < 5; i++) {
 		//red
 		getRed[i] = new Sprite;
 		getRed[i]->Initialize(dxCommon);
 		getRed[i]->LoadTexture(0, L"Resources/p50.png", dxCommon);
-		getRed[i]->SetScale({ 0.72f * 1.3f,0.48f * 1.3f });
+		getRed[i]->SetScale({ 1.04f * 1.3f,0.48f * 1.3f });
 		//blue
 		getBlue[i] = new Sprite;
 		getBlue[i]->Initialize(dxCommon);
@@ -225,7 +225,7 @@ void GamePlayScene::Initialize()
 	isFinish_ = false;
 	waitTimer_ = 0;
 	finishTimer_ = 0;
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 5; i++) {
 		isGetGold[i] = false;
 		goldTime[i] = 0;
 	}
@@ -406,7 +406,7 @@ void GamePlayScene::Update()
 		pmEffect04->Update();
 	}
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 5; i++) {
 		if (isGetGold[i] == true) {
 			XMFLOAT3 g = getGold[i]->GetPosition();
 			g.y -= 0.5f;
@@ -558,7 +558,7 @@ void GamePlayScene::Draw()
 		finish->SetTextureCommands(0, dxCommon);
 		finish->Draw(dxCommon);
 	}
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 5; i++) {
 		getGold[i]->SetTextureCommands(0, dxCommon);
 		if (isGetGold[i] == true) {
 			getGold[i]->Draw(dxCommon);
@@ -656,11 +656,11 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy01->SetIsDead(true);
 					getSE->SoundPlayWave(false, 1.0f);
-					SetScore(GetScore() + 10);
+					SetScore(GetScore() + 100);
 					for (int i = 0; i < 10; i++) {
 						if (isGetNormal[i] == false) {
 							isGetNormal[i] = true;
-							getNormal[i]->SetPosition({ epos.x - 36,epos.y - 24,0 });
+							getNormal[i]->SetPosition({ epos.x - 52,epos.y - 24,0 });
 							break;
 						}
 					}
@@ -680,11 +680,11 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy02->SetIsDead(true);
 					highGetSE->SoundPlayWave(false, 0.5f);
-					SetScore(GetScore() + 50);
+					SetScore(GetScore() + 500);
 					for (int i = 0; i < 5; i++) {
 						if (isGetRed[i] == false) {
 							isGetRed[i] = true;
-							getRed[i]->SetPosition({ epos.x - 36,epos.y - 24,0 });
+							getRed[i]->SetPosition({ epos.x - 52,epos.y - 24,0 });
 							break;
 						}
 					}
@@ -732,8 +732,8 @@ void GamePlayScene::Shot()
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(70, 2)) {
 				enemy04->SetIsDead(true);
 				superHighGetSE->SoundPlayWave(false, 0.5f);
-				SetScore(GetScore() + 1000);
-				for (int i = 0; i < 3; i++) {
+				SetScore(GetScore() + 2000);
+				for (int i = 0; i < 5; i++) {
 					if (isGetGold[i] == false) {
 						isGetGold[i] = true;
 						getGold[i]->SetPosition({epos.x - 64,epos.y - 24,0});
