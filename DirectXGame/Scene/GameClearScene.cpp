@@ -243,9 +243,6 @@ void GameClearScene::Draw()
 
 	Object3d::PostDraw();
 
-	cross->SetTextureCommands(0, dxCommon);
-	cross->Draw(dxCommon);
-
 	scoreGraph->SetTextureCommands(0, dxCommon);
 	scoreGraph->Draw(dxCommon);
 
@@ -272,6 +269,9 @@ void GameClearScene::Draw()
 		click01->SetTextureCommands(0, dxCommon);
 		click01->Draw(dxCommon);
 	}
+
+	cross->SetTextureCommands(0, dxCommon);
+	cross->Draw(dxCommon);
 
 	// •`‰æŒãˆ—
 	dxCommon->PostDraw();

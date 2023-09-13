@@ -139,7 +139,7 @@ private://メンバ変数
 	Sprite* thousandPlace[10];
 	Sprite* tenthousandPlace[10];
 	Sprite* hundredthousandPlace[10];
-	Sprite* getGold = nullptr;
+	Sprite* getGold[3];
 	Sprite* getNormal[10];
 	Sprite* getRed[5];
 	Sprite* getBlue[5];
@@ -161,11 +161,11 @@ private://メンバ変数
 	PostEffect* postEffect = nullptr;
 
 	//得点演出管理
-	bool isGetGold;
+	bool isGetGold[3];
 	bool isGetNormal[10];
 	bool isGetBlue[5];
 	bool isGetRed[5];
-	int goldTime;
+	int goldTime[3];
 	int normalTime[10];
 	int redTime[5];
 	int blueTime[5];

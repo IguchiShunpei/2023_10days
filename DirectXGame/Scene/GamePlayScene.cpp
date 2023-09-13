@@ -131,10 +131,12 @@ void GamePlayScene::Initialize()
 		hundredthousandPlace[i]->SetScale({ 0.5f,1.0f });
 	}
 	//得点用画像
-	getGold = new Sprite;
-	getGold->Initialize(dxCommon);
-	getGold->LoadTexture(0, L"Resources/p1000.png", dxCommon);
-	getGold->SetScale({ 1.28f * 1.5f,0.48f * 1.5f });
+	for (int i = 0; i < 3; i++) {
+		getGold[i] = new Sprite;
+		getGold[i]->Initialize(dxCommon);
+		getGold[i]->LoadTexture(0, L"Resources/p1000.png", dxCommon);
+		getGold[i]->SetScale({ 1.28f * 1.5f,0.48f * 1.5f });
+	}
 
 	//シーン切り替え
 	for (int i = 0; i < 120; i++) {
@@ -217,8 +219,10 @@ void GamePlayScene::Initialize()
 	isFinish_ = false;
 	waitTimer_ = 0;
 	finishTimer_ = 0;
-	isGetGold = false;
-	goldTime = 0;
+	for (int i = 0; i < 3; i++) {
+		isGetGold[i] = false;
+		goldTime[i] = 0;
+	}
 	logoY = 0;
 	logoTime_ = 0.0f;
 	for (int i = 0; i < 10; i++) {
@@ -358,15 +362,17 @@ void GamePlayScene::Update()
 		pmEffect04->Update();
 	}
 
-	if (isGetGold == true) {
-		XMFLOAT3 g = getGold->GetPosition();
-		g.y -= 0.5f;
-		getGold->SetPosition(g);
-		getGold->Update();
-		goldTime++;
-		if (goldTime == 50) {
-			isGetGold = false;
-			goldTime = 0;
+	for (int i = 0; i < 3; i++) {
+		if (isGetGold[i] == true) {
+			XMFLOAT3 g = getGold[i]->GetPosition();
+			g.y -= 0.5f;
+			getGold[i]->SetPosition(g);
+			getGold[i]->Update();
+			goldTime[i]++;
+			if (goldTime[i] == 50) {
+				isGetGold[i] = false;
+				goldTime[i] = 0;
+			}
 		}
 	}
 	for (int i = 0; i < 10; i++) {
@@ -502,9 +508,11 @@ void GamePlayScene::Draw()
 		finish->SetTextureCommands(0, dxCommon);
 		finish->Draw(dxCommon);
 	}
-	getGold->SetTextureCommands(0, dxCommon);
-	if (isGetGold == true) {
-		getGold->Draw(dxCommon);
+	for (int i = 0; i < 3; i++) {
+		getGold[i]->SetTextureCommands(0, dxCommon);
+		if (isGetGold[i] == true) {
+			getGold[i]->Draw(dxCommon);
+		}
 	}
 	for (int i = 0; i < 10; i++) {
 		getNormal[i]->SetTextureCommands(i, dxCommon);
@@ -670,9 +678,12 @@ void GamePlayScene::Shot()
 				enemy04->SetIsDead(true);
 				superHighGetSE->SoundPlayWave(false, 1.0f);
 				SetScore(GetScore() + 1000);
-				if (isGetGold == false) {
-					isGetGold = true;
-					getGold->SetPosition({ epos.x - 64,epos.y - 24,0 });
+				for (int i = 0; i < 3; i++) {
+					if (isGetGold[i] == false) {
+						isGetGold[i] = true;
+						getGold[i]->SetPosition({epos.x - 64,epos.y - 24,0});
+						break;
+					}
 				}
 				isHit = true;
 			}
