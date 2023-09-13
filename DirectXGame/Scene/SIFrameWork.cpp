@@ -23,6 +23,8 @@ void SIFrameWork::Initialize()
 	ParticleManager::StaticInitialize(dxCommon->GetDevice());
 	// ビュープロジェクションの初期化
 	ViewProjection::StaticInitialize(dxCommon->GetDevice());
+	// サウンドの静的初期化
+	Sound::StaticInitialize();
 }
 
 void SIFrameWork::Finalize()

@@ -197,7 +197,7 @@
     <ClCompile Include="DirectXGame\Scene\Game.cpp" />
     <ClCompile Include="DirectXGame\Scene\SceneFactory.cpp" />
     <ClCompile Include="DirectXGame\Scene\SIFrameWork.cpp" />
-    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="DirectXGame\Sound\Sound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -341,7 +341,7 @@
     <ClInclude Include="DirectXGame\Scene\Game.h" />
     <ClInclude Include="DirectXGame\Scene\SceneFactory.h" />
     <ClInclude Include="DirectXGame\Scene\SIFrameWork.h" />
-    <ClInclude Include="Sound.h" />
+    <ClInclude Include="DirectXGame\Sound\Sound.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

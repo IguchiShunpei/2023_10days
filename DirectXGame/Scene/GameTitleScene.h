@@ -8,6 +8,7 @@
 #include "GamePlayScene.h"
 #include "SkyDome.h"
 #include "viewProjection.h"
+#include "Sound.h"
 
 #include <DirectXMath.h>
 
@@ -56,4 +57,6 @@ private: // メンバ変数
 	//カーソル
 	Sprite* cross = nullptr;
 
+	//Sound
+	Sound* titleBGM = nullptr;
 };

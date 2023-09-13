@@ -28,6 +28,11 @@ void GameTitleScene::Initialize()
 	cross->Initialize(dxCommon_);
 	cross->LoadTexture(0, L"Resources/cross.png", dxCommon_);
 	cross->SetScale({ 0.5,0.5 });
+
+	// サウンドの初期化
+	titleBGM = new Sound;
+	titleBGM->SoundLoadWave("Resources/Sound/TitleBGM.wav");
+	titleBGM->SoundPlayWave(true, 1.0f);
 }
 
 void GameTitleScene::Update()
@@ -36,6 +41,7 @@ void GameTitleScene::Update()
 	if (input_->TriggerMouseLeft() == true) {
 		// ゲームプレイシーン（次シーン）を生成
 		GameSceneManager::GetInstance()->ChangeScene("GAMEPLAY");
+		titleBGM->StopWave();
 	}
 
 	//天球
@@ -62,5 +68,6 @@ void GameTitleScene::Draw()
 
 void GameTitleScene::Finalize()
 {
-	
+	// サウンドの解放
+	delete titleBGM;
 }

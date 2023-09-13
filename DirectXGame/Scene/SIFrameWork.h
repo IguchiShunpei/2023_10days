@@ -11,6 +11,7 @@
 #include "AbstractSceneFactory.h"
 #include "GameSceneManager.h"
 #include "PostEffect.h"
+#include  "Sound.h"
 
 class SIFrameWork
 {
