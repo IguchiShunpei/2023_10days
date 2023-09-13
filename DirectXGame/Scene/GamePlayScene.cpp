@@ -127,6 +127,42 @@ void GamePlayScene::Initialize()
 	getGold->Initialize(dxCommon);
 	getGold->LoadTexture(0, L"Resources/p1000.png", dxCommon);
 	getGold->SetScale({ 1.28f * 1.5f,0.48f * 1.5f });
+
+	//シーン切り替え
+	for (int i = 0; i < 120; i++) {
+		sceneEffect1[i] = new Sprite;
+		sceneEffect2[i] = new Sprite;
+
+		sceneEffect1[i]->Initialize(dxCommon);
+		sceneEffect2[i]->Initialize(dxCommon);
+
+		sceneEffect1[i]->LoadTexture(0, L"Resources/black.png", dxCommon);
+		sceneEffect2[i]->LoadTexture(0, L"Resources/black.png", dxCommon);
+
+		sceneEffect1[i]->SetScale({ 0.64f,0.6f });
+		sceneEffect2[i]->SetScale({ 0.64f,0.6f });
+		isShow1[i] = true;
+		isShow2[i] = true;
+
+	}
+	int num = 0;
+	for (int j = 0; j < 12; j++) {
+		for (int n = 0; n < 10; n++) {
+			float posx = 0.0f;
+			float posx2 = 64.0f;
+			if (j % 2 == 1) {
+				posx = 64.0f;
+				posx2 = 0.0f;
+			}
+			float posy = j * 60.0f;
+			//配置
+			sceneEffect1[num]->SetPosition({ posx + (n * 128.0f),posy ,0.0f });
+			sceneEffect2[num]->SetPosition({ posx2 + (n * 128.0f),posy ,0.0f });
+			num++;
+		}
+	}
+	effectSwitch = false;
+	isPlayable = false;
 	//10
 	for (int i = 0; i < 10; i++) {
 		getNormal[i] = new Sprite;
@@ -243,94 +279,118 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
-	if (isFinish_ == true)
-	{
-		finishTimer_++;
-		if (finishTimer_ >= 180)
-		{
-			// ゲームプレイシーン（次シーン）を生成
-			GameSceneManager::GetInstance()->ChangeScene("CLEAR");
-			gameBGM->StopWave();
-			finishTimer_ = 0;
-		}
-	}
 	Vector3 cur = input->GetMousePos();
 	cross->SetPosition({ cur.x - 24,cur.y - 24,0 });
 	cross->Update();
 
-	//デスフラグの立った敵を削除
-	enemys_01.remove_if([](std::unique_ptr <Enemy>& enemy01)
-		{
-			return enemy01->GetIsDead();
-		});
-	enemys_01.remove_if([](std::unique_ptr <Enemy>& enemy01)
-		{
-			return enemy01->GetIsDelete();
-		});
-	enemys_02.remove_if([](std::unique_ptr <Enemy>& enemy02)
-		{
-			return enemy02->GetIsDead();
-		});
-	enemys_02.remove_if([](std::unique_ptr <Enemy>& enemy02)
-		{
-			return enemy02->GetIsDelete();
-		});
-	enemys_03.remove_if([](std::unique_ptr <Enemy>& enemy03)
-		{
-			return enemy03->GetIsDead();
-		});
-	enemys_03.remove_if([](std::unique_ptr <Enemy>& enemy03)
-		{
-			return enemy03->GetIsDelete();
-		});
-	enemys_04.remove_if([](std::unique_ptr <Enemy>& enemy04)
-		{
-			return enemy04->GetIsDead();
-		});
-	enemys_04.remove_if([](std::unique_ptr <Enemy>& enemy04)
-		{
-			return enemy04->GetIsDelete();
-		});
+	if (isPlayable == false) {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 12; j++) {
+				if (effectSwitch == false) {
+					if (isShow1[i * 12 + j] == true) {
+						isShow1[i * 12 + j] = false;
+						if (i == 9 && j == 11) {
+							effectSwitch = true;
+						}
+						break;
+					}
+				}
+				if (effectSwitch == true) {
+					if (isShow2[i * 12 + j] == true) {
+						isShow2[i * 12 + j] = false;
+						if (i == 9 && j == 11) {
+							isPlayable = true;
+						}
+						break;
+					}
+				}
+			}
+		}
 
-	//天球
-	sky->Update();
-	viewProjection->UpdateMatrix();
-
-	//敵データ
-	UpdateEnemyPop();
-
-	//射撃
-	Shot();
-
-
-	//敵
-	for (std::unique_ptr<Enemy>& enemys01 : enemys_01)
-	{
-		enemys01->Update();
-		enemys01->ColliderUpdate();
 	}
-	for (std::unique_ptr<Enemy>& enemys02 : enemys_02)
-	{
-		enemys02->Update();
-		enemys02->ColliderUpdate();
-	}
-	for (std::unique_ptr<Enemy>& enemys03 : enemys_03)
-	{
-		enemys03->Update();
-		enemys03->ColliderUpdate();
-	}
-	for (std::unique_ptr<Enemy>& enemys04 : enemys_04)
-	{
-		enemys04->Update();
-		enemys04->ColliderUpdate();
-	}
+	else {
+		if (isFinish_ == true)
+		{
+			finishTimer_++;
+			if (finishTimer_ >= 180)
+			{
+				// ゲームプレイシーン（次シーン）を生成
+				GameSceneManager::GetInstance()->ChangeScene("CLEAR");
+				gameBGM->StopWave();
+				finishTimer_ = 0;
+			}
+		}
 
-	//パーティクル更新
-	pm_dmg->Update();
-	pmEffect01->Update();
-	pmEffect02->Update();
-	pmEffect03->Update();
-	pmEffect04->Update();
+		//デスフラグの立った敵を削除
+		enemys_01.remove_if([](std::unique_ptr <Enemy>& enemy01)
+			{
+				return enemy01->GetIsDead();
+			});
+		enemys_01.remove_if([](std::unique_ptr <Enemy>& enemy01)
+			{
+				return enemy01->GetIsDelete();
+			});
+		enemys_02.remove_if([](std::unique_ptr <Enemy>& enemy02)
+			{
+				return enemy02->GetIsDead();
+			});
+		enemys_02.remove_if([](std::unique_ptr <Enemy>& enemy02)
+			{
+				return enemy02->GetIsDelete();
+			});
+		enemys_03.remove_if([](std::unique_ptr <Enemy>& enemy03)
+			{
+				return enemy03->GetIsDead();
+			});
+		enemys_03.remove_if([](std::unique_ptr <Enemy>& enemy03)
+			{
+				return enemy03->GetIsDelete();
+			});
+		enemys_04.remove_if([](std::unique_ptr <Enemy>& enemy04)
+			{
+				return enemy04->GetIsDead();
+			});
+		enemys_04.remove_if([](std::unique_ptr <Enemy>& enemy04)
+			{
+				return enemy04->GetIsDelete();
+			});
+
+		//敵データ
+		UpdateEnemyPop();
+
+		//射撃
+		Shot();
+
+
+		//敵
+		for (std::unique_ptr<Enemy>& enemys01 : enemys_01)
+		{
+			enemys01->Update();
+			enemys01->ColliderUpdate();
+		}
+		for (std::unique_ptr<Enemy>& enemys02 : enemys_02)
+		{
+			enemys02->Update();
+			enemys02->ColliderUpdate();
+		}
+		for (std::unique_ptr<Enemy>& enemys03 : enemys_03)
+		{
+			enemys03->Update();
+			enemys03->ColliderUpdate();
+		}
+		for (std::unique_ptr<Enemy>& enemys04 : enemys_04)
+		{
+			enemys04->Update();
+			enemys04->ColliderUpdate();
+		}
+
+		//パーティクル更新
+		pm_dmg->Update();
+		pmEffect01->Update();
+		pmEffect02->Update();
+		pmEffect03->Update();
+		pmEffect04->Update();
+	}
 
 	if (isGetGold == true) {
 		XMFLOAT3 g = getGold->GetPosition();
@@ -380,6 +440,9 @@ void GamePlayScene::Update()
 			}
 		}
 	}
+	//天球
+	sky->Update();
+	viewProjection->UpdateMatrix();
 
 	//スコア更新
 	XMFLOAT3 one = onesPlace[scores[0]]->GetPosition();
@@ -420,6 +483,11 @@ void GamePlayScene::Update()
 	hundredthousandPlace[scores[5]]->Update();
 	for (int i = 0; i < 6; i++) {
 		oldScores[i] = scores[i];
+	}
+	//シーン切り替え
+	for (int i = 0; i < 120; i++) {
+		sceneEffect1[i]->Update();
+		sceneEffect2[i]->Update();
 	}
 }
 
@@ -496,6 +564,17 @@ void GamePlayScene::Draw()
 	tenthousandPlace[scores[4]]->Draw(dxCommon);
 	hundredthousandPlace[scores[5]]->SetTextureCommands(0, dxCommon);
 	hundredthousandPlace[scores[5]]->Draw(dxCommon);
+	//シーンチェンジ
+	for (int i = 0; i < 120; i++) {
+		sceneEffect1[i]->SetTextureCommands(0, dxCommon);
+		sceneEffect2[i]->SetTextureCommands(0, dxCommon);
+		if (isShow1[i] == true) {
+			sceneEffect1[i]->Draw(dxCommon);
+		}
+		if (isShow2[i] == true) {
+			sceneEffect2[i]->Draw(dxCommon);
+		}
+	}
 
 #pragma endregion 最初のシーンの描画
 

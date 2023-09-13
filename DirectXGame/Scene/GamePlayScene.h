@@ -165,6 +165,16 @@ private://メンバ変数
 	int redTime[5];
 	int blueTime[5];
 
+	//シーン切り替え
+	Sprite* sceneEffect1[120];
+	Sprite* sceneEffect2[120];
+	int effectTime;
+	bool isShow1[120];
+	bool isShow2[120];
+	bool effectSwitch;
+	bool isPlayable;
+
+
 	//背景オブジェクト
 	Meteor* objMeteor = nullptr;
 	Model* modelMeteor = nullptr;
