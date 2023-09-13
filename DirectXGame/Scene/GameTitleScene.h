@@ -56,6 +56,9 @@ private: // メンバ変数
 
 	//カーソル
 	Sprite* cross = nullptr;
+	//ロゴやUI
+	Sprite* titleLogo = nullptr;
+	Sprite* click = nullptr;
 
 	//Sound
 	Sound* titleBGM = nullptr;

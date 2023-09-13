@@ -131,6 +131,8 @@ private://ƒƒ“ƒo•Ï”
 	Sprite* getNormal[10];
 	Sprite* getRed[5];
 	Sprite* getBlue[5];
+	//ƒƒS‚âUI
+	Sprite* titleLogo = nullptr;
 
 	//Sound
 	Sound* gameBGM = nullptr;
