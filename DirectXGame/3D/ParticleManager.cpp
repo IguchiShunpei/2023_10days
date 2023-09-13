@@ -297,8 +297,8 @@ void ParticleManager::Draw()
 	particle->Draw(cmdList);
 }
 
-void ParticleManager::Fire(Particle* particle, int life, const XMFLOAT3& pos_, float setpos_x, float setpos_x1, float setpos_y, float setpos_y1, float setpos_z, float setpos_z1,
-	float setvel_x, float setvel_x1, float setvel_y, float setvel_y1, float setvel_z, float setvel_z1, float setAcc, int setNum, const XMFLOAT2& setscale)
+void ParticleManager::Fire(Particle* particle, int life, const XMFLOAT3& pos_, float setvel_x, float setvel_x1,
+	float setvel_y, float setvel_y1, float setvel_z, float setvel_z1, float setAcc, int setNum, const XMFLOAT2& setscale)
 {
 	for (int i = 0; i < setNum; i++)
 	{
@@ -321,8 +321,10 @@ void ParticleManager::Fire(Particle* particle, int life, const XMFLOAT3& pos_, f
 		vel.z = (float)rand() / RAND_MAX * setvel_z - setvel_z1 / 2.0f;
 		//d—Í‚ÉŒ©—§‚Ä‚ÄY‚Ì‚Ý{0.001f,0}‚Åƒ‰ƒ“ƒ_ƒ€‚É•ª•z
 		XMFLOAT3 acc{};
-		const float md_acc = setAcc;
-		acc.y = -(float)rand() / RAND_MAX * md_acc;
+		const float md_acc_x = 0.5f;
+		const float md_acc_y = 0.5f;
+		acc.x = (float)rand() / RAND_MAX * md_acc_x - md_acc_x / 2.0f;
+		acc.y = (float)rand() / RAND_MAX * md_acc_y - md_acc_y / 2.0f;
 
 		//’Ç‰Á
 		particle->Add(life, pos, vel, acc, setscale.x, setscale.y);

@@ -120,6 +120,14 @@ private://メンバ変数
 	//パーティクル
 	Particle* p_dmg = nullptr;
 	ParticleManager* pm_dmg = nullptr;
+	Particle* pEffect01 = nullptr;
+	Particle* pEffect02 = nullptr;
+	Particle* pEffect03 = nullptr;
+	Particle* pEffect04 = nullptr;
+	ParticleManager* pmEffect01 = nullptr;
+	ParticleManager* pmEffect02 = nullptr;
+	ParticleManager* pmEffect03 = nullptr;
+	ParticleManager* pmEffect04 = nullptr;
 	Sprite* cross = nullptr;
 	Sprite* onesPlace[10];
 	Sprite* tensPlace[10];

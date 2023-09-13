@@ -45,6 +45,22 @@ void GamePlayScene::Initialize()
 	pm_dmg = ParticleManager::Create();
 	pm_dmg->SetParticleModel(p_dmg);
 	pm_dmg->SetXMViewProjection(xmViewProjection);
+	pEffect01 = Particle::LoadParticleTexture("effect10.png");
+	pEffect02 = Particle::LoadParticleTexture("effect50.png");
+	pEffect03 = Particle::LoadParticleTexture("effect30.png");
+	pEffect04 = Particle::LoadParticleTexture("effect1000.png");
+	pmEffect01 = ParticleManager::Create();
+	pmEffect01->SetParticleModel(pEffect01);
+	pmEffect01->SetXMViewProjection(xmViewProjection);
+	pmEffect02 = ParticleManager::Create();
+	pmEffect02->SetParticleModel(pEffect02);
+	pmEffect02->SetXMViewProjection(xmViewProjection);
+	pmEffect03 = ParticleManager::Create();
+	pmEffect03->SetParticleModel(pEffect03);
+	pmEffect03->SetXMViewProjection(xmViewProjection);
+	pmEffect04 = ParticleManager::Create();
+	pmEffect04->SetParticleModel(pEffect04);
+	pmEffect04->SetXMViewProjection(xmViewProjection);
 
 	//sprite
 	cross = new Sprite;
@@ -307,6 +323,11 @@ void GamePlayScene::Update()
 
 	//パーティクル更新
 	pm_dmg->Update();
+	pmEffect01->Update();
+	pmEffect02->Update();
+	pmEffect03->Update();
+	pmEffect04->Update();
+
 	if (isGetGold == true) {
 		XMFLOAT3 g = getGold->GetPosition();
 		g.y -= 0.5f;
@@ -427,6 +448,10 @@ void GamePlayScene::Draw()
 	ParticleManager::PreDraw(dxCommon->GetCommandList());
 
 	pm_dmg->Draw();
+	pmEffect01->Draw();
+	pmEffect02->Draw();
+	pmEffect03->Draw();
+	pmEffect04->Draw();
 
 	//エフェクト描画後処理
 	ParticleManager::PostDraw();
@@ -512,6 +537,11 @@ void GamePlayScene::Shot()
 					isHit = true;
 				}
 			}
+			// 敵撃破時のエフェクト
+			if (enemy01->GetIsDead() == true) {
+				XMFLOAT3 ePos01 = { enemy01->GetPosition().x * 2.5f, enemy01->GetPosition().y * 2.5f,enemy01->GetPosition().z };
+				pmEffect01->Fire(pEffect01, 20, ePos01, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
 			Vector3 epos = GetWorldToScreenPos(enemy02->GetPosition(), viewProjection);
@@ -530,6 +560,11 @@ void GamePlayScene::Shot()
 					}
 					isHit = true;
 				}
+			}
+			// 敵撃破時のエフェクト
+			if (enemy02->GetIsDead() == true) {
+				XMFLOAT3 ePos02 = { enemy02->GetPosition().x * 2.5f, enemy02->GetPosition().y * 2.5f, enemy02->GetPosition().z };
+				pmEffect02->Fire(pEffect02, 20, ePos02, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
@@ -550,6 +585,11 @@ void GamePlayScene::Shot()
 					isHit = true;
 				}
 			}
+			// 敵撃破時のエフェクト
+			if (enemy03->GetIsDead() == true) {
+				XMFLOAT3 ePos03 = { enemy03->GetPosition().x * 2.5f, enemy03->GetPosition().y * 2.5f,enemy03->GetPosition().z };
+				pmEffect03->Fire(pEffect03, 20, ePos03, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy04 : enemys_04) {
 			Vector3 epos = GetWorldToScreenPos(enemy04->GetPosition(), viewProjection);
@@ -562,6 +602,11 @@ void GamePlayScene::Shot()
 					getGold->SetPosition({ epos.x - 64,epos.y - 24,0 });
 				}
 				isHit = true;
+			}
+			// 敵撃破時のエフェクト
+			if (enemy04->GetIsDead() == true) {
+				XMFLOAT3 ePos04 = { enemy04->GetPosition().x * 2.5f, enemy04->GetPosition().y * 2.5f, enemy04->GetPosition().z };
+				pmEffect04->Fire(pEffect04, 20, ePos04, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
 			}
 		}
 	}
