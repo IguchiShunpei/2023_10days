@@ -14,52 +14,52 @@
 
 class GameTitleScene : public GameBaseScene
 {
-public: // ãƒ¡ãƒ³ãƒé–¢æ•°
-	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+public: // ƒƒ“ƒoŠÖ”
+	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 	GameTitleScene();
 
-	// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	// ƒfƒXƒgƒ‰ƒNƒ^
 	~GameTitleScene();
 
-public: // ãƒ¡ãƒ³ãƒé–¢æ•°
+public: // ƒƒ“ƒoŠÖ”
 	/// <summary>
-	/// åˆæœŸåŒ–
+	/// ‰Šú‰»
 	/// </summary>
 	void Initialize() override;
 
 	/// <summary>
-	/// æ›´æ–°
+	/// XV
 	/// </summary>
 	void Update() override;
 
 	/// <summary>
-	/// æç”»
+	/// •`‰æ
 	/// </summary>
 	/// <param name="dXCommon"></param>
 	void Draw() override;
 
 	/// <summary>
-	/// è§£æ”¾
+	/// ‰ğ•ú
 	/// </summary>
 	void Finalize() override;
 
-private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
-	// å…¥åŠ›
+private: // ƒƒ“ƒo•Ï”
+	// “ü—Í
 	Input* input_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
 	
-	//èƒŒæ™¯
+	//”wŒi
 	SkyDome* sky;
 
-	//ã‚«ãƒ¡ãƒ©
+	//ƒJƒƒ‰
 	ViewProjection* viewProjection = nullptr;
 
-	//ã‚«ãƒ¼ã‚½ãƒ«
+	//ƒJ[ƒ\ƒ‹
 	Sprite* cross = nullptr;
-	//ãƒ­ã‚´ã‚„UI
+	//ƒƒS‚âUI
 	Sprite* titleLogo = nullptr;
 	Sprite* click = nullptr;
-	//ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆ
+	//ƒV[ƒ“Ø‚è‘Ö‚¦
 	Sprite* sceneEffect1[120];
 	Sprite* sceneEffect2[120];
 	int effectTime;

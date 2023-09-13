@@ -4,7 +4,7 @@ using namespace DirectX;
 
 GameTitleScene::GameTitleScene()
 {
-	// „Çµ„Ç¶„É≥„Éâ„ÅÆÈùôÁöÑÂàùÊúüÂåñ
+	// ÉTÉEÉìÉhÇÃê√ìIèâä˙âª
 	Sound::StaticInitialize();
 }
 
@@ -17,11 +17,11 @@ void GameTitleScene::Initialize()
 	input_ = Input::GetInstance();
 	dxCommon_ = DirectXCommon::GetInstance();
 
-	//„Ç´„É°„É©ÂàùÊúüÂåñ
+	//ÉJÉÅÉâèâä˙âª
 	viewProjection = new ViewProjection();
 	viewProjection->Initialize();
 
-	//Â§©ÁêÉ
+	//ìVãÖ
 	sky = new SkyDome;
 	sky->SkyDomeInitialize();
 
@@ -39,7 +39,7 @@ void GameTitleScene::Initialize()
 	click->LoadTexture(0, L"Resources/CLICKHERE.png", dxCommon_);
 	click->SetScale({ 4,1 });
 
-	// „Çµ„Ç¶„É≥„Éâ„ÅÆÂàùÊúüÂåñ
+	// ÉTÉEÉìÉhÇÃèâä˙âª
 	titleBGM = new Sound;
 	titleBGM->SoundLoadWave("Resources/Sound/titleBGM.wav");
 	titleBGM->SoundPlayWave(true, 1.0f);
@@ -77,7 +77,7 @@ void GameTitleScene::Initialize()
 				posx2 = 0.0f;
 			}
 			float posy = j * 60.0f;
-			//ÈÖçÁΩÆ
+			//îzíu
 			sceneEffect1[num]->SetPosition({ posx + (n * 128.0f),posy ,0.0f });
 			sceneEffect2[num]->SetPosition({ posx2 + (n * 128.0f),posy ,0.0f });
 			num++;
@@ -89,11 +89,11 @@ void GameTitleScene::Initialize()
 
 void GameTitleScene::Update()
 {
-	//Â§©ÁêÉ
+	//ìVãÖ
 	sky->Update();
 	viewProjection->UpdateMatrix();
 
-	//„Ç´„Éº„ÇΩ„É´
+	//ÉJÅ[É\Éã
 	Vector3 cur = input_->GetMousePos();
 	cross->SetPosition({ cur.x - 24,cur.y - 24,0 });
 	cross->Update();
@@ -102,19 +102,19 @@ void GameTitleScene::Update()
 		sceneEffect2[i]->Update();
 	}
 
-	//„É≠„Ç¥„ÇÑUI
+	//ÉçÉSÇ‚UI
 	titleLogo->SetPosition({ 240,10,0 });
 	titleLogo->Update();
 	click->SetPosition({ 450,520,0 });
 	click->Update();
 
-	// „Ç∑„Éº„É≥„ÅÆÂàá„ÇäÊõø„Åà
+	// ÉVÅ[ÉìÇÃêÿÇËë÷Ç¶
 	if (input_->TriggerMouseLeft() == true) {
 		if (cur.x >= click->GetPosition().x && cur.x <= click->GetPosition().x + 300)
 		{
 			if (cur.y >= click->GetPosition().y && cur.y <= click->GetPosition().y + 100)
 			{
-				// „Ç≤„Éº„É†„Éó„É¨„Ç§„Ç∑„Éº„É≥ÔºàÊ¨°„Ç∑„Éº„É≥Ôºâ„ÇíÁîüÊàê
+				// ÉQÅ[ÉÄÉvÉåÉCÉVÅ[ÉìÅiéüÉVÅ[ÉìÅjÇê∂ê¨
 				GameSceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 				startSE->SoundPlayWave(false, 1.0f);
 				titleBGM->StopWave();
@@ -127,8 +127,9 @@ void GameTitleScene::Update()
 		else
 		{
 			shotSE->SoundPlayWave(false, 1.0f);
+		}
 
-
+	}
 	if (isNext == true) {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 12; j++) {
@@ -145,7 +146,7 @@ void GameTitleScene::Update()
 					if (isShow2[i * 12 + j] == false) {
 						isShow2[i * 12 + j] = true;
 						if (i == 9 && j == 11) {
-							// „Ç≤„Éº„É†„Éó„É¨„Ç§„Ç∑„Éº„É≥ÔºàÊ¨°„Ç∑„Éº„É≥Ôºâ„ÇíÁîüÊàê
+							// ÉQÅ[ÉÄÉvÉåÉCÉVÅ[ÉìÅiéüÉVÅ[ÉìÅjÇê∂ê¨
 							GameSceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 						}
 						break;
@@ -158,7 +159,7 @@ void GameTitleScene::Update()
 
 void GameTitleScene::Draw()
 {
-	// ÔøΩ`ÔøΩÔøΩOÔøΩÔøΩÔøΩÔøΩ
+	// ï`âÊëOèàóù
 	dxCommon_->PreDraw();
 
 	Object3d::PreDraw(dxCommon_->GetCommandList());
@@ -174,7 +175,7 @@ void GameTitleScene::Draw()
 	cross->SetTextureCommands(0, dxCommon_);
 	cross->Draw(dxCommon_);
 
-	//„Ç∑„Éº„É≥„ÉÅ„Çß„É≥„Ç∏
+	//ÉVÅ[ÉìÉ`ÉFÉìÉW
 	for (int i = 0; i < 120; i++) {
 		sceneEffect1[i]->SetTextureCommands(0, dxCommon_);
 		sceneEffect2[i]->SetTextureCommands(0, dxCommon_);
@@ -186,7 +187,7 @@ void GameTitleScene::Draw()
 		}
 	}
   
-  // ÔøΩ`ÔøΩÔøΩ„èàÔøΩÔøΩ
+  // ï`âÊå„èàóù
   dxCommon_->PostDraw();
 }
 
