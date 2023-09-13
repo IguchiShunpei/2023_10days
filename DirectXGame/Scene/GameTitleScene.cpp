@@ -30,6 +30,11 @@ void GameTitleScene::Initialize()
 	cross->Initialize(dxCommon_);
 	cross->LoadTexture(0, L"Resources/cross.png", dxCommon_);
 	cross->SetScale({ 0.5,0.5 });
+	loading = new Sprite;
+	loading->Initialize(dxCommon_);
+	loading->LoadTexture(0, L"Resources/load.png", dxCommon_);
+	loading->SetScale({ 2.7f,0.48f });
+	loading->SetPosition({ 900.0f,620.0f,0.0f });
 	titleLogo = new Sprite;
 	titleLogo->Initialize(dxCommon_);
 	titleLogo->LoadTexture(0, L"Resources/TITLE.png", dxCommon_);
@@ -182,6 +187,7 @@ void GameTitleScene::Update()
 						if (i == 9 && j == 11) {
 							// ゲームプレイシーン（次シーン）を生成
 							GameSceneManager::GetInstance()->ChangeScene("GAMEPLAY");
+							loading->Update();
 						}
 						break;
 					}
@@ -226,8 +232,11 @@ void GameTitleScene::Draw()
 			sceneEffect2[i]->Draw(dxCommon_);
 		}
 	}
+	loading->SetTextureCommands(0, dxCommon_);
+	loading->Draw(dxCommon_);
+ 
+  dxCommon_->PostDraw();
 
-	dxCommon_->PostDraw();
 }
 
 void GameTitleScene::Finalize()

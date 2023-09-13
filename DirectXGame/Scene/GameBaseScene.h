@@ -33,11 +33,16 @@ public: // メンバ関数
 	/// </summary>
 	virtual void Finalize() = 0;
 
+	int GetScore() { return score_; }
+	void SetScore(int score) { score_ = score; }
+
 public: // メンバ関数
 	virtual void SetSceneManager(GameSceneManager* gSceneManager) { gSceneManager_ = gSceneManager; }
 
 private: // メンバ変数
 	// シーンマネージャ（借りてくる）
 	GameSceneManager* gSceneManager_ = nullptr;
+	//スコア
+	int score_;
 };
 

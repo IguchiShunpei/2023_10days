@@ -64,6 +64,8 @@ private: // メンバ変数
 	Sprite* sceneEffect1[120];
 	Sprite* sceneEffect2[120];
 
+	Sprite* loading = nullptr;
+
 	int effectTime;
 	bool isShow1[120];
 	bool isShow2[120];

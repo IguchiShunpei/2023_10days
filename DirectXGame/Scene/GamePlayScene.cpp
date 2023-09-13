@@ -6,6 +6,8 @@
 #include <string.h>
 #include <math.h>
 
+int GamePlayScene::score_ = 0;
+
 using namespace DirectX;
 using namespace std;
 
@@ -260,7 +262,6 @@ void GamePlayScene::Initialize()
 	missSE->SoundLoadWave("Resources/Sound/miss.wav");
 
 	//各変数の初期化
-	score_ = 0;
 	for (int i = 0; i < 6; i++) {
 		scores[i] = 0;
 		oldScores[i] = 0;
@@ -611,6 +612,14 @@ void GamePlayScene::Finalize()
 	}
 	delete p_dmg;
 	delete pm_dmg;
+	delete pEffect01;
+	delete pEffect02;
+	delete pEffect03;
+	delete pEffect04;
+	delete pmEffect01;
+	delete pmEffect02;
+	delete pmEffect03;
+	delete pmEffect04;
 
 	//カメラ解放
 	delete viewProjection;
@@ -635,7 +644,7 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy01->SetIsDead(true);
 					getSE->SoundPlayWave(false, 1.0f);
-					score_ += 10;
+					SetScore(GetScore() + 10);
 					for (int i = 0; i < 10; i++) {
 						if (isGetNormal[i] == false) {
 							isGetNormal[i] = true;
@@ -649,7 +658,7 @@ void GamePlayScene::Shot()
 			// 敵撃破時のエフェクト
 			if (enemy01->GetIsDead() == true) {
 				XMFLOAT3 ePos01 = { enemy01->GetPosition().x * 2.5f, enemy01->GetPosition().y * 2.5f,enemy01->GetPosition().z };
-				pmEffect01->Fire(pEffect01, 20, ePos01, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+				pmEffect01->Fire(pEffect01, 20, ePos01, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 50, { 0.0f, 10.0f });
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
@@ -659,7 +668,7 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy02->SetIsDead(true);
 					highGetSE->SoundPlayWave(false, 1.0f);
-					score_ += 50;
+					SetScore(GetScore() + 50);
 					for (int i = 0; i < 5; i++) {
 						if (isGetRed[i] == false) {
 							isGetRed[i] = true;
@@ -673,7 +682,7 @@ void GamePlayScene::Shot()
 			// 敵撃破時のエフェクト
 			if (enemy02->GetIsDead() == true) {
 				XMFLOAT3 ePos02 = { enemy02->GetPosition().x * 2.5f, enemy02->GetPosition().y * 2.5f, enemy02->GetPosition().z };
-				pmEffect02->Fire(pEffect02, 20, ePos02, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+				pmEffect02->Fire(pEffect02, 20, ePos02, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 50, { 0.0f, 10.0f });
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
@@ -683,7 +692,7 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy03->SetIsDead(true);
 					missSE->SoundPlayWave(false, 1.0f);
-					score_ -= 30;
+					SetScore(GetScore() - 30);
 					for (int i = 0; i < 5; i++) {
 						if (isGetBlue[i] == false) {
 							isGetBlue[i] = true;
@@ -697,7 +706,7 @@ void GamePlayScene::Shot()
 			// 敵撃破時のエフェクト
 			if (enemy03->GetIsDead() == true) {
 				XMFLOAT3 ePos03 = { enemy03->GetPosition().x * 2.5f, enemy03->GetPosition().y * 2.5f,enemy03->GetPosition().z };
-				pmEffect03->Fire(pEffect03, 20, ePos03, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+				pmEffect03->Fire(pEffect03, 20, ePos03, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 50, { 0.0f, 10.0f });
 				isBlur = true;
 			}
 		}
@@ -706,7 +715,7 @@ void GamePlayScene::Shot()
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(70, 2)) {
 				enemy04->SetIsDead(true);
 				superHighGetSE->SoundPlayWave(false, 1.0f);
-				score_ += 1000;
+				SetScore(GetScore() + 1000);
 				if (isGetGold == false) {
 					isGetGold = true;
 					getGold->SetPosition({ epos.x - 64,epos.y - 24,0 });
@@ -716,7 +725,7 @@ void GamePlayScene::Shot()
 			// 敵撃破時のエフェクト
 			if (enemy04->GetIsDead() == true) {
 				XMFLOAT3 ePos04 = { enemy04->GetPosition().x * 2.5f, enemy04->GetPosition().y * 2.5f, enemy04->GetPosition().z };
-				pmEffect04->Fire(pEffect04, 20, ePos04, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+				pmEffect04->Fire(pEffect04, 20, ePos04, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 50, { 0.0f, 10.0f });
 			}
 		}
 	}
@@ -956,8 +965,8 @@ void GamePlayScene::UpdateEnemyPop()
 }
 
 void GamePlayScene::ScoreCalc() {
-	int score = score_;
-	if (score_ >= 100000) {
+	int score = GetScore();
+	if (GetScore() >= 100000) {
 		scores[5] = score / 100000;
 		score -= scores[5] * 100000;
 		scores[4] = score / 10000;
@@ -970,7 +979,7 @@ void GamePlayScene::ScoreCalc() {
 		score -= scores[1] * 10;
 		scores[0] = score;
 	}
-	else if (score_ >= 10000) {
+	else if (GetScore() >= 10000) {
 		scores[5] = 0;
 		scores[4] = score / 10000;
 		score -= scores[4] * 10000;
@@ -982,7 +991,7 @@ void GamePlayScene::ScoreCalc() {
 		score -= scores[1] * 10;
 		scores[0] = score;
 	}
-	else if (score_ >= 1000) {
+	else if (GetScore() >= 1000) {
 		scores[5] = 0;
 		scores[4] = 0;
 		scores[3] = score / 1000;
@@ -993,7 +1002,7 @@ void GamePlayScene::ScoreCalc() {
 		score -= scores[1] * 10;
 		scores[0] = score;
 	}
-	else if (score_ >= 100) {
+	else if (GetScore() >= 100) {
 		scores[5] = 0;
 		scores[4] = 0;
 		scores[3] = 0;
@@ -1003,8 +1012,8 @@ void GamePlayScene::ScoreCalc() {
 		score -= scores[1] * 10;
 		scores[0] = score;
 	}
-	else if (score_ >= 10) {
-		if (score_ == 11) {
+	else if (GetScore() >= 10) {
+		if (GetScore() == 11) {
 			int a = 0;
 		}
 		scores[1] = score / 10;
@@ -1021,6 +1030,6 @@ void GamePlayScene::ScoreCalc() {
 		scores[3] = 0;
 		scores[2] = 0;
 		scores[1] = 0;
-		scores[0] = score_;
+		scores[0] = GetScore();
 	}
 }
