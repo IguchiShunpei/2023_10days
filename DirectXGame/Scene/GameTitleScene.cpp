@@ -186,7 +186,7 @@ void GameTitleScene::Update()
 						isShow2[i * 12 + j] = true;
 						if (i == 9 && j == 11) {
 							// ゲームプレイシーン（次シーン）を生成
-							GameSceneManager::GetInstance()->ChangeScene("GAMEPLAY");
+							GameSceneManager::GetInstance()->ChangeScene("CLEAR");
 							loading->Update();
 						}
 						break;
