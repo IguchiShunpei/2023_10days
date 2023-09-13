@@ -50,8 +50,8 @@ void Enemy::Update()
 	{
 		if (isBack_ == false)
 		{
-			//デスポーンタイマーが200以上なら
-			if (deleteTimer_ >= 200)
+			//デスポーンタイマーが120以上なら
+			if (deleteTimer_ >= 150)
 			{
 				isBack_ = true;
 				worldTransform_.rotation_.y = 0.0f;
