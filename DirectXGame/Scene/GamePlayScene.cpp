@@ -6,6 +6,8 @@
 #include <string.h>
 #include <math.h>
 
+int GamePlayScene::score_ = 0;
+
 using namespace DirectX;
 using namespace std;
 
