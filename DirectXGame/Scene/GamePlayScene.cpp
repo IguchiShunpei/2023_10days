@@ -704,7 +704,12 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy03->SetIsDead(true);
 					missSE->SoundPlayWave(false, 0.5f);
-					SetScore(GetScore() - 30);
+					if (GetScore() <= 29) {
+						SetScore(0);
+					}
+					else {
+						SetScore(GetScore() - 30);
+					}
 					for (int i = 0; i < 5; i++) {
 						if (isGetBlue[i] == false) {
 							isGetBlue[i] = true;
