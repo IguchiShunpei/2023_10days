@@ -112,7 +112,7 @@ enemy03 16 8 30
 enemy03 16 16 30
 enemy03 0 8 30
 enemy03 0 16 30
-wait 220
+wait 170
 enemy02 -8 8 30
 enemy03 -8 16 30
 enemy03 -8 0 30
@@ -178,6 +178,12 @@ wait 200
 
 enemy04 LEFT 48 16 30
 enemy04 RIGHT -48 16 30
+wait 50
+enemy04 LEFT 32 16 30
+enemy04 RIGHT -32 16 30
+wait 50
+enemy04 LEFT 24 16 30
+enemy04 RIGHT -24 16 30
 wait 200
 
 FINISH
