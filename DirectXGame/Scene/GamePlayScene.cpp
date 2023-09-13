@@ -635,7 +635,7 @@ void GamePlayScene::Shot()
 			// 敵撃破時のエフェクト
 			if (enemy01->GetIsDead() == true) {
 				XMFLOAT3 ePos01 = { enemy01->GetPosition().x * 2.5f, enemy01->GetPosition().y * 2.5f,enemy01->GetPosition().z };
-				pmEffect01->Fire(pEffect01, 20, ePos01, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+				pmEffect01->Fire(pEffect01, 20, ePos01, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 50, { 0.0f, 10.0f });
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy02 : enemys_02) {
@@ -659,7 +659,7 @@ void GamePlayScene::Shot()
 			// 敵撃破時のエフェクト
 			if (enemy02->GetIsDead() == true) {
 				XMFLOAT3 ePos02 = { enemy02->GetPosition().x * 2.5f, enemy02->GetPosition().y * 2.5f, enemy02->GetPosition().z };
-				pmEffect02->Fire(pEffect02, 20, ePos02, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+				pmEffect02->Fire(pEffect02, 20, ePos02, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 50, { 0.0f, 10.0f });
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy03 : enemys_03) {
@@ -683,7 +683,7 @@ void GamePlayScene::Shot()
 			// 敵撃破時のエフェクト
 			if (enemy03->GetIsDead() == true) {
 				XMFLOAT3 ePos03 = { enemy03->GetPosition().x * 2.5f, enemy03->GetPosition().y * 2.5f,enemy03->GetPosition().z };
-				pmEffect03->Fire(pEffect03, 20, ePos03, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+				pmEffect03->Fire(pEffect03, 20, ePos03, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 50, { 0.0f, 10.0f });
 				isBlur = true;
 			}
 		}
@@ -702,7 +702,7 @@ void GamePlayScene::Shot()
 			// 敵撃破時のエフェクト
 			if (enemy04->GetIsDead() == true) {
 				XMFLOAT3 ePos04 = { enemy04->GetPosition().x * 2.5f, enemy04->GetPosition().y * 2.5f, enemy04->GetPosition().z };
-				pmEffect04->Fire(pEffect04, 20, ePos04, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+				pmEffect04->Fire(pEffect04, 20, ePos04, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 50, { 0.0f, 10.0f });
 			}
 		}
 	}
