@@ -116,22 +116,22 @@ void GameTitleScene::Update()
 	//ロゴやUI
 	if (isUp == true)
 	{
-		logoY = 15.0f * MathFunc::easeOutSine(rogoTime / 20.0f);
-		rogoTime++;
-		if (rogoTime >= 40)
+		logoY = 15.0f * MathFunc::easeOutSine(logoTime / 20.0f);
+		logoTime++;
+		if (logoTime >= 40)
 		{
 			isUp = false;
-			rogoTime = 0;
+			logoTime = 0;
 		}
 	}
 	else
 	{
-		logoY = 15.0f * -MathFunc::easeOutSine(rogoTime / 20.0f);
-		rogoTime++;
-		if (rogoTime >= 40)
+		logoY = 15.0f * -MathFunc::easeOutSine(logoTime / 20.0f);
+		logoTime++;
+		if (logoTime >= 40)
 		{
 			isUp = true;
-			rogoTime = 0;
+			logoTime = 0;
 		}
 	}
 	titleLogo->SetPosition({240,logoY,0});
