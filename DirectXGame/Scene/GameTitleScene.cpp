@@ -39,10 +39,15 @@ void GameTitleScene::Initialize()
 	titleLogo->Initialize(dxCommon_);
 	titleLogo->LoadTexture(0, L"Resources/TITLE.png", dxCommon_);
 	titleLogo->SetScale({ 8,5 });
-	click = new Sprite;
-	click->Initialize(dxCommon_);
-	click->LoadTexture(0, L"Resources/CLICKHERE.png", dxCommon_);
-	click->SetScale({ 4,1 });
+	titleLogo->SetPosition({ 240,0,0 });
+	click01 = new Sprite;
+	click01->Initialize(dxCommon_);
+	click01->LoadTexture(0, L"Resources/CLICKHERE_01.png", dxCommon_);
+	click01->SetScale({ 4,1 });
+	click02 = new Sprite;
+	click02->Initialize(dxCommon_);
+	click02->LoadTexture(0, L"Resources/CLICKHERE_02.png", dxCommon_);
+	click02->SetScale({ 4,1 });
 
 	// サウンドの初期化
 	titleBGM = new Sound;
@@ -90,6 +95,7 @@ void GameTitleScene::Initialize()
 	}
 	effectSwitch = false;
 	isNext = false;
+	isUp = true;
 }
 
 void GameTitleScene::Update()
@@ -108,30 +114,59 @@ void GameTitleScene::Update()
 	}
 
 	//ロゴやUI
-	titleLogo->SetPosition({ 240,10,0 });
+	if (isUp == true)
+	{
+		logoY = 15.0f * MathFunc::easeOutSine(rogoTime / 20.0f);
+		rogoTime++;
+		if (rogoTime >= 40)
+		{
+			isUp = false;
+			rogoTime = 0;
+		}
+	}
+	else
+	{
+		logoY = 15.0f * -MathFunc::easeOutSine(rogoTime / 20.0f);
+		rogoTime++;
+		if (rogoTime >= 40)
+		{
+			isUp = true;
+			rogoTime = 0;
+		}
+	}
+	titleLogo->SetPosition({240,logoY,0});
 	titleLogo->Update();
-	click->SetPosition({ 450,520,0 });
-	click->Update();
+	click01->SetPosition({ 450,520,0 });
+	click01->Update();
+	click02->SetPosition({ 450,520,0 });
+	click02->Update();
 
 	// シーンの切り替え
-	if (input_->TriggerMouseLeft() == true) {
-		if (cur.x >= click->GetPosition().x && cur.x <= click->GetPosition().x + 300)
+	if (cur.x >= click01->GetPosition().x && cur.x <= click01->GetPosition().x + 400)
+	{
+		if (cur.y >= click01->GetPosition().y && cur.y <= click01->GetPosition().y + 100)
 		{
-			if (cur.y >= click->GetPosition().y && cur.y <= click->GetPosition().y + 100)
+			curHit = true;
+			if (input_->TriggerMouseLeft() == true) 
 			{
-				isNext = true;
-				startSE->SoundPlayWave(false, 1.0f);
-				titleBGM->StopWave();
-			}
-			else
-			{
-				shotSE->SoundPlayWave(false, 1.0f);
+			isNext = true;
+			startSE->SoundPlayWave(false, 1.0f);
+			titleBGM->StopWave();
 			}
 		}
 		else
 		{
-			shotSE->SoundPlayWave(false, 1.0f);
+			curHit = false;
 		}
+	}
+	else
+	{
+		curHit = false;
+	}
+
+	if (input_->TriggerMouseLeft() == true) 
+	{
+		shotSE->SoundPlayWave(false, 1.0f);
 	}
 
 	if (isNext == true) {
@@ -164,7 +199,6 @@ void GameTitleScene::Update()
 
 void GameTitleScene::Draw()
 {
-	// �`��O����
 	dxCommon_->PreDraw();
 
 	Object3d::PreDraw(dxCommon_->GetCommandList());
@@ -174,8 +208,16 @@ void GameTitleScene::Draw()
 	Object3d::PostDraw();
 	titleLogo->SetTextureCommands(0, dxCommon_);
 	titleLogo->Draw(dxCommon_);
-	click->SetTextureCommands(0, dxCommon_);
-	click->Draw(dxCommon_);
+	if (curHit == true)
+	{
+		click02->SetTextureCommands(0, dxCommon_);
+		click02->Draw(dxCommon_);
+	}
+	else
+	{
+		click01->SetTextureCommands(0, dxCommon_);
+		click01->Draw(dxCommon_);
+	}
 	cross->SetTextureCommands(0, dxCommon_);
 	cross->Draw(dxCommon_);
 
@@ -192,9 +234,9 @@ void GameTitleScene::Draw()
 	}
 	loading->SetTextureCommands(0, dxCommon_);
 	loading->Draw(dxCommon_);
-  
-  // �`��㏈��
+ 
   dxCommon_->PostDraw();
+
 }
 
 void GameTitleScene::Finalize()

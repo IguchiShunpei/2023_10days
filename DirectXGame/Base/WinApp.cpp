@@ -40,7 +40,7 @@ void WinApp::Initialize()
 
 	//ウィンドウオブジェクトの生成
 	hwnd_ = CreateWindow(w.lpszClassName,//クラス名)
-		L"DirectXGame",         //タイトルバーの表示
+		L"Starget!",         //タイトルバーの表示
 		WS_OVERLAPPEDWINDOW,    //標準的なウィンドウスタイル
 		CW_USEDEFAULT,          //表示X座標(OSに任せる)
 		CW_USEDEFAULT,          //表示Y座標(OSに任せる)
