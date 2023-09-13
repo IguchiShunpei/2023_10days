@@ -36,6 +36,9 @@ void GameTitleScene::Initialize()
 	titleBGM->SoundLoadWave("Resources/Sound/titleBGM.wav");
 	titleBGM->SoundPlayWave(true, 1.0f);
 
+	startSE = new Sound;
+	startSE->SoundLoadWave("Resources/Sound/start.wav");
+
 	for (int i = 0; i < 120; i++) {
 		sceneEffect1[i] = new Sprite;
 		sceneEffect2[i] = new Sprite;
@@ -76,8 +79,7 @@ void GameTitleScene::Update()
 {
 	// シーンの切り替え
 	if (input_->TriggerMouseLeft() == true) {
-		// ゲームプレイシーン（次シーン）を生成
-		GameSceneManager::GetInstance()->ChangeScene("GAMEPLAY");
+		isNext = true;
 		startSE->SoundPlayWave(false, 1.0f);
 		titleBGM->StopWave();
 	}
@@ -114,7 +116,6 @@ void GameTitleScene::Update()
 						if (i == 9 && j == 11) {
 							// ゲームプレイシーン（次シーン）を生成
 							GameSceneManager::GetInstance()->ChangeScene("GAMEPLAY");
-							titleBGM->StopWave();
 						}
 						break;
 					}
