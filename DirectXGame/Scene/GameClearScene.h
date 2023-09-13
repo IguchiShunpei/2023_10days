@@ -40,5 +40,5 @@ public: // ƒƒ“ƒoŠÖ”
 	void Finalize() override;
 
 private: // ƒƒ“ƒo•Ï”
-	
+	DirectXCommon* dxCommon = nullptr;
 };
