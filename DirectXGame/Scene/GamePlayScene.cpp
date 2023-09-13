@@ -45,10 +45,10 @@ void GamePlayScene::Initialize()
 	pm_dmg = ParticleManager::Create();
 	pm_dmg->SetParticleModel(p_dmg);
 	pm_dmg->SetXMViewProjection(xmViewProjection);
-	pEffect01 = Particle::LoadParticleTexture("effectstar.png");
-	pEffect02 = Particle::LoadParticleTexture("effectstar.png");
-	pEffect03 = Particle::LoadParticleTexture("effectstar.png");
-	pEffect04 = Particle::LoadParticleTexture("effectstar.png");
+	pEffect01 = Particle::LoadParticleTexture("effect10.png");
+	pEffect02 = Particle::LoadParticleTexture("effect50.png");
+	pEffect03 = Particle::LoadParticleTexture("effect30.png");
+	pEffect04 = Particle::LoadParticleTexture("effect1000.png");
 	pmEffect01 = ParticleManager::Create();
 	pmEffect01->SetParticleModel(pEffect01);
 	pmEffect01->SetXMViewProjection(xmViewProjection);
