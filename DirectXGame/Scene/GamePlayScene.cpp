@@ -254,7 +254,6 @@ void GamePlayScene::Initialize()
 	missSE->SoundLoadWave("Resources/Sound/miss.wav");
 
 	//äeïœêîÇÃèâä˙âª
-	score_ = 0;
 	for (int i = 0; i < 6; i++) {
 		scores[i] = 0;
 		oldScores[i] = 0;
@@ -622,7 +621,7 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy01->SetIsDead(true);
 					getSE->SoundPlayWave(false, 1.0f);
-					score_ += 10;
+					SetScore(GetScore() + 10);
 					for (int i = 0; i < 10; i++) {
 						if (isGetNormal[i] == false) {
 							isGetNormal[i] = true;
@@ -646,7 +645,7 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy02->SetIsDead(true);
 					highGetSE->SoundPlayWave(false, 1.0f);
-					score_ += 50;
+					SetScore(GetScore() + 50);
 					for (int i = 0; i < 5; i++) {
 						if (isGetRed[i] == false) {
 							isGetRed[i] = true;
@@ -670,7 +669,7 @@ void GamePlayScene::Shot()
 				if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(50, 2)) {
 					enemy03->SetIsDead(true);
 					missSE->SoundPlayWave(false, 1.0f);
-					score_ -= 30;
+					SetScore(GetScore() - 30);
 					for (int i = 0; i < 5; i++) {
 						if (isGetBlue[i] == false) {
 							isGetBlue[i] = true;
@@ -693,7 +692,7 @@ void GamePlayScene::Shot()
 			if (pow((epos.x - cur.x), 2) + pow((epos.y - cur.y), 2) < pow(70, 2)) {
 				enemy04->SetIsDead(true);
 				superHighGetSE->SoundPlayWave(false, 1.0f);
-				score_ += 1000;
+				SetScore(GetScore() + 1000);
 				if (isGetGold == false) {
 					isGetGold = true;
 					getGold->SetPosition({ epos.x - 64,epos.y - 24,0 });
@@ -943,8 +942,8 @@ void GamePlayScene::UpdateEnemyPop()
 }
 
 void GamePlayScene::ScoreCalc() {
-	int score = score_;
-	if (score_ >= 100000) {
+	int score = GetScore();
+	if (GetScore() >= 100000) {
 		scores[5] = score / 100000;
 		score -= scores[5] * 100000;
 		scores[4] = score / 10000;
@@ -957,7 +956,7 @@ void GamePlayScene::ScoreCalc() {
 		score -= scores[1] * 10;
 		scores[0] = score;
 	}
-	else if (score_ >= 10000) {
+	else if (GetScore() >= 10000) {
 		scores[5] = 0;
 		scores[4] = score / 10000;
 		score -= scores[4] * 10000;
@@ -969,7 +968,7 @@ void GamePlayScene::ScoreCalc() {
 		score -= scores[1] * 10;
 		scores[0] = score;
 	}
-	else if (score_ >= 1000) {
+	else if (GetScore() >= 1000) {
 		scores[5] = 0;
 		scores[4] = 0;
 		scores[3] = score / 1000;
@@ -980,7 +979,7 @@ void GamePlayScene::ScoreCalc() {
 		score -= scores[1] * 10;
 		scores[0] = score;
 	}
-	else if (score_ >= 100) {
+	else if (GetScore() >= 100) {
 		scores[5] = 0;
 		scores[4] = 0;
 		scores[3] = 0;
@@ -990,8 +989,8 @@ void GamePlayScene::ScoreCalc() {
 		score -= scores[1] * 10;
 		scores[0] = score;
 	}
-	else if (score_ >= 10) {
-		if (score_ == 11) {
+	else if (GetScore() >= 10) {
+		if (GetScore() == 11) {
 			int a = 0;
 		}
 		scores[1] = score / 10;
@@ -1008,6 +1007,6 @@ void GamePlayScene::ScoreCalc() {
 		scores[3] = 0;
 		scores[2] = 0;
 		scores[1] = 0;
-		scores[0] = score_;
+		scores[0] = GetScore();
 	}
 }

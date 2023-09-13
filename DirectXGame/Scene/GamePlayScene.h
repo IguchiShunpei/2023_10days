@@ -187,7 +187,6 @@ private://メンバ変数
 	std::vector<Meteor*> meteorObjects;
 
 	//スコア
-	int score_;
 	int scores[6];
 	int oldScores[6];
 
