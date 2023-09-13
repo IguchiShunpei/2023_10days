@@ -78,7 +78,7 @@ void GamePlayScene::Initialize()
 	finish->Initialize(dxCommon);
 	finish->LoadTexture(0, L"Resources/finish.png", dxCommon);
 	finish->SetScale({ 6,1.5f });
-	finish->SetPosition({ 350,100,0});
+	finish->SetPosition({ 350,0,0});
 
 	//number
 	const wchar_t* pathname = L"Resources/numbers/";
@@ -191,59 +191,6 @@ void GamePlayScene::Initialize()
 		getBlue[i]->SetScale({ 0.72f * 1.3f,0.48f * 1.3f });
 	}
 
-	// レベルデータの読み込み
-	levelData = LevelLoader::LoadFile("backGround");
-
-	//モデル読み込み
-	modelMeteor = Model::LoadFromOBJ("meteor");
-
-	meteorModels.insert(std::make_pair("meteor", modelMeteor));
-
-	// レベルデータからオブジェクトを生成、配置
-	for (auto& objectData : levelData->objects) {
-		// ファイル名から登録済みモデルを検索
-		Model* model = nullptr;
-		decltype(meteorModels)::iterator it = meteorModels.find(objectData.fileName);
-		if (it != meteorModels.end()) {
-			model = it->second;
-		}
-
-		// モデルを指定して3Dオブジェクトを生成
-		objMeteor = new Meteor;
-		objMeteor->MeteorInitialize();
-		objMeteor->SetModel(model);
-
-		// 座標
-		Vector3 pos;
-		//データの値を代入
-		pos.x = objectData.translation.m128_f32[0];
-		pos.y = objectData.translation.m128_f32[1];
-		pos.z = objectData.translation.m128_f32[2];
-		//newObjectにセット
-		objMeteor->SetPosition(pos);
-
-		// 回転角
-		Vector3 rot;
-		//データの値を代入
-		rot.x = objectData.rotation.m128_f32[0];
-		rot.y = objectData.rotation.m128_f32[1];
-		rot.z = objectData.rotation.m128_f32[2];
-		//newObjectにセット
-		objMeteor->SetRotation(rot);
-
-		// 座標
-		Vector3 scale;
-		//データの値を代入
-		scale.x = objectData.scaling.m128_f32[0];
-		scale.y = objectData.scaling.m128_f32[1];
-		scale.z = objectData.scaling.m128_f32[2];
-		//newObjectにセット
-		objMeteor->SetScale(scale);
-
-		// 配列に登録
-		meteorObjects.push_back(objMeteor);
-	}
-
 	// サウンドの初期化
 	gameBGM = new Sound;
 	gameBGM->SoundLoadWave("Resources/Sound/gameBGM.wav");
@@ -272,6 +219,8 @@ void GamePlayScene::Initialize()
 	finishTimer_ = 0;
 	isGetGold = false;
 	goldTime = 0;
+	logoY = 0;
+	logoTime_ = 0.0f;
 	for (int i = 0; i < 10; i++) {
 		isGetNormal[i] = false;
 		normalTime[i] = 0;
@@ -321,7 +270,13 @@ void GamePlayScene::Update()
 		if (isFinish_ == true)
 		{
 			finishTimer_++;
-			if (finishTimer_ >= 180)
+			logoY = 200.0f * MathFunc::easeOutSine(logoTime_ / 30.0f);
+			logoTime_++;
+			if (logoTime_ >= 30)
+			{
+				logoY = 200.0f;
+			}
+			if (finishTimer_ >= 240)
 			{
 				// ゲームプレイシーン（次シーン）を生成
 				GameSceneManager::GetInstance()->ChangeScene("CLEAR");
@@ -329,6 +284,8 @@ void GamePlayScene::Update()
 				finishTimer_ = 0;
 			}
 		}
+
+		finish->SetPosition({ 350,logoY,0 });
 
 		//デスフラグの立った敵を削除
 		enemys_01.remove_if([](std::unique_ptr <Enemy>& enemy01)
@@ -607,9 +564,6 @@ void GamePlayScene::Draw()
 
 void GamePlayScene::Finalize()
 {
-	for (Meteor*& object : meteorObjects) {
-		delete(object);
-	}
 	delete p_dmg;
 	delete pm_dmg;
 	delete pEffect01;
