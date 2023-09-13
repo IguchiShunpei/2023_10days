@@ -58,15 +58,21 @@ private: // メンバ変数
 	Sprite* cross = nullptr;
 	//ロゴやUI
 	Sprite* titleLogo = nullptr;
-	Sprite* click = nullptr;
+	Sprite* click01 = nullptr;
+	Sprite* click02 = nullptr;
 	//シーン切り替え
 	Sprite* sceneEffect1[120];
 	Sprite* sceneEffect2[120];
+
 	int effectTime;
 	bool isShow1[120];
 	bool isShow2[120];
 	bool effectSwitch;
 	bool isNext;
+	bool curHit;
+	bool isUp;
+	float rogoTime;
+	float logoY;
 
 	//Sound
 	Sound* titleBGM = nullptr;

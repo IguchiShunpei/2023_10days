@@ -72,6 +72,12 @@ void GamePlayScene::Initialize()
 	cross->LoadTexture(0, L"Resources/cross.png", dxCommon);
 	cross->SetScale({ 0.5,0.5 });
 
+	finish = new Sprite;
+	finish->Initialize(dxCommon);
+	finish->LoadTexture(0, L"Resources/finish.png", dxCommon);
+	finish->SetScale({ 6,1.5f });
+	finish->SetPosition({ 350,100,0});
+
 	//number
 	const wchar_t* pathname = L"Resources/numbers/";
 	const wchar_t* extantion = L".png";
@@ -282,6 +288,8 @@ void GamePlayScene::Update()
 	Vector3 cur = input->GetMousePos();
 	cross->SetPosition({ cur.x - 24,cur.y - 24,0 });
 	cross->Update();
+
+	finish->Update();
 
 	if (isPlayable == false) {
 		for (int i = 0; i < 10; i++) {
@@ -531,6 +539,11 @@ void GamePlayScene::Draw()
 	ParticleManager::PostDraw();
 	cross->SetTextureCommands(0, dxCommon);
 	cross->Draw(dxCommon);
+	if (isFinish_ == true)
+	{
+		finish->SetTextureCommands(0, dxCommon);
+		finish->Draw(dxCommon);
+	}
 	getGold->SetTextureCommands(0, dxCommon);
 	if (isGetGold == true) {
 		getGold->Draw(dxCommon);
