@@ -33,6 +33,10 @@ void GamePlayScene::Initialize()
 
 	viewProjection->Initialize();
 
+	// ポストエフェクトの初期化
+	postEffect = new PostEffect();
+	postEffect->Initialize(L"Resources/shaders/PostEffectBlurPS.hlsl");
+
 	//敵データ読み込み
 	LoadEnemyPop();
 
@@ -421,6 +425,8 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw()
 {
+	// ポストエフェクトの描画前処理
+	postEffect->PreDraw(dxCommon->GetCommandList());
 
 #pragma region 最初のシーンの描画
 
@@ -493,6 +499,17 @@ void GamePlayScene::Draw()
 
 #pragma endregion 最初のシーンの描画
 
+	// ポストエフェクト描画後処理
+	postEffect->PostDraw(dxCommon->GetCommandList());
+
+	// 描画前処理
+	dxCommon->PreDraw();
+
+	//=== ポストエフェクトの描画 ===//
+	postEffect->Draw(dxCommon->GetCommandList());
+
+	// 描画後処理
+	dxCommon->PostDraw();
 }
 
 void GamePlayScene::Finalize()
@@ -589,6 +606,7 @@ void GamePlayScene::Shot()
 			if (enemy03->GetIsDead() == true) {
 				XMFLOAT3 ePos03 = { enemy03->GetPosition().x * 2.5f, enemy03->GetPosition().y * 2.5f,enemy03->GetPosition().z };
 				pmEffect03->Fire(pEffect03, 20, ePos03, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0, 30, { 0.0f, 7.0f });
+				isBlur = true;
 			}
 		}
 		for (const std::unique_ptr<Enemy>& enemy04 : enemys_04) {
@@ -610,6 +628,18 @@ void GamePlayScene::Shot()
 			}
 		}
 	}
+	if (isBlur) {
+		blurTimer++;
+		postEffect->SetIsPostE(true);
+	}
+	if (blurTimer >= 20) {
+		isBlur = false;
+		blurTimer = 0;
+	}
+	if (!isBlur) {
+		postEffect->SetIsPostE(false);
+	}
+
 	ScoreCalc();
 	if (isHit == true) {
 		for (int i = 0; i < 6; i++) {

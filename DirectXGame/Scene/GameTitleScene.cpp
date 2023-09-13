@@ -158,6 +158,9 @@ void GameTitleScene::Update()
 
 void GameTitleScene::Draw()
 {
+	// �`��O����
+	dxCommon_->PreDraw();
+
 	Object3d::PreDraw(dxCommon_->GetCommandList());
 
 	sky->Draw(viewProjection);
@@ -169,6 +172,7 @@ void GameTitleScene::Draw()
 	click->Draw(dxCommon_);
 	cross->SetTextureCommands(0, dxCommon_);
 	cross->Draw(dxCommon_);
+
 	//シーンチェンジ
 	for (int i = 0; i < 120; i++) {
 		sceneEffect1[i]->SetTextureCommands(0, dxCommon_);
@@ -180,6 +184,9 @@ void GameTitleScene::Draw()
 			sceneEffect2[i]->Draw(dxCommon_);
 		}
 	}
+  
+  // �`��㏈��
+  dxCommon_->PostDraw();
 }
 
 void GameTitleScene::Finalize()
