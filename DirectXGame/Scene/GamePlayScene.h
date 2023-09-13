@@ -191,12 +191,16 @@ private://メンバ変数
 	bool isWait_;
 	//ゲーム終了
 	bool isFinish_;
+	//ゲームスタート
+	bool isStart_;
+	bool isUp;
 
 	//タイマー
 	//敵を発生させるときの待機時間
 	int waitTimer_;
 	int finishTimer_;
 	float logoTime_;
+	int clickTime_;
 
 	// エフェクト
 	bool isBlur = false;
