@@ -185,4 +185,5 @@ void GameClearScene::Draw()
 
 void GameClearScene::Finalize()
 {
+	GamePlayScene::SetScore(0);
 }
