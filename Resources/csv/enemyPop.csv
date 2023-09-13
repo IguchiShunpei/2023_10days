@@ -93,6 +93,30 @@ wait 30
 enemy04 RIGHT -48 16 30
 wait 120
 
+STAGE0
+enemy03 0 8 30
+wait 15
+enemy03 0 -8 30
+wait15
+enemy03 8 0 30
+wait 15
+enemy03 -8 0 30
+wait 15
+enemy01 8 8 30
+wait 15
+enemy01 8 -8 30
+wait 15
+enemy01 -8 -8 30 
+wait 15
+enemy01 -8 8 30
+wait 15
+enemy02 0 0 0
+wait 15
+enemy04 RIGHT -50 20 30
+enemy04 RIGHT -50 12 30
+enemy04 RIGHT -50 4 30
+wait 300 
+
 //STAGE05
 enemy02 -8 -8 30
 enemy03 -8 -16 30
